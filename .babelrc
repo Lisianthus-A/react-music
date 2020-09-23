@@ -1,0 +1,12 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                // 根据代码逻辑导入,而非全部导入
+                "useBuiltIns": "usage"
+            }
+        ],
+        "@babel/preset-react"
+    ]
+}
