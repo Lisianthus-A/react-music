@@ -1,5 +1,11 @@
 # React Music
-Todo
+基于React的仿网易云音乐播放器。
+
+## Todo
+- [x] 脚手架搭建
+- [x] NodeJS代理解决API接口跨域问题
+- [ ] 开始撸前端页面
+
 
 ## 安装
 ```
@@ -13,7 +19,7 @@ $ npm install
 ```
 npm run server
 ```
-然后启动前端
+然后启动前端，用浏览器访问`http://localhost:4000`。
 ```
 npm run start
 ```
