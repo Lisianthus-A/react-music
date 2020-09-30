@@ -1,18 +1,22 @@
 import React, { Suspense } from 'react';
 import './index.scss';
 import Loading from '../Loading';
+import Header from '../Header';
 
 const Layout = (props) => {
     const { TargetComponent } = props;
     return (
         <div className="layout">
             <div className="top">
-                top
-                </div>
+                <Header />
+            </div>
+
             <div className="middle-left">
                 middle-left
-                </div>
+            </div>
+
             <div className="middle-right">
+
                 <div className="content">
                     <Suspense fallback={<Loading />}>
                         <TargetComponent />

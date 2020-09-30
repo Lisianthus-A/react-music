@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation, useHistory } from 'react-router';
 import routes from '../routes';
 import Layout from '../components/Layout';
+import 'antd/dist/antd.css';  //全局引入antd css
 
 const AppContainer = () => {
 
