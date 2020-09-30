@@ -15,11 +15,14 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.20.0",
+    "core-js": "^3.6.5",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "pac-proxy-agent": "^4.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "request": "^2.88.2"
   },
   "devDependencies": {

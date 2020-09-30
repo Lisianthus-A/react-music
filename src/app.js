@@ -1,11 +1,13 @@
 import React from 'react';
-import './app.scss';
+import { HashRouter } from 'react-router-dom';
+import AppContainer from './containers';
 
-const App = props => {
+const App = () => {
+
     return (
-        <div className="app">
-            <div>App</div>
-        </div>
+        <HashRouter>
+            <AppContainer />
+        </HashRouter>
     );
 }
 
