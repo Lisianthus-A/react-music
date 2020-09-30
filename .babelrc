@@ -4,7 +4,8 @@
             "@babel/preset-env",
             {
                 // 根据代码逻辑导入,而非全部导入
-                "useBuiltIns": "usage"
+                "useBuiltIns": "usage",
+                "corejs": 3
             }
         ],
         "@babel/preset-react"
