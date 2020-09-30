@@ -1,6 +1,7 @@
 import React from 'react';
 import { HashRouter } from 'react-router-dom';
 import AppContainer from './containers';
+import './App.scss';
 
 const App = () => {
 

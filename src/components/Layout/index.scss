@@ -1,0 +1,36 @@
+.layout {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-rows: 64px 1fr 64px;
+    grid-template-columns: 200px 1fr;
+    grid-template-areas:
+        "top top"
+        "left right"
+        "bottom bottom";
+    .top,
+    .middle-left,
+    .middle-right,
+    .bottom {
+        box-sizing: border-box;
+    }
+
+    .top {
+        grid-area: top;
+        border-bottom: 1px solid #eee;
+    }
+
+    .middle-left {
+        grid-area: left;
+        border-right: 1px solid #eee;
+    }
+
+    .middle-right {
+        grid-area: right;
+    }
+
+    .bottom {
+        grid-area: bottom;
+        border-top: 1px solid #eee;
+    }
+}

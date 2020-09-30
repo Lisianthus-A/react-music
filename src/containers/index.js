@@ -1,7 +1,7 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { useLocation, useHistory } from 'react-router';
 import routes from '../routes';
-import Loading from '../components/Loading';
+import Layout from '../components/Layout';
 
 const AppContainer = () => {
 
@@ -15,9 +15,7 @@ const AppContainer = () => {
     const TargetComponent = React.lazy(() => import(`../routes${pathname}`));
 
     return (
-        <Suspense fallback={<Loading />}>
-            <TargetComponent />
-        </Suspense>
+        <Layout TargetComponent={TargetComponent} />
     );
 }
 
