@@ -8,6 +8,7 @@ const baseParams = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     },
+    withCredentials: true,
     data: null
 };
 
@@ -17,7 +18,7 @@ const ajax = async (url, params = {}) => {
         ...baseParams,
         ...params
     });
-    return response;
+    return response.data;
 }
 
 export default ajax;
