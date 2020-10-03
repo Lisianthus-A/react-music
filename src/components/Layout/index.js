@@ -2,6 +2,8 @@ import React, { Suspense } from 'react';
 import './index.scss';
 import Loading from '../Loading';
 import Header from '../Header';
+import Sidebar from '../Sidebar';
+import MusicPlayer from '../MusicPlayer';
 
 const Layout = (props) => {
     const { TargetComponent } = props;
@@ -12,19 +14,17 @@ const Layout = (props) => {
             </div>
 
             <div className="middle-left">
-                middle-left
+                <Sidebar />
             </div>
 
             <div className="middle-right">
-
-                <div className="content">
-                    <Suspense fallback={<Loading />}>
-                        <TargetComponent />
-                    </Suspense>
-                </div>
+                <Suspense fallback={<Loading />}>
+                    <TargetComponent />
+                </Suspense>
             </div>
+
             <div className="bottom">
-                bottom
+                <MusicPlayer />
             </div>
         </div>
     );
