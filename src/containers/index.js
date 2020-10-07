@@ -10,7 +10,7 @@ const AppContainer = () => {
     const history = useHistory();
 
     if (!routes.includes(pathname)) {  //访问路径不在路由列表中
-        history.push(routes[0]);
+        history.replace(routes[0]);
     }
 
     const TargetComponent = React.lazy(() => import(`../routes${pathname}`));

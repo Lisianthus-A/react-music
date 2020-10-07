@@ -1,3 +1,33 @@
 .sidebar {
-    
+  height: 100%;
+  background-color: #2f4050;
+
+  .item {
+    height: 45px;
+    cursor: pointer;
+    color: #a7b1c2;
+    font-weight: 600;
+    padding: 10px 20px;
+
+    &:hover {
+      background-color: #293846;
+      color: #fff;
+    }
+  }
+
+  .active {
+    background-color: #293846;
+    color: #fff;
+    position: relative;
+
+    &::after {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 3px;
+        height: 100%;
+        background-color: #007ACC;
+        content: '';
+    }
+  }
 }

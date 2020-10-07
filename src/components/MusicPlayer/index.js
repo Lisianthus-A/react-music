@@ -3,7 +3,7 @@ import './index.scss';
 
 const MusicPlayer = () => {
     return (
-        <div>MusicPlayer</div>
+        <div className='music-player'>MusicPlayer</div>
     );
 }
 
