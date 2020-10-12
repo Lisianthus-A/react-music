@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
 import './index.scss';
-import { Avatar, Input, Modal } from 'antd';
+import { Avatar, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import ModalView from './ModalView';
+import LoginView from './LoginView';
 
 const Header = () => {
-    const [name, setName] = useState('未登录');
+    const [name, setName] = useState(null);
+    const [visible, setVisible] = useState(false);
+    const [avatarImg, setImg] = useState(null);
 
-    const handleClick = () => {
-        Modal.info({
-            title: '用户登录',
-            maskClosable: true,
-            okButtonProps: { style: { display: 'none' } },
-            content: <ModalView />
-        });
+    const toggleVisible = () => {
+        if (name !== null) {  //已登录
+            return;
+        }
+        setVisible(!visible);
     }
 
     return (
         <div className='header'>
-            <Avatar size={40} icon={<UserOutlined />} onClick={handleClick} />
-            <div className='username'>{name}</div>
+            <LoginView visible={visible} onClose={toggleVisible} onSetName={setName} onSetImg={setImg} />
+            {
+                avatarImg ?
+                    <img src={avatarImg} alt='' />
+                    : <Avatar size={40} icon={<UserOutlined />} onClick={toggleVisible} />
+            }
+            <div className='username'>{name ? name : '未登录'}</div>
             <Input.Search
                 className='search'
                 placeholder="搜索音乐"

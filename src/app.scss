@@ -3,3 +3,8 @@ body {
     padding: 0;
     font-family: Helvetica, sans-serif;
 }
+
+::-webkit-scrollbar {
+    width: 0;
+    display: none;
+}
