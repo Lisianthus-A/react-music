@@ -7,13 +7,9 @@
     .ant-avatar {
         margin-left: 40px;
         cursor: pointer;
-    }
-
-    & > img {
-        margin-left: 40px;
-        width: 40px;
-        height: 40px;
-        border-radius: 20px;
+        & > img {
+            cursor: default;
+        }
     }
 
     .username {

@@ -36,10 +36,12 @@ const ModalView = (props) => {
 
         onSetName(result.profile.nickname);
         onSetImg(result.profile.avatarUrl);
+        window.localStorage.setItem('username', result.profile.nickname);
+        window.localStorage.setItem('avatar', result.profile.avatarUrl);
         onClose();
 
     }
-    
+
     return (
         <Modal
             title='登录'
@@ -62,7 +64,7 @@ const ModalView = (props) => {
                     label="密码"
                     name="password"
                 >
-                    <Input type='password' placeholder='输入密码' />
+                    <Input type='password' placeholder='输入密码' autoComplete="on" />
                 </Form.Item>
 
                 <Form.Item
