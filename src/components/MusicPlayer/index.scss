@@ -1,4 +1,74 @@
 .music-player {
     height: 100%;
     background-color: #191919;
+    display: flex;
+    padding: 5px;
+    color: #fff;
+
+    .song-container,
+    .control-button-container,
+    .other-button {
+        width: 33.3%;
+    }
+
+    .song-container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        .image {
+            & > img {
+                height: 50px;
+                width: 50px;
+                border-radius: 5px;
+            }
+        }
+        .information {
+            margin-left: 15px;
+            .singer,
+            .time {
+                font-size: 10px;
+                color: #bbb;
+            }
+        }
+    }
+
+    .control-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #bbb;
+
+        .prev,
+        .play-or-pause,
+        .next {
+            border: 2px solid #bbb;
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+
+            &:hover {
+                border-color: #fff;
+                color: #fff;
+                box-shadow: 0 0 4px #fff;
+            }
+        }
+
+        .prev,
+        .next {
+            height: 30px;
+            width: 30px;
+        }
+
+        .play-or-pause {
+            height: 40px;
+            width: 40px;
+            font-size: 25px;
+            margin-left: 10px;
+            margin-right: 10px;
+            color: #fff;
+            border-color: #fff;
+        }
+    }
 }
