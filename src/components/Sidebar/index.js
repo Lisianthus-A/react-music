@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import './index.scss';
 import { useHistory } from 'react-router-dom';
 import { QuestionOutlined, HeartOutlined, SearchOutlined } from '@ant-design/icons';
 
-const Sidebar = () => {
+const Sidebar = forwardRef((props, ref) => {
     const [currentKey, setKey] = useState(0);
     const history = useHistory();
 
@@ -13,7 +13,7 @@ const Sidebar = () => {
     }
 
     return (
-        <div className='sidebar'>
+        <div className='sidebar' ref={ref}>
             {
                 [
                     { text: '发现音乐', route: '/Discovery', Icon: SearchOutlined, key: 0 },
@@ -33,6 +33,6 @@ const Sidebar = () => {
             }
         </div>
     );
-}
+});
 
 export default Sidebar;

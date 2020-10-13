@@ -19,6 +19,7 @@
 
     .middle-left {
         grid-area: left;
+        position: relative;
     }
 
     .middle-right {
@@ -31,4 +32,59 @@
         grid-area: bottom;
         min-width: 1000px;
     }
+
+    //缩放按钮
+    .toggle-button {
+        position: absolute;
+        height: clamp(75px, 12%, 150px);
+        width: 15px;
+        background-color: #2f4050;
+        top: calc(50% - clamp(75px, 12%, 150px));
+        right: -15px;
+        cursor: pointer;
+
+        //画三角
+        &::before,
+        &::after {
+            position: absolute;
+            display: block;
+            height: 0px;
+            width: 0px;
+            border: 7.5px solid transparent;
+            left: 0px;
+            border-left-color: #2f4050;
+            content: '';
+        }
+
+        &::before {
+            top: -15px;
+            border-bottom-color: #2f4050;
+        }
+
+        &::after {
+            bottom: -15px;
+            border-top-color: #2f4050;
+        }
+
+        //箭头
+        .arrow {
+            display: inline-block;
+            width: 0px;
+            height: 0px;
+            position: absolute;
+            left: 0;
+            top: calc(50% - 5px);
+            border: 5px solid transparent;
+            border-right-color: #fff;
+            transform: translateX(-2.5px);
+        }
+        .rotate {
+            transform: translateX(2.5px) rotate(180deg);
+        }
+
+    }
+}
+
+.layout-change {
+    grid-template-columns: 0 100vw;
 }
