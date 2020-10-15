@@ -1,7 +1,7 @@
 import React, { useState, forwardRef } from 'react';
 import './index.scss';
 import { useHistory } from 'react-router-dom';
-import { QuestionOutlined, HeartOutlined, SearchOutlined } from '@ant-design/icons';
+import { HeartOutlined, SearchOutlined, VideoCameraOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 
 const Sidebar = forwardRef((props, ref) => {
     const [currentKey, setKey] = useState(0);
@@ -14,12 +14,27 @@ const Sidebar = forwardRef((props, ref) => {
 
     return (
         <div className='sidebar' ref={ref}>
+            <div className='category'>推荐</div>
             {
                 [
                     { text: '发现音乐', route: '/Discovery', Icon: SearchOutlined, key: 0 },
-                    { text: '我的收藏', route: '/Discovery', Icon: HeartOutlined, key: 1 },
-                    { text: 'text', route: '/Discovery', Icon: QuestionOutlined, key: 2 },
-                    { text: 'text', route: '/Discovery', Icon: QuestionOutlined, key: 3 }
+                    { text: '私人FM', route: '/Discovery', Icon: CustomerServiceOutlined, key: 1 },
+                    { text: '视频', route: '/Discovery', Icon: VideoCameraOutlined, key: 2 }
+                ].map(
+                    e =>
+                        <div
+                            className={currentKey === e.key ? 'item active' : 'item'}
+                            key={e.key}
+                            onClick={() => handleClick(e.key, e.route)}
+                        >
+                            <e.Icon /> {e.text}
+                        </div>
+                )
+            }
+            <div className='category'>我的音乐</div>
+            {
+                [
+                    { text: '我的歌单', route: '/Discovery', Icon: HeartOutlined, key: 3 }
                 ].map(
                     e =>
                         <div

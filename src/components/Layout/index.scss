@@ -26,6 +26,9 @@
         grid-area: right;
         overflow: scroll;
         scrollbar-width: none;
+        max-width: 1500px;
+        width: 100%;
+        margin: 10px auto 0;
     }
 
     .bottom {
