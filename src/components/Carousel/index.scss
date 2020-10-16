@@ -4,58 +4,20 @@
         height: 100%;
         position: relative;
         .card {
-            display: none;
+            // display: none;
+            display: inline-block;
             height: 100%;
             width: 33.3%;
             transition: all 1s;
             position: absolute;
+            opacity: 0.8;
+            transform: scale(0.8);
+            z-index: 998;
             cursor: pointer;
             & > img {
                 height: 100%;
                 width: 100%;
             }
-        }
-
-        .prev,
-        .prev2,
-        .next,
-        .next2,
-        .current {
-            display: inline-block;
-        }
-
-        .prev,
-        .prev2,
-        .next,
-        .next2 {
-            transform: scale(0.8);
-            z-index: 998;
-            opacity: 0.7;
-        }
-
-        .prev2,
-        .next2 {
-            transform: scale(0);
-        }
-
-        .prev {
-            left: 10%;
-        }
-        .prev2 {
-            left: -30%;
-        }
-
-        .next {
-            left: 56.7%; //100% - 33.3% - 10%  等同于right: 10%
-        }
-        .next2 {
-            left: 96.7%; //100% - 33.3% + 30%  等同于right: -30%
-        }
-
-        .current {
-            left: 33.35%; //等同于left: 50; transform: translateX(50%)
-            z-index: 999;
-            opacity: 1;
         }
     }
 

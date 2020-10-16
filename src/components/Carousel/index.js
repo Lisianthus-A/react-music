@@ -8,28 +8,39 @@ const Carousel = (props) => {
 
     const [currentKey, setKey] = useState(0);
 
-    //根据idx和currentKey返回className
-    const getClassName = (idx) => {
-        const indexs = arr.map((e, idx) => idx);  //arr待替换
-        const P1Key = indexs.slice(currentKey - 1)[0];
-        const P2Key = indexs.slice(currentKey - 2)[0];
-        const N1Key = (currentKey + 1) % indexs.length;
-        const N2Key = (currentKey + 2) % indexs.length;
-        const base = 'card';
-        switch (idx) {
-            case P1Key:
-                return base + ' prev';
-            case P2Key:
-                return base + ' prev2';
-            case N1Key:
-                return base + ' next';
-            case N2Key:
-                return base + ' next2';
-            case currentKey:
-                return base + ' current';
-            default:
-                return base;
+    //根据当前下标和最大下标返回style
+    const getStyle = (idx, maxIdx) => {
+        const diff = idx - currentKey;
+        const styleObj = {};
+
+        if (diff === 0) {
+            styleObj.left = '33.3%';
+            styleObj.zIndex = 999;
+            styleObj.opacity = 1;
+            styleObj.transform = 'scale(1)';
+        } else if (diff > 0) {
+            styleObj.left = `${16.7 + diff * 40}%`;
+        } else {
+            styleObj.left = `${50 + diff * 40}%`;
         }
+
+        if (Math.abs(diff) >= 2) {
+            styleObj.opacity = 0;
+            styleObj.transform = 'scale(0)';
+        }
+
+        //特殊值处理
+        if (currentKey === 0 && idx === maxIdx) {
+            styleObj.left = '10%';
+            styleObj.opacity = 0.8;
+            styleObj.transform = 'scale(0.8)';
+        } else if (currentKey === maxIdx && idx === 0) {
+            styleObj.left = '56.7%';
+            styleObj.opacity = 0.8;
+            styleObj.transform = 'scale(0.8)';
+        }
+
+        return styleObj;
     }
 
     return (
@@ -37,7 +48,12 @@ const Carousel = (props) => {
             <div className='card-container'>
                 {
                     arr.map((e, idx) =>  //arr待替换
-                        <div className={getClassName(idx)} key={`card-${idx}`} onClick={() => setKey(idx)}>
+                        <div
+                            className='card'
+                            key={`card-${idx}`}
+                            onClick={() => setKey(idx)}
+                            style={getStyle(idx, arr.length - 1)}
+                        >
                             <img src={e} />
                         </div>
                     )
