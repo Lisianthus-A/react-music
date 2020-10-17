@@ -40,11 +40,12 @@
     .toggle-button {
         position: absolute;
         height: clamp(75px, 12%, 150px);
-        width: 15px;
+        width: 16px;
         background-color: #2f4050;
         top: calc(50% - clamp(75px, 12%, 150px));
-        right: -15px;
+        right: -16px;
         cursor: pointer;
+        z-index: 1;
 
         //画三角
         &::before,
@@ -53,19 +54,19 @@
             display: block;
             height: 0px;
             width: 0px;
-            border: 7.5px solid transparent;
+            border: 8px solid transparent;  //部分浏览器不能绘制带小数的border
             left: 0px;
             border-left-color: #2f4050;
             content: '';
         }
 
         &::before {
-            top: -15px;
+            top: -16px;
             border-bottom-color: #2f4050;
         }
 
         &::after {
-            bottom: -15px;
+            bottom: -16px;
             border-top-color: #2f4050;
         }
 
