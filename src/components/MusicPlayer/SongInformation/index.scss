@@ -1,0 +1,21 @@
+.song-container {
+    height: 100%;
+    width: 33.3%;
+    display: flex;
+    align-items: center;
+    .image {
+        & > img {
+            height: 50px;
+            width: 50px;
+            border-radius: 5px;
+        }
+    }
+    .information {
+        margin-left: 15px;
+        .singer,
+        .time {
+            font-size: 12px;
+            color: #bbb;
+        }
+    }
+}
