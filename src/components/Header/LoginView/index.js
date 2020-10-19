@@ -17,6 +17,10 @@ const ModalView = (props) => {
     //提交
     const onFinish = async (values) => {
         const { username, password } = values;
+        if (!username || !password) {  //无效输入
+            return;
+        }
+
         let data = null;
         if (/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(username)) {  //输入的用户名是邮箱
             data = {
@@ -28,11 +32,10 @@ const ModalView = (props) => {
                 phone: username,
                 password
             }
-        } else {  //无效的输入
+        } else {  //username无效
             return;
         }
         const result = await login(data);
-        // console.log(result);
 
         onSetName(result.profile.nickname);
         onSetImg(result.profile.avatarUrl);

@@ -8,9 +8,15 @@ const Carousel = (props) => {
 
     const [currentKey, setKey] = useState(0);
 
-    //根据当前下标和最大下标返回style
-    const getStyle = (idx, maxIdx) => {
-        const diff = idx - currentKey;
+    //根据当前下标返回style
+    const getStyle = (idx) => {
+        //从左数，idx与currentKey的距离
+        const diff_left = idx - currentKey;
+        //从右数，idx与currentKey的距离
+        const diff_right = diff_left > 0 ? diff_left - arr.length : diff_left + arr.length  //arr待替换
+        //选取绝对值最小的距离
+        const diff = Math.abs(diff_left) > Math.abs(diff_right) ? diff_right : diff_left;
+
         const styleObj = {};
 
         if (diff === 0) {
@@ -18,26 +24,13 @@ const Carousel = (props) => {
             styleObj.zIndex = 999;
             styleObj.opacity = 1;
             styleObj.transform = 'scale(1)';
-        } else if (diff > 0) {
-            styleObj.left = `${16.7 + diff * 40}%`;
         } else {
-            styleObj.left = `${50 + diff * 40}%`;
+            styleObj.left = diff > 0 ? `${16.7 + diff * 40}%` : `${50 + diff * 40}%`;
         }
 
-        if (Math.abs(diff) >= 2) {
+        if (Math.abs(diff) >= 2) {  //距离不小于2，隐藏
             styleObj.opacity = 0;
             styleObj.transform = 'scale(0)';
-        }
-
-        //特殊值处理
-        if (currentKey === 0 && idx === maxIdx) {
-            styleObj.left = '10%';
-            styleObj.opacity = 0.8;
-            styleObj.transform = 'scale(0.8)';
-        } else if (currentKey === maxIdx && idx === 0) {
-            styleObj.left = '56.7%';
-            styleObj.opacity = 0.8;
-            styleObj.transform = 'scale(0.8)';
         }
 
         return styleObj;
@@ -52,7 +45,7 @@ const Carousel = (props) => {
                             className='card'
                             key={`card-${idx}`}
                             onClick={() => setKey(idx)}
-                            style={getStyle(idx, arr.length - 1)}
+                            style={getStyle(idx)}
                         >
                             <img src={e} />
                         </div>

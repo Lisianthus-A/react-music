@@ -1,0 +1,138 @@
+//推荐歌单
+export default {
+    "hasTaste": false,
+    "code": 200,
+    "category": 0,
+    "result": [
+        {
+            "id": 5147812556,
+            "type": 0,
+            "name": "日系民谣|轻快的曲调脱离烦恼",
+            "copywriter": "编辑推荐：放松身心，继续前行",
+            "picUrl": "https://p2.music.126.net/vQj_hfwHahjPRZ639UehpQ==/109951165180457068.jpg",
+            "canDislike": false,
+            "trackNumberUpdateTime": 1596023021741,
+            "playCount": 53246,
+            "trackCount": 23,
+            "highQuality": false,
+            "alg": "featured"
+        },
+        {
+            "id": 5035772092,
+            "type": 0,
+            "name": "「古风 · 仙韵」昆仑山巅，唇齿间云雾缭绕",
+            "copywriter": "编辑推荐：立于昆仑山顶，望叹云雾缭绕变幻",
+            "picUrl": "https://p2.music.126.net/NjvzddR73jWvUExPiq8YHQ==/109951165138673242.jpg",
+            "canDislike": false,
+            "trackNumberUpdateTime": 1590648707101,
+            "playCount": 171963,
+            "trackCount": 49,
+            "highQuality": false,
+            "alg": "featured"
+        },
+        {
+            "id": 476409294,
+            "type": 0,
+            "name": "超级可爱甜到心里的日语歌",
+            "copywriter": "根据你喜欢的单曲《メリーメリー álbum ver.》推荐",
+            "picUrl": "https://p2.music.126.net/DtQDKu4M-0RnNO_h4RrtDw==/18942386323763688.jpg",
+            "canDislike": true,
+            "trackNumberUpdateTime": 1571830451801,
+            "playCount": 3186067,
+            "trackCount": 38,
+            "highQuality": false,
+            "alg": "itembased"
+        },
+        {
+            "id": 3136952023,
+            "type": 0,
+            "name": "今天从《ONE's hope》听起|私人雷达",
+            "copywriter": "猜你喜欢",
+            "picUrl": "https://p2.music.126.net/6Gcju4Y_q7oBM-sERYxLwQ==/109951164762509832.jpg",
+            "canDislike": true,
+            "trackNumberUpdateTime": 1602799200000,
+            "playCount": 2898016770,
+            "trackCount": 35,
+            "highQuality": false,
+            "alg": "official_image_ugc_sub"
+        },
+        {
+            "id": 2176444593,
+            "type": 0,
+            "name": "\\日系.重度晚睡者的有效催眠歌单",
+            "copywriter": "根据你喜欢的单曲《Nico》推荐",
+            "picUrl": "https://p2.music.126.net/ybpSZGQDdpWdRK4QGyEhDQ==/109951163236838992.jpg",
+            "canDislike": true,
+            "trackNumberUpdateTime": 1586877712165,
+            "playCount": 3239107,
+            "trackCount": 56,
+            "highQuality": false,
+            "alg": "itembased"
+        },
+        {
+            "id": 10602549,
+            "type": 0,
+            "name": "東方百首神曲集",
+            "copywriter": "根据你喜欢的单曲《アクアテラリウム》推荐",
+            "picUrl": "https://p2.music.126.net/7sZ5WjNooQZ53-JHiTClkw==/6062707115744662.jpg",
+            "canDislike": true,
+            "trackNumberUpdateTime": 1602218051822,
+            "playCount": 5807607,
+            "trackCount": 405,
+            "highQuality": false,
+            "alg": "itembased"
+        },
+        {
+            "id": 59871568,
+            "type": 0,
+            "name": "崩坏泪腺的日语歌",
+            "copywriter": "根据你喜欢的单曲《ONE's hope》推荐",
+            "picUrl": "https://p2.music.126.net/p_c0YWUhVXWAYMO-u_r1WQ==/109951163857619730.jpg",
+            "canDislike": true,
+            "trackNumberUpdateTime": 1555784059813,
+            "playCount": 3385260,
+            "trackCount": 55,
+            "highQuality": false,
+            "alg": "itembased"
+        },
+        {
+            "id": 1992664557,
+            "type": 0,
+            "name": "日式少年音，温柔少年心",
+            "copywriter": "根据你喜欢的单曲《きみにとどけ》推荐",
+            "picUrl": "https://p2.music.126.net/Y6kpbxQ6C-MJqjCUnC3xdA==/109951163071182230.jpg",
+            "canDislike": true,
+            "trackNumberUpdateTime": 1532879635289,
+            "playCount": 6121828,
+            "trackCount": 190,
+            "highQuality": false,
+            "alg": "itembased"
+        },
+        {
+            "id": 422850794,
+            "type": 0,
+            "name": "『日系&前奏控』钢琴与人声的完美结合",
+            "copywriter": "根据你喜欢的单曲《ONE's hope》推荐",
+            "picUrl": "https://p2.music.126.net/2aqugrKP1a-KN_m469KviA==/3420580708097980.jpg",
+            "canDislike": true,
+            "trackNumberUpdateTime": 1534571002402,
+            "playCount": 6397049,
+            "trackCount": 228,
+            "highQuality": false,
+            "alg": "itembased"
+        },
+        {
+            "id": 64634734,
+            "type": 0,
+            "name": "3D催眠曲_愿陪伴你每一个失眠的夜晚",
+            "copywriter": "根据你可能喜欢的歌单《催眠曲适合睡觉的纯音乐（一）》推荐",
+            "picUrl": "https://p2.music.126.net/A-77p-5icLLw-adzskfDcA==/2896113628031783.jpg",
+            "canDislike": true,
+            "trackNumberUpdateTime": 1582007488222,
+            "playCount": 8516424,
+            "trackCount": 24,
+            "highQuality": false,
+            "alg": "itembased2_withPlay"
+        }
+    ]
+}
