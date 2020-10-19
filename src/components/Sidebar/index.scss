@@ -1,5 +1,7 @@
 .sidebar {
   height: 100%;
+  overflow: hidden;
+  white-space: nowrap;
   background-color: #2f4050;
   .category {
     color: #bbb;
