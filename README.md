@@ -1,5 +1,7 @@
 # React Music
-基于React的仿网易云音乐播放器。
+基于React + JavaScript的仿网易云音乐播放器，无需额外服务器，使用两行npm命令即可在本地运行前后端。(页面搭建中)
+
+技术栈: React(hooks) + axios + antd + Sass
 
 ## Todo
 - [x] 脚手架搭建
@@ -31,3 +33,6 @@ npm run start
 API来自[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
 [API文档](https://binaryify.github.io/NeteaseCloudMusicApi)
+
+## License
+[MIT License](http://opensource.org/licenses/MIT)
