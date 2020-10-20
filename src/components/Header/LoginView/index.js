@@ -11,9 +11,7 @@ const tailLayout = {
     wrapperCol: { offset: 18, span: 4 }
 }
 
-const ModalView = (props) => {
-    const { visible, onClose, onSetName, onSetImg } = props;
-
+const ModalView = ({ visible, onClose, onSetName, onSetImg }) => {
     //提交
     const onFinish = async (values) => {
         const { username, password } = values;

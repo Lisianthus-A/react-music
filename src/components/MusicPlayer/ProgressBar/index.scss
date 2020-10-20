@@ -1,22 +1,27 @@
 .progressbar {
     position: absolute;
     width: 100%;
-    top: -2px;
+    top: -8px;
     left: 0;
+    overflow: hidden;
+    height: 16px;
 
     .ant-slider {
         margin: 0;
         padding: 0;
         .ant-slider-handle {
+            top: 6px;
             opacity: 0;
             transition: opacity 0.3s;
             border-color: #c62f2f !important;
             box-shadow: none !important;
         }
         .ant-slider-rail {
+            top: 6px;
             background-color: transparent;
         }
         .ant-slider-track {
+            top: 6px;
             background-color: #c62f2f !important;
         }
         &:hover {

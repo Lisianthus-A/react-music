@@ -5,8 +5,7 @@ import Header from '../Header';
 import Sidebar from '../Sidebar';
 import MusicPlayer from '../MusicPlayer';
 
-const Layout = (props) => {
-    const { TargetComponent } = props;
+const Layout = ({ TargetComponent }) => {
     const audioRef = useRef(null);
 
     return (
@@ -16,14 +15,8 @@ const Layout = (props) => {
             </div>
 
             <div className='middle'>
-                <input type="checkbox" id="toggle" style={{ display: "none" }} />
                 <div className="left">
                     <Sidebar />
-                    <label htmlFor="toggle">
-                        <div className='toggle-button'>
-                            <span className='arrow' ></span>
-                        </div>
-                    </label>
                 </div>
                 <div className="right">
                     <Suspense fallback={<Loading />}>
