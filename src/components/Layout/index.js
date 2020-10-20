@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useRef } from 'react';
 import './index.scss';
 import Loading from '../Loading';
 import Header from '../Header';
@@ -7,6 +7,7 @@ import MusicPlayer from '../MusicPlayer';
 
 const Layout = (props) => {
     const { TargetComponent } = props;
+    const audioRef = useRef(null);
 
     return (
         <div className="layout">
@@ -32,7 +33,7 @@ const Layout = (props) => {
             </div>
 
             <div className="bottom">
-                <MusicPlayer />
+                <MusicPlayer ref={audioRef} />
             </div>
         </div>
     );

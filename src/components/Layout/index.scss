@@ -21,10 +21,10 @@
         .right {
             overflow: scroll;
             scrollbar-width: none;
-            max-width: 1500px;
-            width: 100%;
             height: 100%;
-            margin: 10px auto 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
         }
     }
 

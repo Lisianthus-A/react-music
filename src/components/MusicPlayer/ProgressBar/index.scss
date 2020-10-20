@@ -1,0 +1,28 @@
+.progressbar {
+    position: absolute;
+    width: 100%;
+    top: -2px;
+    left: 0;
+
+    .ant-slider {
+        margin: 0;
+        padding: 0;
+        .ant-slider-handle {
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-color: #c62f2f !important;
+            box-shadow: none !important;
+        }
+        .ant-slider-rail {
+            background-color: transparent;
+        }
+        .ant-slider-track {
+            background-color: #c62f2f !important;
+        }
+        &:hover {
+            .ant-slider-handle:not(.ant-tooltip-open) {
+                opacity: 1;
+            }
+        }
+    }
+}

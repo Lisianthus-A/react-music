@@ -1,40 +1,68 @@
-import React, { useRef, useState } from 'react';
+import React, { useReducer, forwardRef } from 'react';
 import './index.scss';
 import SongInformation from './SongInformation';
 import ControlButton from './ControlButton';
 import OtherButton from './OtherButton';
+import ProgressBar from './ProgressBar';
 import { useInterval } from '../../utils/hooks';
+import { reducer, initialState } from './reducer';
 
-const testSrc = 'https://music.163.com/song/media/outer/url?id=151985';
+const testSrc = 'https://music.163.com/song/media/outer/url?id=776039';
 
-const MusicPlayer = () => {
-    const audioRef = useRef(null);
+const MusicPlayer = forwardRef((props, audioRef) => {
 
-    const [playing, setPlaying] = useState(false);  //是否正在播放
-    const [duration, setDuration] = useState(0);  //总时长
-    const [currentTime, setTime] = useState(0);  //当前播放位置
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-    //读取当前播放位置
+    //设置播放状态
+    const setPlaying = (payload) => {
+        dispatch({ type: 'setPlaying', payload });
+    }
+
+    //设置总时长
+    const setDuration = (payload) => {
+        dispatch({ type: 'setDuration', payload });
+    }
+
+    //设置当前播放位置
+    const setTime = (payload) => {
+        dispatch({ type: 'setTime', payload })
+    }
+
+    //设置音量
+    const setVolume = (payload) => {
+        audioRef.current.volume = payload;
+        dispatch({ type: 'setVolume', payload });
+    }
+
+    //通过定时器不断更新当前播放位置
     useInterval(() => {
         setTime(audioRef.current.currentTime);
-    }, 500);
+    }, 200);
 
     return (
         <div className='music-player'>
             <audio ref={audioRef} style={{ display: 'none' }} src={testSrc} onEnded={() => setPlaying(false)} />
             <SongInformation
-                current={currentTime}
-                duration={duration}
+                current={state.currentTime}
+                duration={state.duration}
             />
             <ControlButton
-                playing={playing}
-                setPlaying={setPlaying}
                 audioRef={audioRef}
+                isPlaying={state.isPlaying}
+                setPlaying={setPlaying}
                 setDuration={setDuration}
             />
-            <OtherButton />
+            <OtherButton
+                setVolume={setVolume}
+            />
+            <ProgressBar
+                audioRef={audioRef}
+                progress={state.currentTime / state.duration * 10000}
+                duration={state.duration}
+                setTime={setTime}
+            />
         </div>
     );
-}
+});
 
 export default MusicPlayer;
