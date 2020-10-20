@@ -5,6 +5,10 @@ import { StepBackwardOutlined, CaretRightOutlined, PauseOutlined, StepForwardOut
 const ControlButton = ({ isPlaying, setPlaying, audioRef, setDuration }) => {
     const togglePlay = () => {
         const audio = audioRef.current;
+        if (isNaN(audio.duration)) {  //duration为NaN说明audio还没有准备就绪
+            setTimeout(togglePlay, 0);
+            return;
+        }
         setDuration(audio.duration);  //设置歌曲时长
 
         //播放或暂停
