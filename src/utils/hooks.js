@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 
 export const useInterval = (callback, delay) => {
     const savedCallback = useRef();
@@ -20,4 +20,15 @@ export const useInterval = (callback, delay) => {
     },
         [delay]
     );
+}
+
+//实现state合并
+export const useSetState = (initialState = {}) => {
+    const [state, saveState] = useState(initialState);
+    const setState = useCallback((newState) => {
+        saveState(prevState => ({ ...prevState, ...newState }));
+    },
+        []
+    );
+    return [state, setState];
 }

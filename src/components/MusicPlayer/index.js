@@ -1,52 +1,52 @@
-import React, { useReducer, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import './index.scss';
-import { useInterval } from 'Utils/hooks';
+import { useSetState } from 'Utils/hooks';
 
 import SongInformation from './SongInformation';
 import ControlButton from './ControlButton';
 import OtherButton from './OtherButton';
 import ProgressBar from './ProgressBar';
-import { reducer, initialState } from './reducer';
 
 const testSrc = 'https://music.163.com/song/media/outer/url?id=776039';
 
+const initialState = {
+    isPlaying: false,  //是否正在播放
+    duration: 0,  //总时长
+    currentTime: 0  //当前播放位置
+};
+
 const MusicPlayer = forwardRef((props, audioRef) => {
 
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, setState] = useSetState(initialState);
 
     //设置播放状态
-    const setPlaying = (payload) => {
-        dispatch({ type: 'setPlaying', payload });
+    const setPlaying = (isPlaying) => {
+        setState({ isPlaying });
     }
 
     //设置总时长
-    const setDuration = (payload) => {
-        dispatch({ type: 'setDuration', payload });
+    const setDuration = (duration) => {
+        setState({ duration });
     }
 
     //设置当前播放位置
-    const setTime = (payload) => {
-        dispatch({ type: 'setTime', payload })
+    const setTime = (currentTime) => {
+        setState({ currentTime })
     }
 
-    //设置音量
-    const setVolume = (payload) => {
-        audioRef.current.volume = payload;
-        dispatch({ type: 'setVolume', payload });
-    }
-
+    //播放位置更新触发事件
     const handleTimeUpdate = (e) => {
         setTime(e.target.currentTime);
     }
 
     return (
         <div className='music-player'>
-            <audio 
-            ref={audioRef} 
-            style={{ display: 'none' }} 
-            src={testSrc} 
-            onEnded={() => setPlaying(false)} 
-            onTimeUpdate={handleTimeUpdate}
+            <audio
+                ref={audioRef}
+                style={{ display: 'none' }}
+                src={testSrc}
+                onEnded={() => setPlaying(false)}
+                onTimeUpdate={handleTimeUpdate}
             />
             <SongInformation
                 current={state.currentTime}
@@ -59,7 +59,7 @@ const MusicPlayer = forwardRef((props, audioRef) => {
                 setDuration={setDuration}
             />
             <OtherButton
-                setVolume={setVolume}
+                audioRef={audioRef}
             />
             <ProgressBar
                 audioRef={audioRef}
