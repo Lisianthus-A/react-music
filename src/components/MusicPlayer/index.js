@@ -35,14 +35,19 @@ const MusicPlayer = forwardRef((props, audioRef) => {
         dispatch({ type: 'setVolume', payload });
     }
 
-    //通过定时器不断更新当前播放位置
-    useInterval(() => {
-        setTime(audioRef.current.currentTime);
-    }, 200);
+    const handleTimeUpdate = (e) => {
+        setTime(e.target.currentTime);
+    }
 
     return (
         <div className='music-player'>
-            <audio ref={audioRef} style={{ display: 'none' }} src={testSrc} onEnded={() => setPlaying(false)} />
+            <audio 
+            ref={audioRef} 
+            style={{ display: 'none' }} 
+            src={testSrc} 
+            onEnded={() => setPlaying(false)} 
+            onTimeUpdate={handleTimeUpdate}
+            />
             <SongInformation
                 current={state.currentTime}
                 duration={state.duration}
