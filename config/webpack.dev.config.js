@@ -11,6 +11,15 @@ module.exports = merge(common, {
     output: {
         filename: 'js/[name].bundle.[hash:8].js'  //输出js文件使用hash
     },
+    resolve: {
+      alias: {
+        Components: path.resolve(__dirname, '../src/components'),
+        Apis: path.resolve(__dirname, '../src/apis'),
+        Utils: path.resolve(__dirname, '../src/utils'),
+        Images: path.resolve(__dirname, '../assets/images'),
+        TestData: path.resolve(__dirname, '../apiDataExample')
+      }
+    },
     devServer: {
         contentBase: path.resolve(__dirname, '../build'),
         open: true,  //自动打开浏览器

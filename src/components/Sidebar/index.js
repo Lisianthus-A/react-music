@@ -36,7 +36,7 @@ const Sidebar = forwardRef((props, ref) => {
                 <div className='category'>我的音乐</div>
                 {
                     [
-                        { text: '我的歌单', route: '/Discovery', Icon: HeartOutlined, key: 3 }
+                        { text: '我的歌单', route: '/SongList', Icon: HeartOutlined, key: 3 }
                     ].map(
                         e =>
                             <div

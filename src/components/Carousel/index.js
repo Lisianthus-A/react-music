@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import './index.scss';
-import testImg from '../../../assets/images/test.jpg';
 
-const Carousel = (props) => {
-    //先用测试图片，接入后端再使用props
-    const arr = new Array(8).fill(testImg);
-
+const Carousel = ({ data }) => {
     const [currentKey, setKey] = useState(0);
 
     //根据当前下标返回style
     const getStyle = (idx) => {
+        const len = data.length;
         //从左数，idx与currentKey的距离
         const diff_left = idx - currentKey;
         //从右数，idx与currentKey的距离
-        const diff_right = diff_left > 0 ? diff_left - arr.length : diff_left + arr.length  //arr待替换
+        const diff_right = diff_left > 0 ? diff_left - len : diff_left + len;
         //选取绝对值最小的距离
         const diff = Math.abs(diff_left) > Math.abs(diff_right) ? diff_right : diff_left;
 
@@ -40,21 +37,21 @@ const Carousel = (props) => {
         <div className='carousel'>
             <div className='card-container'>
                 {
-                    arr.map((e, idx) =>  //arr待替换
+                    data.map(({ imageUrl }, idx) =>
                         <div
                             className='card'
                             key={`card-${idx}`}
                             onClick={() => setKey(idx)}
                             style={getStyle(idx)}
                         >
-                            <img src={e} />
+                            <img src={imageUrl} />
                         </div>
                     )
                 }
             </div>
             <div className='rects'>
                 {
-                    arr.map((e, idx) =>  //arr待替换
+                    data.map((e, idx) =>
                         <div
                             key={`rect-${idx}`}
                             className={currentKey === idx ? 'rect active' : 'rect'}

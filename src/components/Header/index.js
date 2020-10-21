@@ -3,7 +3,7 @@ import './index.scss';
 import { Avatar, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import LoginView from './LoginView';
-import { getToken } from '../../utils';
+import { getToken } from 'Utils';
 
 const Header = () => {
     const [name, setName] = useState(null);
