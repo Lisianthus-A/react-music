@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './index.scss';
 import { Slider } from 'antd';
-import { convertTime } from '../../../utils/';
+import { convertTime } from 'Utils';
 
 const ProgressBar = ({ audioRef, progress, setTime, duration }) => {
     const [value, setValue] = useState(null);

@@ -9,18 +9,18 @@
         display: flex;
         height: calc(100vh - 128px);
         position: relative;
+    }
 
-        .left {
-            flex-shrink: 0;
-        }
+    .left {
+        flex-shrink: 0;
+    }
 
-        .right {
-            overflow: scroll;
-            scrollbar-width: none;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
+    .right {
+        overflow: scroll;
+        scrollbar-width: none;
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
     .bottom {

@@ -7,9 +7,10 @@
     .ant-avatar {
         margin-left: 40px;
         cursor: pointer;
-        & > img {
-            cursor: default;
-        }
+    }
+
+    img {
+        cursor: default;
     }
 
     .username {
@@ -24,15 +25,17 @@
         background-color: rgba(0, 0, 0, 0.3);
         border: none;
         border-radius: 15px;
-        .ant-input {
-            background-color: transparent;
-            color: #fff;
-        }
+    }
+
+    .ant-input {
+        background-color: transparent;
+        color: #fff;
     }
 
     .ant-input-search-icon::before {
         display: none;
     }
+
     .ant-input-affix-wrapper:hover,
     .ant-input-affix-wrapper:focus {
         border: none;

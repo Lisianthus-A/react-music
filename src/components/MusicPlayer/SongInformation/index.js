@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
-import testImg from '../../../../assets/images/test.jpg';
-import { convertTime } from '../../../utils';
+import testImg from 'Images/test.jpg';
+import { convertTime } from 'Utils';
 
 const SongInformation = ({ current, duration }) => {
     return (

@@ -1,10 +1,11 @@
 import React, { useReducer, forwardRef } from 'react';
 import './index.scss';
+import { useInterval } from 'Utils/hooks';
+
 import SongInformation from './SongInformation';
 import ControlButton from './ControlButton';
 import OtherButton from './OtherButton';
 import ProgressBar from './ProgressBar';
-import { useInterval } from '../../utils/hooks';
 import { reducer, initialState } from './reducer';
 
 const testSrc = 'https://music.163.com/song/media/outer/url?id=776039';

@@ -1,9 +1,9 @@
 import React, { Suspense, useRef } from 'react';
 import './index.scss';
-import Loading from '../Loading';
-import Header from '../Header';
-import Sidebar from '../Sidebar';
-import MusicPlayer from '../MusicPlayer';
+import Loading from 'Components/Loading';
+import Header from 'Components/Header';
+import Sidebar from 'Components/Sidebar';
+import MusicPlayer from 'Components/MusicPlayer';
 
 const Layout = ({ TargetComponent }) => {
     const audioRef = useRef(null);
@@ -20,7 +20,7 @@ const Layout = ({ TargetComponent }) => {
                 </div>
                 <div className="right">
                     <Suspense fallback={<Loading />}>
-                        <TargetComponent />
+                        <TargetComponent audioRef={audioRef} />
                     </Suspense>
                 </div>
             </div>
