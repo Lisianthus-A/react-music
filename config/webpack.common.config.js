@@ -9,6 +9,15 @@ module.exports = {
         filename: 'js/bundle.js',
         path: path.resolve(__dirname, '../build')
     },
+    resolve: {
+        alias: {
+          Components: path.resolve(__dirname, '../src/components'),
+          Apis: path.resolve(__dirname, '../src/apis'),
+          Utils: path.resolve(__dirname, '../src/utils'),
+          Images: path.resolve(__dirname, '../assets/images'),
+          TestData: path.resolve(__dirname, '../apiDataExample')
+        }
+      },
     module: {
         rules: [
             {
