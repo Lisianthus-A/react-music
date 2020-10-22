@@ -16,7 +16,7 @@ const RecommentSongList = ({ data }) => {
                             </div>
                             <div className='information'>
                                 <div className='song-title'>{name}</div>
-                                <div className='singer'>{artists.map(({ name }) => name).join()}</div>
+                                <div className='singer'>{artists.map(({ name }) => name).join('/')}</div>
                             </div>
                         </div>
                     )
@@ -33,7 +33,7 @@ const RecommentSongList = ({ data }) => {
                             </div>
                             <div className='information'>
                                 <div className='song-title'>{name}</div>
-                                <div className='singer'>{artists.map(({ name }) => name).join()}</div>
+                                <div className='singer'>{artists.map(({ name }) => name).join('/')}</div>
                             </div>
                         </div>
                     )

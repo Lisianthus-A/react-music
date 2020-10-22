@@ -2,14 +2,9 @@ import React from 'react';
 import './index.scss';
 import { StepBackwardOutlined, CaretRightOutlined, PauseOutlined, StepForwardOutlined } from '@ant-design/icons';
 
-const ControlButton = ({ isPlaying, setPlaying, audioRef, setDuration }) => {
+const ControlButton = ({ isPlaying, setPlaying, audioRef }) => {
     const togglePlay = () => {
         const audio = audioRef.current;
-        if (isNaN(audio.duration)) {  //duration为NaN说明audio还没有准备就绪
-            setTimeout(togglePlay, 0);
-            return;
-        }
-        setDuration(audio.duration);  //设置歌曲时长
 
         //播放或暂停
         if (isPlaying) {
@@ -23,11 +18,11 @@ const ControlButton = ({ isPlaying, setPlaying, audioRef, setDuration }) => {
 
     return (
         <div className='control-button-container'>
-            <div className='prev'><StepBackwardOutlined /></div>
-            <div className='play-or-pause' onClick={togglePlay}>
+            <div className='prev' title='上一首'><StepBackwardOutlined /></div>
+            <div className='play-or-pause' onClick={togglePlay} title='播放/暂停'>
                 {isPlaying ? <PauseOutlined /> : <CaretRightOutlined />}
             </div>
-            <div className='next'><StepForwardOutlined /></div>
+            <div className='next' title='下一首'><StepForwardOutlined /></div>
         </div>
     );
 }
