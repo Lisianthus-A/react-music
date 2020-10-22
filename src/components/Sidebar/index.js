@@ -1,9 +1,9 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState } from 'react';
 import './index.scss';
 import { useHistory } from 'react-router-dom';
 import { HeartOutlined, SearchOutlined, VideoCameraOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 
-const Sidebar = forwardRef((props, ref) => {
+const Sidebar = (props) => {
     const [currentKey, setKey] = useState(0);
     const history = useHistory();
 
@@ -15,7 +15,7 @@ const Sidebar = forwardRef((props, ref) => {
     return (
         <>
             <input type='checkbox' id='toggle' style={{ display: 'none' }} />
-            <div className='sidebar' ref={ref}>
+            <div className='sidebar'>
                 <div className='category'>推荐</div>
                 {
                     [
@@ -56,6 +56,6 @@ const Sidebar = forwardRef((props, ref) => {
             </label>
         </>
     );
-});
+};
 
 export default Sidebar;

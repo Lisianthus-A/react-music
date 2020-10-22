@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import './index.scss';
+import { useInterval } from 'Utils/hooks';
 
 const Carousel = ({ data }) => {
     const [currentKey, setKey] = useState(0);
+    const len = data.length;
+    useInterval(() => {
+        setKey((currentKey + 1) % len);
+    }, 5000);
 
     //根据当前下标返回style
     const getStyle = (idx) => {
-        const len = data.length;
         //从左数，idx与currentKey的距离
         const diff_left = idx - currentKey;
         //从右数，idx与currentKey的距离

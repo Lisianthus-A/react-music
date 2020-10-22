@@ -47,6 +47,7 @@
         padding: 0 5px;
         transition: all 0s 0.3s;
         text-align: right;
+        white-space: nowrap;
     }
 
     .play-button {
@@ -65,7 +66,10 @@
         border: 2px solid #fff;
         border-radius: 25px;
         opacity: 0;
-        transition: all 0.3s 0.3s;
+        transition: opacity 0.3s 0.3s;
+        &:hover {
+            box-shadow: 0 0 8px #fff;
+        }
     }
 
     .image:hover {
