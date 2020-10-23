@@ -5,12 +5,15 @@ import ControlButton from './ControlButton';
 import OtherButton from './OtherButton';
 import ProgressBar from './ProgressBar';
 
-const MusicPlayer = ({ audioRef, current, duration, isPlaying, setPlaying, setTime }) => {
+const MusicPlayer = ({ audioRef, current, duration, isPlaying, setPlaying, setTime, title, singer, cover }) => {
     return (
         <div className='music-player'>
             <SongInformation
                 current={current}
                 duration={duration}
+                title={title}
+                singer={singer}
+                cover={cover}
             />
             <ControlButton
                 audioRef={audioRef}

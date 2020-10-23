@@ -1,16 +1,15 @@
 import React from 'react';
 import './index.scss';
-import testImg from 'Images/test.jpg';
 import { convertTime } from 'Utils';
 
-const SongInformation = ({ current, duration }) => {
+const SongInformation = ({ current, duration, title, singer, cover }) => {
     return (
         <div className='song-container'>
             <div className='image'>
-                <img src={testImg} alt='' />
+                <img src={cover} alt='' />
             </div>
             <div className='information'>
-                <div className='song'>ONE's hope - <span className='singer'>やなぎなぎ</span></div>
+                <div className='song'>{title} - <span className='singer'>{singer}</span></div>
                 <div className='time'>{`${convertTime(current)} / ${convertTime(duration)}`}</div>
             </div>
         </div>

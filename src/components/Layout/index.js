@@ -6,12 +6,15 @@ import Sidebar from 'Components/Sidebar';
 import MusicPlayer from 'Components/MusicPlayer';
 import { useSetState } from 'Utils/hooks';
 
-const testSrc = 'https://music.163.com/song/media/outer/url?id=776039';
-
 const initialState = {
     isPlaying: false,  //是否正在播放
     duration: 0,  //总时长
-    currentTime: 0  //当前播放位置
+    currentTime: 0,  //当前播放位置
+    playlist: [776039],  //播放列表
+    title: 'ONE\'s hope',  //音乐名
+    singer: 'やなぎなぎ',  //歌手
+    playingIndex: 0,  //当前播放的音乐下标
+    cover: 'https://p1.music.126.net/l22TRH7bs4VG6HMT2Iy56w==/2511284557902801.jpg'  //歌曲封面图片
 };
 
 const Layout = ({ TargetComponent }) => {
@@ -30,7 +33,27 @@ const Layout = ({ TargetComponent }) => {
 
     //设置当前播放位置
     const setTime = (currentTime) => {
-        setState({ currentTime })
+        setState({ currentTime });
+    }
+
+    //设置播放列表
+    const setPlaylist = (playlist) => {
+        setState({ playlist });
+    }
+
+    //设置音乐名
+    const setTitle = (title) => {
+        setState({ title });
+    }
+
+    //设置歌手
+    const setSinger = (singer) => {
+        setState({ singer });
+    }
+
+    //设置当前播放的音乐下标
+    const setPlayingIndex = (playingIndex) => {
+        setState({ playingIndex });
     }
 
     //播放时长改变触发事件
@@ -72,6 +95,9 @@ const Layout = ({ TargetComponent }) => {
                     current={state.currentTime}
                     duration={state.duration}
                     isPlaying={state.isPlaying}
+                    title={state.title}
+                    singer={state.singer}
+                    cover={state.cover}
                     setPlaying={setPlaying}
                     setTime={setTime}
                 />
@@ -79,11 +105,10 @@ const Layout = ({ TargetComponent }) => {
 
             <audio
                 ref={audioRef}
-                src={testSrc}
+                src={`https://music.163.com/song/media/outer/url?id=${state.playlist[state.playingIndex]}`}
                 onEnded={handleEnded}
                 onTimeUpdate={handleTimeUpdate}
                 onDurationChange={handleDurationChange}
-                style={{ display: 'none' }}
             />
         </div>
     );
