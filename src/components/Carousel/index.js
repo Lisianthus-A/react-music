@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import './index.scss';
 import { useInterval } from 'Utils/hooks';
 
 const Carousel = ({ data }) => {
     const [currentKey, setKey] = useState(0);
     const len = data.length;
+    const history = useHistory();
+
+    //图片轮播
     useInterval(() => {
         setKey((currentKey + 1) % len);
     }, 5000);
@@ -37,15 +41,37 @@ const Carousel = ({ data }) => {
         return styleObj;
     }
 
+    //点击当前active的图片打开type指定的页面
+    const handleClick = (idx, id, type) => {
+        if (currentKey === idx) {
+            switch (type) {
+                case 1:  //歌曲
+                    history.push(`/Song?id=${id}`);
+                    break;
+                case 10:  //专辑
+                    history.push(`/Album?id=${id}`);
+                    break;
+                case 1004:  //视频 
+                    history.push(`/Video?id=${id}`);
+                    break;
+                case 3000:  //广告
+                default:
+                    return;
+            }
+        } else {
+            setKey(idx);
+        }
+    }
+
     return (
         <div className='carousel'>
             <div className='card-container'>
                 {
-                    data.map(({ imageUrl }, idx) =>
+                    data.map(({ imageUrl, targetId, targetType }, idx) =>
                         <div
                             className='card'
                             key={`card-${idx}`}
-                            onClick={() => setKey(idx)}
+                            onClick={() => handleClick(idx, targetId, targetType)}
                             style={getStyle(idx)}
                         >
                             <img src={imageUrl} />

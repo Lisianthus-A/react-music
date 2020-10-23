@@ -1,3 +1,5 @@
+import { message } from 'antd';
+
 const getCookie = (name) => {
     let matches = document.cookie.match(new RegExp(
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -26,4 +28,15 @@ export const convertCount = (count) => {
         return `${parseInt(count / 10000)}万`;
     }
     return count;
+}
+
+//显示错误信息
+export const showErrorMessage = (msg) => {
+    message.error(msg);
+}
+
+//搜索字符串中指定参数的值  searchItem('?id=1&data=2', data) --> 2
+export const searchItem = (search, item) => {
+    const match = search.match(new RegExp(`[?&]${item}=\\w+`));
+    return match ? match[0].split('=')[1] : null;
 }

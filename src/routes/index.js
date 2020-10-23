@@ -1,6 +1,10 @@
 const routeList = [
     '/Discovery',
-    '/SongList'
+    '/SongList',
+    '/PersonalFM',
+    '/Video',
+    '/Song',
+    '/Album'
 ];
 
 export default routeList;

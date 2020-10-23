@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './View.scss';
 import { banner, personalized, topSong } from 'Apis/apiDiscovery';
 import Carousel from 'Components/Carousel';
@@ -6,34 +6,40 @@ import Carousel from 'Components/Carousel';
 import RecommentSongList from './RecommentSongList';
 import RecentMusicList from './RecentMusicList';
 
-import testBannerData from 'TestData/banner';  //测试数据，待替换
-import testRecommendData from 'TestData/personalized';  //测试数据，待替换
-import testTopSongData from 'TestData/topSong';  //测试数据，待替换
-import testImg from 'Images/test.jpg';
+const initialState = {
+    bannerData: null,
+    recommendData: null,
+    topSongData: null
+};
 
 const Discovery = ({ audioRef }) => {
-    // useEffect(() => {
-    //     const asyncFoo = async () => {
-    //         console.log(await banner());
-    //         console.log(await personalized());
-    //         console.log(await topSong());
-    //     }
-    //     asyncFoo();
-    // },
-    //     []
-    // );
+    const [state, setState] = useState(initialState);
+
+    useEffect(() => {
+        const getData = async () => {
+            const bannerData = await banner();
+            const recommendData = await personalized();
+            const topSongData = await topSong();
+            setState({ bannerData, recommendData, topSongData });
+            console.log('state', { bannerData, recommendData, topSongData });
+        }
+        getData();
+    },
+        []
+    );
+
     return (
         <div className='discovery'>
             <div className='banner'>
-                <Carousel data={testBannerData.banners} /> {/*测试数据，待替换*/}
+                <Carousel data={state.bannerData?.banners || []} /> {/*测试数据，待替换*/}
             </div>
             <div className='recommend'>
                 <div className='title'>推荐歌单</div>
-                <RecommentSongList data={testRecommendData.result} />  {/*测试数据，待替换*/}
+                <RecommentSongList data={state.recommendData?.result || []} />  {/*测试数据，待替换*/}
             </div>
             <div className='recent-music'>
                 <div className='title'>最新音乐</div>
-                <RecentMusicList data={testTopSongData.data} />  {/*测试数据，待替换*/}
+                <RecentMusicList data={state.topSongData?.data || []} />  {/*测试数据，待替换*/}
             </div>
         </div>
     );

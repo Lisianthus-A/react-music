@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Modal } from 'antd';
-import { login } from '../../../apis/apiHeader';
+import { login, loginCellphone } from '../../../apis/apiHeader';
 
 //布局
 const layout = {
@@ -33,7 +33,7 @@ const ModalView = ({ visible, onClose, onSetName, onSetImg }) => {
         } else {  //username无效
             return;
         }
-        const result = await login(data);
+        const result = data.email ? await login(data) : await loginCellphone(data);
 
         onSetName(result.profile.nickname);
         onSetImg(result.profile.avatarUrl);

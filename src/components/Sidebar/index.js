@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { HeartOutlined, SearchOutlined, VideoCameraOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 
-const Sidebar = (props) => {
+const Sidebar = () => {
     const [currentKey, setKey] = useState(0);
     const history = useHistory();
+    const { pathname } = useLocation();
 
-    const handleClick = (key, route) => {
+    const handleClick = (key) => {
         setKey(key);
-        history.replace(route);
+        history.replace(key);
     }
+
+    useEffect(() => {
+        setKey(pathname);
+    },
+        [pathname]
+    );
 
     return (
         <>
@@ -19,32 +26,32 @@ const Sidebar = (props) => {
                 <div className='category'>推荐</div>
                 {
                     [
-                        { text: '发现音乐', route: '/Discovery', Icon: SearchOutlined, key: 0 },
-                        { text: '私人FM', route: '/Discovery', Icon: CustomerServiceOutlined, key: 1 },
-                        { text: '视频', route: '/Discovery', Icon: VideoCameraOutlined, key: 2 }
+                        { text: '发现音乐', Icon: SearchOutlined, key: '/Discovery' },
+                        { text: '私人FM', Icon: CustomerServiceOutlined, key: '/PersonalFM' },
+                        { text: '视频', Icon: VideoCameraOutlined, key: '/Video' }
                     ].map(
-                        e =>
+                        ({ key, text, Icon }) =>
                             <div
-                                className={currentKey === e.key ? 'item active' : 'item'}
-                                key={e.key}
-                                onClick={() => handleClick(e.key, e.route)}
+                                className={currentKey === key ? 'item active' : 'item'}
+                                key={key}
+                                onClick={() => handleClick(key)}
                             >
-                                <e.Icon /> {e.text}
+                                <Icon /> {text}
                             </div>
                     )
                 }
                 <div className='category'>我的音乐</div>
                 {
                     [
-                        { text: '我的歌单', route: '/SongList', Icon: HeartOutlined, key: 3 }
+                        { text: '我的歌单', Icon: HeartOutlined, key: '/SongList' }
                     ].map(
-                        e =>
+                        ({ key, text, Icon }) =>
                             <div
-                                className={currentKey === e.key ? 'item active' : 'item'}
-                                key={e.key}
-                                onClick={() => handleClick(e.key, e.route)}
+                                className={currentKey === key ? 'item active' : 'item'}
+                                key={key}
+                                onClick={() => handleClick(key)}
                             >
-                                <e.Icon /> {e.text}
+                                <Icon /> {text}
                             </div>
                     )
                 }

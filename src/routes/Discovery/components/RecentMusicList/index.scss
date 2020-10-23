@@ -56,6 +56,9 @@
         transform: translate(-50%, -50%);
         border: 1px solid #fff;
         border-radius: 10px;
+        &:hover {
+            box-shadow: 0 0 8px #fff;
+        }
     }
 
     .information {
