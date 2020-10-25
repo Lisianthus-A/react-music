@@ -38,13 +38,13 @@ const RecommentSongList = ({ data }) => {
                 {
                     data.slice(5, 10).map(({ picUrl, name, copywriter, playCount, id }, idx) =>
                         <div className='listitem' key={'item' + idx + 5}>
-                            <div className='image' onClick={(e) => handleClick(e, id)}>
+                            <div className='image' onClick={() => handleClick(id)}>
                                 <img src={picUrl} />
                                 <div className='copywriter'>{copywriter}</div>
                                 <div className='play-count'><CustomerServiceOutlined />{convertCount(playCount)}</div>
-                                <div className='play-button' onClick={() => handlePlay(id)}><CaretRightOutlined /></div>
+                                <div className='play-button' onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
                             </div>
-                            <a className='description' onClick={(e) => handleClick(e, id)}>{name}</a>
+                            <a className='description' onClick={() => handleClick(id)}>{name}</a>
                         </div>
                     )
                 }
