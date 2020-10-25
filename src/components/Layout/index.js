@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense, useRef, useCallback } from 'react';
 import './index.scss';
 import Loading from 'Components/Loading';
 import Header from 'Components/Header';
@@ -22,55 +22,75 @@ const Layout = ({ TargetComponent }) => {
     const [state, setState] = useSetState(initialState);
 
     //设置播放状态
-    const setPlaying = (isPlaying) => {
+    const setPlaying = useCallback((isPlaying) => {
         setState({ isPlaying });
-    }
+    },
+        []
+    );
 
     //设置总时长
-    const setDuration = (duration) => {
+    const setDuration = useCallback((duration) => {
         setState({ duration });
-    }
+    },
+        []
+    );
 
     //设置当前播放位置
-    const setTime = (currentTime) => {
+    const setTime = useCallback((currentTime) => {
         setState({ currentTime });
-    }
+    },
+        []
+    );
 
     //设置播放列表
-    const setPlaylist = (playlist) => {
+    const setPlaylist = useCallback((playlist) => {
         setState({ playlist });
-    }
+    },
+        []
+    );
 
     //设置音乐名
-    const setTitle = (title) => {
+    const setTitle = useCallback((title) => {
         setState({ title });
-    }
+    },
+        []
+    );
 
     //设置歌手
-    const setSinger = (singer) => {
+    const setSinger = useCallback((singer) => {
         setState({ singer });
-    }
+    },
+        []
+    );
 
     //设置当前播放的音乐下标
-    const setPlayingIndex = (playingIndex) => {
+    const setPlayingIndex = useCallback((playingIndex) => {
         setState({ playingIndex });
-    }
+    },
+        []
+    );
 
     //播放时长改变触发事件
-    const handleDurationChange = (e) => {
+    const handleDurationChange = useCallback((e) => {
         setDuration(e.target.duration);
-    }
+    },
+        []
+    );
 
     //播放位置更新触发事件
-    const handleTimeUpdate = (e) => {
+    const handleTimeUpdate = useCallback((e) => {
         setTime(e.target.currentTime);
-    }
+    },
+        []
+    );
 
     //播放结束触发事件
-    const handleEnded = (e) => {
+    const handleEnded = useCallback((e) => {
         // setPlaying(false);
         e.target.play();
-    }
+    },
+        []
+    )
 
     return (
         <div className="layout">

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import './index.scss';
 import { Avatar, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import LoginView from './LoginView';
 import { getToken } from 'Utils';
 
-const Header = () => {
+const Header = memo(() => {
     const [name, setName] = useState(null);
     const [visible, setVisible] = useState(false);
     const [avatarImg, setImg] = useState(null);
@@ -42,6 +42,6 @@ const Header = () => {
             />
         </div>
     );
-}
+});
 
 export default Header;

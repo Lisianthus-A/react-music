@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import './View.scss';
 import { banner, personalized, topSong } from 'Apis/apiDiscovery';
 import Carousel from 'Components/Carousel';
@@ -12,7 +12,7 @@ const initialState = {
     topSongData: null
 };
 
-const Discovery = ({ audioRef }) => {
+const Discovery = memo(({ audioRef }) => {
     const [state, setState] = useState(initialState);
 
     useEffect(() => {
@@ -43,6 +43,6 @@ const Discovery = ({ audioRef }) => {
             </div>
         </div>
     );
-}
+});
 
 export default Discovery;

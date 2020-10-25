@@ -3,7 +3,7 @@ import './index.scss';
 import { useHistory } from 'react-router-dom';
 import { CaretRightOutlined } from '@ant-design/icons';
 
-const RecommentSongList = ({ data }) => {
+const RecentMusicList = ({ data }) => {
     const history = useHistory();
     const handlePlay = (e, id) => {
         //点击播放按钮，直接播放歌曲
@@ -42,7 +42,7 @@ const RecommentSongList = ({ data }) => {
                             <div className='order'>{(idx + 5).toString().padStart(2, 0)}</div>
                             <div className='image' onClick={() => handleClick(id)}>
                                 <img src={album.picUrl} />
-                                <div className='play-button' onclick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
+                                <div className='play-button' onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
                             </div>
                             <div className='information'>
                                 <div className='song-title'>{name}</div>
@@ -56,4 +56,4 @@ const RecommentSongList = ({ data }) => {
     );
 }
 
-export default RecommentSongList;
+export default RecentMusicList;

@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import './index.scss';
 import { UnorderedListOutlined, SoundOutlined, RetweetOutlined } from '@ant-design/icons';
 import { Slider } from 'antd';
 
-const OtherButton = ({ audioRef }) => {
-
+const OtherButton = memo(({ audioRef }) => {
     //设置音量
     const handleChange = (value) => {
         audioRef.current.volume = value / 100;
@@ -58,6 +57,6 @@ const OtherButton = ({ audioRef }) => {
             </div>
         </div>
     );
-}
+});
 
 export default OtherButton;

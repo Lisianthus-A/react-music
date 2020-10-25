@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import './index.scss';
 import { StepBackwardOutlined, CaretRightOutlined, PauseOutlined, StepForwardOutlined } from '@ant-design/icons';
 
-const ControlButton = ({ isPlaying, setPlaying, audioRef }) => {
+const ControlButton = memo(({ isPlaying, setPlaying, audioRef }) => {
     const togglePlay = () => {
         const audio = audioRef.current;
 
@@ -25,6 +25,6 @@ const ControlButton = ({ isPlaying, setPlaying, audioRef }) => {
             <div className='next' title='下一首'><StepForwardOutlined /></div>
         </div>
     );
-}
+});
 
 export default ControlButton;
