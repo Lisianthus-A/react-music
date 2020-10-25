@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import './index.scss';
 import { Slider } from 'antd';
 import { convertTime } from 'Utils';
@@ -7,11 +7,13 @@ const ProgressBar = ({ audioRef, progress, setTime, duration }) => {
     const [value, setValue] = useState(null);
     const [visible, setVisible] = useState(false);  //文本框是否可见
 
-    const handleChange = (value) => {
+    const handleChange = useCallback((value) => {
         setValue(value);  //使Slider展示value的值，而不是props传入的progress
         setVisible(true);
-    }
-    
+    },
+        []
+    );
+
     const handleAfterChange = (value) => {
         const percent = value / 10000;
         audioRef.current.currentTime = percent * duration;

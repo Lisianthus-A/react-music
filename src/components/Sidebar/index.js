@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import './index.scss';
 import { useHistory, useLocation } from 'react-router-dom';
 import { HeartOutlined, SearchOutlined, VideoCameraOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 
-const Sidebar = () => {
+const Sidebar = memo(() => {
     const [currentKey, setKey] = useState(0);
     const history = useHistory();
     const { pathname } = useLocation();
@@ -63,6 +63,6 @@ const Sidebar = () => {
             </label>
         </>
     );
-};
+});
 
 export default Sidebar;
