@@ -1,5 +1,5 @@
 import ajax from './apiBase';
-import { playlistDetail } from './apiCommon';
+import { playlistDetail, songDetail } from './apiCommon';
 
 //轮播图
 export const banner = async () => {
@@ -22,3 +22,6 @@ export const topSong = async (type = 0) => {
 
 //歌单详情
 export { playlistDetail };
+
+//歌曲详情
+export { songDetail };

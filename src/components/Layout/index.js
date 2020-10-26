@@ -8,13 +8,18 @@ import { useSetState } from 'Utils/hooks';
 
 const initialState = {
     isPlaying: false,  //是否正在播放
-    duration: 0,  //总时长
     currentTime: 0,  //当前播放位置
-    playlist: [776039],  //播放列表
-    title: 'ONE\'s hope',  //音乐名
-    singer: 'やなぎなぎ',  //歌手
+    playlist: [  //播放列表
+        {
+            id: 776039,
+            title: 'ONE\'s hope',  //音乐名
+            singer: 'やなぎなぎ',  //歌手
+            duration: 369.72,  //总时长
+            cover: 'https://p1.music.126.net/l22TRH7bs4VG6HMT2Iy56w==/2511284557902801.jpg'  //封面图片
+        }
+    ],
+    playMode: 'list-loop',  //播放模式  list-loop  random
     playingIndex: 0,  //当前播放的音乐下标
-    cover: 'https://p1.music.126.net/l22TRH7bs4VG6HMT2Iy56w==/2511284557902801.jpg'  //歌曲封面图片
 };
 
 const Layout = ({ TargetComponent }) => {
@@ -28,13 +33,6 @@ const Layout = ({ TargetComponent }) => {
         []
     );
 
-    //设置总时长
-    const setDuration = useCallback((duration) => {
-        setState({ duration });
-    },
-        []
-    );
-
     //设置当前播放位置
     const setTime = useCallback((currentTime) => {
         setState({ currentTime });
@@ -43,25 +41,10 @@ const Layout = ({ TargetComponent }) => {
     );
 
     //设置播放列表
-    const setPlaylist = useCallback((playlist) => {
+    const setPlaylist = (playlist) => {
         setState({ playlist });
-    },
-        []
-    );
-
-    //设置音乐名
-    const setTitle = useCallback((title) => {
-        setState({ title });
-    },
-        []
-    );
-
-    //设置歌手
-    const setSinger = useCallback((singer) => {
-        setState({ singer });
-    },
-        []
-    );
+        setState({ playingIndex: 0 });
+    }
 
     //设置当前播放的音乐下标
     const setPlayingIndex = useCallback((playingIndex) => {
@@ -70,9 +53,16 @@ const Layout = ({ TargetComponent }) => {
         []
     );
 
+    //设置播放模式
+    const setPlayMode = useCallback((playMode) => {
+        setState({ playMode });
+    },
+        []
+    );
+
     //播放时长改变触发事件
     const handleDurationChange = useCallback((e) => {
-        setDuration(e.target.duration);
+        console.log('duration change', e.target.duration);
     },
         []
     );
@@ -85,12 +75,24 @@ const Layout = ({ TargetComponent }) => {
     );
 
     //播放结束触发事件
-    const handleEnded = useCallback((e) => {
-        // setPlaying(false);
-        e.target.play();
-    },
-        []
-    )
+    const handleEnded = (e) => {
+        if (state.playlist.length === 1) {  //列表只有一首歌，单曲循环
+            e.target.play();
+            return;
+        }
+        if (state.playMode === 'list-loop') {  //列表循环
+            setPlayingIndex((state.playingIndex + 1) % state.playlist.length);
+        } else {  //随机
+            setPlayingIndex(parseInt(Math.random() * state.playlist.length));
+        }
+    }
+
+    //音频可以播放时触发事件
+    const handleCanPlay = (e) => {
+        if (state.isPlaying) {
+            e.target.play();
+        }
+    }
 
     return (
         <div className="layout">
@@ -104,7 +106,7 @@ const Layout = ({ TargetComponent }) => {
                 </div>
                 <div className="right">
                     <Suspense fallback={<Loading />}>
-                        <TargetComponent audioRef={audioRef} />
+                        <TargetComponent setPlaylist={setPlaylist} />
                     </Suspense>
                 </div>
             </div>
@@ -113,22 +115,24 @@ const Layout = ({ TargetComponent }) => {
                 <MusicPlayer
                     audioRef={audioRef}
                     current={state.currentTime}
-                    duration={state.duration}
                     isPlaying={state.isPlaying}
-                    title={state.title}
-                    singer={state.singer}
-                    cover={state.cover}
+                    playingIndex={state.playingIndex}
+                    playlist={state.playlist}
+                    playMode={state.playMode}
                     setPlaying={setPlaying}
                     setTime={setTime}
+                    setPlayMode={setPlayMode}
+                    setPlayingIndex={setPlayingIndex}
                 />
             </div>
 
             <audio
                 ref={audioRef}
-                src={`https://music.163.com/song/media/outer/url?id=${state.playlist[state.playingIndex]}`}
+                src={`https://music.163.com/song/media/outer/url?id=${state.playlist[state.playingIndex].id}`}
                 onEnded={handleEnded}
                 onTimeUpdate={handleTimeUpdate}
                 onDurationChange={handleDurationChange}
+                onCanPlay={handleCanPlay}
             />
         </div>
     );

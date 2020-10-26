@@ -106,10 +106,19 @@
         }
     }
 
+    .playing {
+        color: #C62F2F;
+        font-size: 18px;
+        position: absolute;
+        top: 6px;
+        left: 6px;
+    }
+
     .item {
         display: flex;
         height: 30px;
         align-items: center;
+        position: relative;
         &:hover {
             background-color: #111;
             .icons {
@@ -128,6 +137,15 @@
         margin-left: 10px;
         margin-right: 10px;
         opacity: 0;
+        display: flex;
+        justify-content: center;
+        & > span {
+            cursor: pointer;
+            margin: 0 5px;
+            &:hover {
+                color: #fff;
+            }
+        }
     }
 
     .singer {

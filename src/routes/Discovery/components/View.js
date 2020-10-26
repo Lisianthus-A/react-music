@@ -12,7 +12,7 @@ const initialState = {
     topSongData: null
 };
 
-const Discovery = memo(({ audioRef }) => {
+const Discovery = memo(({ setPlaylist }) => {
     const [state, setState] = useState(initialState);
 
     useEffect(() => {
@@ -31,15 +31,15 @@ const Discovery = memo(({ audioRef }) => {
     return (
         <div className='discovery'>
             <div className='banner'>
-                <Carousel data={state.bannerData?.banners || []} /> {/*测试数据，待替换*/}
+                <Carousel data={state.bannerData?.banners || []} />
             </div>
             <div className='recommend'>
                 <div className='title'>推荐歌单</div>
-                <RecommentSongList data={state.recommendData?.result || []} />  {/*测试数据，待替换*/}
+                <RecommentSongList data={state.recommendData?.result || []} setPlaylist={setPlaylist} />
             </div>
             <div className='recent-music'>
                 <div className='title'>最新音乐</div>
-                <RecentMusicList data={state.topSongData?.data || []} />  {/*测试数据，待替换*/}
+                <RecentMusicList data={state.topSongData?.data || []} />
             </div>
         </div>
     );
