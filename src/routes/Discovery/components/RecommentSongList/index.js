@@ -3,13 +3,28 @@ import './index.scss';
 import { useHistory } from 'react-router-dom';
 import { CustomerServiceOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { convertCount } from 'Utils';
+import { playlistDetail, songDetail } from 'Apis/apiDiscovery';
 
-const RecommentSongList = ({ data }) => {
+const RecommentSongList = ({ data, setPlaylist }) => {
     const history = useHistory();
+
+    //点击播放按钮，直接播放歌单内所有歌曲
     const handlePlay = (e, id) => {
-        //点击播放按钮，直接播放歌单内所有歌曲
         e.stopPropagation();
-        console.log('id', id);
+        playlistDetail(id).then(result => {  //歌单详情
+            const ids = result.playlist.trackIds.map(({ id }) => id);
+            return songDetail(ids);
+        }).then(result => {  //所有歌曲详情
+            const list = result.songs.filter(({ fee }) => fee !== 1)  //过滤所有VIP歌曲
+                .map(({ id, name, ar, dt, al: { picUrl } }) => ({
+                    id,
+                    title: name,
+                    singer: ar.map(({ name }) => name).join('/'),
+                    duration: dt / 1000,
+                    cover: picUrl
+                }));
+            setPlaylist(list);
+        });
     }
 
     //跳转到相应id的歌单页面
