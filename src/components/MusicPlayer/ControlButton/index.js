@@ -20,7 +20,7 @@ const ControlButton = memo(({ isPlaying, setPlaying, audioRef, playMode, playlis
     const handleChangeMusic = (type = 'next') => {
         const len = playlist.length;
         const audio = audioRef.current;
-        if (len === 1) {  //列表只有一首歌，设置播放位置为0
+        if (len === 1 || playMode === 'single-cycle') {  //列表只有一首歌 || 单曲循环，设置播放位置为0
             audio.currentTime = 0;
             return;
         }
@@ -39,7 +39,7 @@ const ControlButton = memo(({ isPlaying, setPlaying, audioRef, playMode, playlis
                 return;
             }
         }
-        
+
         setPlayingMusic(playlist[nextIndex]);
     }
 

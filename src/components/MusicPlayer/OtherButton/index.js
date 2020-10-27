@@ -23,6 +23,8 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
     const handleSetPlayMode = () => {
         if (playMode === 'list-loop') {
             setPlayMode('random');
+        } else if (playMode === 'random') {
+            setPlayMode('single-cycle');
         } else {
             setPlayMode('list-loop');
         }
@@ -47,9 +49,9 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
     //删除指定歌曲
     const handleDelete = (e, idx) => {
         e.stopPropagation();
-        const list = playlist.slice();
+        const list = JSON.parse(JSON.stringify(playlist));
         list.splice(idx, 1);
-        setPlaylist(list);
+        setPlaylist(list, false);
     }
 
     return (
@@ -98,7 +100,11 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
             </div>
             <div className='play-mode'>
                 <div className='icon' onClick={handleSetPlayMode}>
-                    {playMode === 'list-loop' ? <RetweetOutlined title='列表循环' /> : <CustomIcon type='icon-random' title='随机' />}
+                    {
+                        playMode === 'list-loop' ? <RetweetOutlined title='列表循环' /> :
+                            playMode === 'random' ? <CustomIcon type='icon-random' title='随机' /> :
+                                <CustomIcon type='icon-Singlecycle' title='单曲循环' />
+                    }
                 </div>
             </div>
             <div className='volume'>

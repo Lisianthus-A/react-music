@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './index.scss';
 import { useInterval } from 'Utils/hooks';
+import { message } from 'antd';
 
 const Carousel = ({ data }) => {
     const [currentKey, setKey] = useState(0);
@@ -55,6 +56,8 @@ const Carousel = ({ data }) => {
                     history.push(`/Video?id=${id}`);
                     break;
                 case 3000:  //广告
+                    message.info('点击项为网易云音乐广告页面， 未打开');
+                    break;
                 default:
                     return;
             }

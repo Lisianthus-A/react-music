@@ -23,7 +23,7 @@ const RecentMusicList = ({ data, setPlaylist }) => {
 
     //跳转到相应id的歌曲页面
     const handleClick = (id) => {
-        history.push(`/SongList?id=${id}`);
+        history.push(`/Song?id=${id}`);
     }
 
     return (

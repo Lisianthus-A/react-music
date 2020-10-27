@@ -18,7 +18,7 @@ const initialState = {
             cover: 'https://p1.music.126.net/l22TRH7bs4VG6HMT2Iy56w==/2511284557902801.jpg'  //封面图片
         }
     ],
-    playMode: 'list-loop',  //播放模式  list-loop  random
+    playMode: 'list-loop',  //播放模式  list-loop  random  single-cycle
     playingMusic: {  //当前播放的音乐
         id: 776039,
         title: 'ONE\'s hope',
@@ -46,10 +46,10 @@ const Layout = ({ TargetComponent }) => {
         []
     );
 
-    //设置播放列表
-    const setPlaylist = useCallback((playlist) => {
+    //设置播放列表  setMusic -> 是否改变当前播放歌曲
+    const setPlaylist = useCallback((playlist, setMusic = true) => {
         setState({ playlist });
-        if (playlist[0]) {
+        if (playlist[0] && setMusic) {
             setPlayingMusic(playlist[0]);
         }
     },
@@ -87,7 +87,7 @@ const Layout = ({ TargetComponent }) => {
     //播放结束触发事件
     const handleEnded = useCallback((e) => {
         const len = state.playlist.length;
-        if (len <= 1) {  //列表只有一首歌，单曲循环
+        if (len <= 1 || state.playMode === 'single-cycle') {  //列表只有一首歌，单曲循环
             e.target.play();
             return;
         }
@@ -109,7 +109,7 @@ const Layout = ({ TargetComponent }) => {
 
         setPlayingMusic(state.playlist[nextIndex]);
     },
-        [state.playlist, state.playingMusic]
+        [state.playlist, state.playingMusic, state.playMode]
     );
 
     //音频可以播放时触发事件
