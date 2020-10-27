@@ -57,6 +57,7 @@
         background-color: #222;
         display: none;
         border-bottom: 1px solid #666;
+        z-index: 1000;
     }
 
     .list-left,
@@ -73,9 +74,20 @@
         border-bottom: 1px solid #666;
     }
 
+    .clean {
+        cursor: pointer;
+        font-size: 14px;
+        color: #bbb;
+        &:hover {
+            text-decoration: underline;
+            color: #fff;
+        }
+    }
+
     .list-left > .title {
         border-right: 1px solid #666;
-        padding-left: 30px;
+        padding: 0 30px;
+        justify-content: space-between;
     }
 
     .list-right > .title {
@@ -85,10 +97,10 @@
 
     .content {
         height: 310px;
-        overflow-y: scroll;
+        overflow-y: auto;
         font-size: 14px;
         text-align: center;
-        scrollbar-width: thin;  //FireFox浏览器有效
+        scrollbar-width: thin; //FireFox浏览器有效
 
         //以下对Chrome有效
         &::-webkit-scrollbar {
@@ -107,7 +119,7 @@
     }
 
     .playing {
-        color: #C62F2F;
+        color: #c62f2f;
         font-size: 18px;
         position: absolute;
         top: 6px;
@@ -119,6 +131,7 @@
         height: 30px;
         align-items: center;
         position: relative;
+        cursor: pointer;
         &:hover {
             background-color: #111;
             .icons {

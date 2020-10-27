@@ -19,7 +19,13 @@ const initialState = {
         }
     ],
     playMode: 'list-loop',  //播放模式  list-loop  random
-    playingIndex: 0,  //当前播放的音乐下标
+    playingMusic: {  //当前播放的音乐
+        id: 776039,
+        title: 'ONE\'s hope',
+        singer: 'やなぎなぎ',
+        duration: 369.72,
+        cover: 'https://p1.music.126.net/l22TRH7bs4VG6HMT2Iy56w==/2511284557902801.jpg'
+    },
 };
 
 const Layout = ({ TargetComponent }) => {
@@ -41,14 +47,18 @@ const Layout = ({ TargetComponent }) => {
     );
 
     //设置播放列表
-    const setPlaylist = (playlist) => {
+    const setPlaylist = useCallback((playlist) => {
         setState({ playlist });
-        setState({ playingIndex: 0 });
-    }
+        if (playlist[0]) {
+            setPlayingMusic(playlist[0]);
+        }
+    },
+        []
+    );
 
-    //设置当前播放的音乐下标
-    const setPlayingIndex = useCallback((playingIndex) => {
-        setState({ playingIndex });
+    //设置当前播放的音乐
+    const setPlayingMusic = useCallback((playingMusic) => {
+        setState({ playingMusic });
     },
         []
     );
@@ -75,24 +85,41 @@ const Layout = ({ TargetComponent }) => {
     );
 
     //播放结束触发事件
-    const handleEnded = (e) => {
-        if (state.playlist.length === 1) {  //列表只有一首歌，单曲循环
+    const handleEnded = useCallback((e) => {
+        const len = state.playlist.length;
+        if (len <= 1) {  //列表只有一首歌，单曲循环
             e.target.play();
             return;
         }
+
+        //当前播放音乐对应的下标
+        const currentIndex = state.playlist.findIndex(({ id }) => id === state.playingMusic.id) ?? -1;
+
+        let nextIndex = null;
+
         if (state.playMode === 'list-loop') {  //列表循环
-            setPlayingIndex((state.playingIndex + 1) % state.playlist.length);
+            nextIndex = (currentIndex + 1) % len;
         } else {  //随机
-            setPlayingIndex(parseInt(Math.random() * state.playlist.length));
+            nextIndex = parseInt(Math.random() * len);
+            if (nextIndex === currentIndex) {  //随机的下标与当前播放音乐下标相同，继续播放
+                e.target.play();
+                return;
+            }
         }
-    }
+
+        setPlayingMusic(state.playlist[nextIndex]);
+    },
+        [state.playlist, state.playingMusic]
+    );
 
     //音频可以播放时触发事件
-    const handleCanPlay = (e) => {
+    const handleCanPlay = useCallback((e) => {
         if (state.isPlaying) {
             e.target.play();
         }
-    }
+    },
+        [state.isPlaying]
+    );
 
     return (
         <div className="layout">
@@ -116,19 +143,20 @@ const Layout = ({ TargetComponent }) => {
                     audioRef={audioRef}
                     current={state.currentTime}
                     isPlaying={state.isPlaying}
-                    playingIndex={state.playingIndex}
+                    playingMusic={state.playingMusic}
                     playlist={state.playlist}
                     playMode={state.playMode}
                     setPlaying={setPlaying}
                     setTime={setTime}
                     setPlayMode={setPlayMode}
-                    setPlayingIndex={setPlayingIndex}
+                    setPlayingMusic={setPlayingMusic}
+                    setPlaylist={setPlaylist}
                 />
             </div>
 
             <audio
                 ref={audioRef}
-                src={`https://music.163.com/song/media/outer/url?id=${state.playlist[state.playingIndex].id}`}
+                src={`https://music.163.com/song/media/outer/url?id=${state.playingMusic.id}`}
                 onEnded={handleEnded}
                 onTimeUpdate={handleTimeUpdate}
                 onDurationChange={handleDurationChange}
