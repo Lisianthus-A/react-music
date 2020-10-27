@@ -147,11 +147,13 @@
 
     .icons {
         width: 100px;
+        height: 100%;
         margin-left: 10px;
         margin-right: 10px;
         opacity: 0;
         display: flex;
         justify-content: center;
+        align-items: center;
         & > span {
             cursor: pointer;
             margin: 0 5px;
