@@ -13,7 +13,7 @@ import {
 import { Slider } from 'antd';
 import { convertTime } from 'Utils';
 
-const OtherButton = memo(({ audioRef, playlist, playingIndex, playMode, setPlayMode }) => {
+const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayMode, setPlaylist, setPlayingMusic }) => {
     //设置音量
     const handleChange = (value) => {
         audioRef.current.volume = value / 100;
@@ -28,6 +28,30 @@ const OtherButton = memo(({ audioRef, playlist, playingIndex, playMode, setPlayM
         }
     }
 
+    //清空播放列表
+    const handleClean = () => {
+        setPlaylist([]);
+    }
+
+    //播放点击的歌曲
+    const handlePlayMusic = (idx) => {
+        setPlayingMusic(playlist[idx]);
+    }
+
+    //下载
+    const handleDownload = (e, id) => {
+        e.stopPropagation();
+        window.open(`https://music.163.com/song/media/outer/url?id=${id}`);
+    }
+
+    //删除指定歌曲
+    const handleDelete = (e, idx) => {
+        e.stopPropagation();
+        const list = playlist.slice();
+        list.splice(idx, 1);
+        setPlaylist(list);
+    }
+
     return (
         <div className='other-button'>
             <div className='playlist'>
@@ -37,19 +61,22 @@ const OtherButton = memo(({ audioRef, playlist, playingIndex, playMode, setPlayM
                 <input type='checkbox' id='toggle-list' style={{ display: 'none' }} />
                 <div className='list'>
                     <div className='list-left'>
-                        <div className='title'>播放列表({playlist.length})</div>
+                        <div className='title'>
+                            <span>播放列表({playlist.length})</span>
+                            <span className='clean' onClick={handleClean}><DeleteOutlined />清空</span>
+                        </div>
                         <div className='content'>
                             {
-                                playlist.map(({ title, singer, duration }, idx) =>
-                                    <div className='item' key={idx}>
-                                        {idx === playingIndex && <CaretRightOutlined className='playing' />}
-                                        <div className='song-title'>{title}</div>
+                                playlist.map(({ id, title, singer, duration }, idx) =>
+                                    <div className='item' key={idx} onClick={() => handlePlayMusic(idx)}>
+                                        {id === playingMusic.id && <CaretRightOutlined className='playing' />}
+                                        <div className='song-title' title={title}>{title}</div>
                                         <div className='icons'>
                                             <PlusOutlined title='添加到歌单' />
-                                            <DownloadOutlined title='下载' />
-                                            <DeleteOutlined title='删除' />
+                                            <DownloadOutlined title='下载' onClick={(e) => handleDownload(e, id)} />
+                                            <DeleteOutlined title='删除' onClick={(e) => handleDelete(e, idx)} />
                                         </div>
-                                        <div className='singer'>{singer}</div>
+                                        <div className='singer' title={singer}>{singer}</div>
                                         <div className='duration'>{convertTime(duration)}</div>
                                     </div>
                                 )
@@ -57,7 +84,7 @@ const OtherButton = memo(({ audioRef, playlist, playingIndex, playMode, setPlayM
                         </div>
                     </div>
                     <div className='list-right'>
-                        <div className='title'>{playlist[playingIndex].title}</div>
+                        <div className='title'>{playingMusic.title}</div>
                         <div className='content'>
                             {
                                 new Array(15).fill(0).map((e, idx) =>

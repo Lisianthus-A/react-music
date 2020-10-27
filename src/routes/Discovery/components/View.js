@@ -39,7 +39,7 @@ const Discovery = memo(({ setPlaylist }) => {
             </div>
             <div className='recent-music'>
                 <div className='title'>最新音乐</div>
-                <RecentMusicList data={state.topSongData?.data || []} />
+                <RecentMusicList data={state.topSongData?.data || []} setPlaylist={setPlaylist} />
             </div>
         </div>
     );

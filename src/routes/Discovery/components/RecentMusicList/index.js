@@ -2,13 +2,23 @@ import React from 'react';
 import './index.scss';
 import { useHistory } from 'react-router-dom';
 import { CaretRightOutlined } from '@ant-design/icons';
+import { songDetail } from 'Apis/apiDiscovery';
 
-const RecentMusicList = ({ data }) => {
+const RecentMusicList = ({ data, setPlaylist }) => {
     const history = useHistory();
+    //点击播放按钮，直接播放歌曲
     const handlePlay = (e, id) => {
-        //点击播放按钮，直接播放歌曲
         e.stopPropagation();
-        console.log('id', id);
+        songDetail([id]).then(result => {
+            const list = result.songs.map(({ id, name, ar, dt, al: { picUrl } }) => ({
+                id,
+                title: name,
+                singer: ar.map(({ name }) => name).join('/'),
+                duration: dt / 1000,
+                cover: picUrl
+            }));
+            setPlaylist(list);
+        });
     }
 
     //跳转到相应id的歌曲页面
