@@ -85,7 +85,7 @@ const Carousel = ({ data }) => {
                             onClick={() => handleClick(idx, targetId, targetType)}
                             style={getStyle(idx)}
                         >
-                            <img src={imageUrl} />
+                            <img src={`${imageUrl}?param=500y200`} />
                         </div>
                     )
                 }
