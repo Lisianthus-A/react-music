@@ -17,19 +17,19 @@ const ProgressBar = ({ audioRef, current, duration }) => {
         railRef.current.style.width = `${percent * 100}%`;
         tipRef.current.innerText = convertTime(percent * duration);
     },
-        []
+        [duration]
     );
 
     //鼠标抬起
     const handleMouseUp = useCallback((e) => {
         window.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('mouseup', handleMouseUp);
-        
+
         setVisible(false);
         const percent = e.clientX / window.innerWidth;
         audioRef.current.currentTime = percent * duration;
     },
-        []
+        [duration]
     );
 
     //鼠标移动
@@ -38,7 +38,7 @@ const ProgressBar = ({ audioRef, current, duration }) => {
         railRef.current.style.width = `${percent * 100}%`;
         tipRef.current.innerText = convertTime(percent * duration);
     },
-        []
+        [duration]
     );
 
     const getStyle = useCallback(() => {
