@@ -2,14 +2,14 @@ import React from 'react';
 import './index.scss';
 import { convertTime } from 'Utils';
 
-const SongInformation = ({ current, duration, title, singer, cover }) => {
+const SongInformation = ({ current, duration, title, singer, cover, id }) => {
     return (
         <div className='song-container'>
             <div className='image'>
                 <img src={cover} alt='' />
             </div>
             <div className='information'>
-                <div className='song'>{title} - <span className='singer'>{singer}</span></div>
+                <div className='song'><a href={`/#/Song?id=${id}`}>{title}</a> - <span className='singer'>{singer}</span></div>
                 <div className='time'>{`${convertTime(current)} / ${convertTime(duration)}`}</div>
             </div>
         </div>

@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './index.scss';
+import Loading from 'Components/Loading';
 import { useInterval } from 'Utils/hooks';
 import { message } from 'antd';
 
 const Carousel = ({ data }) => {
+    if (data.length === 0) {
+        return <Loading />;
+    }
+    
     const [currentKey, setKey] = useState(0);
     const len = data.length;
     const history = useHistory();
@@ -51,6 +56,9 @@ const Carousel = ({ data }) => {
                     break;
                 case 10:  //专辑
                     history.push(`/Album?id=${id}`);
+                    break;
+                case 1000: //歌单
+                    history.push(`SongList?id=${id}`);
                     break;
                 case 1004:  //视频 
                     history.push(`/Video?id=${id}`);
