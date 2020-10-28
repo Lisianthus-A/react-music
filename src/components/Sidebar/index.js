@@ -43,7 +43,7 @@ const Sidebar = memo(() => {
                 <div className='category'>我的音乐</div>
                 {
                     [
-                        { text: '我的歌单', Icon: HeartOutlined, key: '/SongList' }
+                        { text: '我的歌单', Icon: HeartOutlined, key: '/MySong' }
                     ].map(
                         ({ key, text, Icon }) =>
                             <div
