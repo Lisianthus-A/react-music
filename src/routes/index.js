@@ -4,7 +4,8 @@ const routeList = [
     '/PersonalFM',
     '/Video',
     '/Song',
-    '/Album'
+    '/Album',
+    '/MySong'
 ];
 
 export default routeList;
