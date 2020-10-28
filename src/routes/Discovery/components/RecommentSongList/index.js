@@ -4,8 +4,13 @@ import { useHistory } from 'react-router-dom';
 import { CustomerServiceOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { convertCount } from 'Utils';
 import { playlistDetail, songDetail } from 'Apis/apiDiscovery';
+import Loading from 'Components/Loading';
 
 const RecommentSongList = ({ data, setPlaylist }) => {
+    if (data.length === 0) {
+        return <Loading />;
+    }
+    
     const history = useHistory();
 
     //点击播放按钮，直接播放歌单内所有歌曲

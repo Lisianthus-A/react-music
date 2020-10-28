@@ -3,8 +3,13 @@ import './index.scss';
 import { useHistory } from 'react-router-dom';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { songDetail } from 'Apis/apiDiscovery';
+import Loading from 'Components/Loading';
 
 const RecentMusicList = ({ data, setPlaylist }) => {
+    if (data.length === 0) {
+        return <Loading />;
+    }
+    
     const history = useHistory();
     //点击播放按钮，直接播放歌曲
     const handlePlay = (e, id) => {

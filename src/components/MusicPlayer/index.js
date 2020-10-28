@@ -16,6 +16,7 @@ const MusicPlayer = ({ audioRef, current, isPlaying, setPlaying, setTime, playli
                 title={title}
                 singer={singer}
                 cover={cover}
+                id={id}
             />
             <ControlButton
                 audioRef={audioRef}
