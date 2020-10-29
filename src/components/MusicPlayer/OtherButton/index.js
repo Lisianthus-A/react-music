@@ -101,6 +101,13 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                 break;
             }
         }
+        const lastElem = elemList[elemList.length - 1];
+        if (lastElem && currentTime >= lastElem.dataset.time) {
+            activeRef.current && activeRef.current.classList.remove('active');
+            activeRef.current = lastElem;
+            lastElem.classList.add('active');
+            lastElem.scrollIntoView();
+        }
     }, 400);
 
     return (
