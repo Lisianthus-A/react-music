@@ -32,6 +32,7 @@ const MusicPlayer = ({ audioRef, current, isPlaying, setPlaying, setTime, playli
                 playlist={playlist}
                 playingMusic={playingMusic}
                 playMode={playMode}
+                id={id}
                 setPlayMode={setPlayMode}
                 setPlaylist={setPlaylist}
                 setPlayingMusic={setPlayingMusic}

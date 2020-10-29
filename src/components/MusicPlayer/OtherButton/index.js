@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import './index.scss';
 import CustomIcon from 'Components/CustomIcon';
 import {
@@ -12,8 +12,10 @@ import {
 } from '@ant-design/icons';
 import { Slider } from 'antd';
 import { convertTime } from 'Utils';
+import { lyric } from 'Apis/apiCommon';
 
-const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayMode, setPlaylist, setPlayingMusic }) => {
+const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayMode, setPlaylist, setPlayingMusic, id }) => {
+    const [lyrics, setLyric] = useState(null);
     //设置音量
     const handleChange = (value) => {
         audioRef.current.volume = value / 100;
@@ -54,6 +56,32 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
         setPlaylist(list, false);
     }
 
+    useEffect(() => {
+        const getLyric = async () => {
+            const result = await lyric(id);
+            if (result.uncollected || result.nolyric) {  //没有歌词
+                setLyric(false);
+                return;
+            }
+
+            //原歌词与翻译后的歌词，过滤空字符串和非歌词内容
+            const lrc = result.lrc.lyric.split('\n').filter(e => e !== '' && /\[.+\].+/.test(e));
+            const transLrc = result.tlyric.lyric.split('\n').filter(e => e !== '' && /\[.+\].+/.test(e));
+
+            const len = transLrc.length;
+            if (len !== 0) {  //合并歌词
+                for (let i = 0; i < len; i++) {
+                    const idx = transLrc[i].indexOf(']');
+                    lrc[i] += '#br#' + transLrc[i].slice(idx + 1);
+                }
+            }
+            setLyric(lrc);
+        }
+        getLyric();
+    },
+        [id]
+    );
+
     return (
         <div className='other-button'>
             <div className='playlist'>
@@ -89,9 +117,36 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                         <div className='title'>{playingMusic.title}</div>
                         <div className='content'>
                             {
-                                new Array(15).fill(0).map((e, idx) =>
-                                    <p key={idx}>歌词</p>
-                                )
+                                lyrics === null &&
+                                <p>歌词加载中...</p>
+                            }
+                            {
+                                lyrics === false &&
+                                <p>暂无歌词</p>
+                            }
+                            {
+                                lyrics &&
+                                lyrics.map((e, idx) => {
+                                    const bracketIndex = e.indexOf(']');  //中括号的下标
+                                    const brIndex = e.indexOf('#br#');  //br的下标
+                                    const timeString = e.slice(1, bracketIndex);  //时间字符串
+                                    const brString = brIndex !== -1 ? e.slice(brIndex + 4) : null;  //br标签后的歌词
+                                    if (brString) {
+                                        return (
+                                            <p data-time={timeString} key={idx}>
+                                                {e.slice(bracketIndex + 1, brIndex)}
+                                                <br />
+                                                {brString}
+                                            </p>
+                                        );
+                                    } else {
+                                        return (
+                                            <p data-time={timeString} key={idx}>
+                                                {e.slice(bracketIndex + 1)}
+                                            </p>
+                                        );
+                                    }
+                                })
                             }
                         </div>
                     </div>
