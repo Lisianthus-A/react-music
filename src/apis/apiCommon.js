@@ -11,3 +11,9 @@ export const songDetail = async (ids) => {
     const result = await ajax(`/song/detail?ids=${ids.join()}`);
     return result;
 }
+
+//获取歌词
+export const lyric = async (id) => {
+    const result = await ajax(`/lyric?id=${id}`);
+    return result;
+}
