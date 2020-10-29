@@ -11,20 +11,20 @@ const initialState = {
     currentTime: 0,  //当前播放位置
     playlist: [  //播放列表
         {
-            id: 776039,
-            title: 'ONE\'s hope',  //音乐名
-            singer: 'やなぎなぎ',  //歌手
-            duration: 369.72,  //总时长
-            cover: 'https://p1.music.126.net/l22TRH7bs4VG6HMT2Iy56w==/2511284557902801.jpg'  //封面图片
+            id: 536570745,
+            title: 'アクアテラリウム',  //音乐名
+            singer: 'あよ',  //歌手
+            duration: 299.61,  //总时长
+            cover: 'http://p4.music.126.net/8j39RI8MSR5-Y2ZbQ4WM7Q==/109951163161492393.jpg'  //封面图片
         }
     ],
     playMode: 'list-loop',  //播放模式  list-loop  random  single-cycle
-    playingMusic: {  //当前播放的音乐
-        id: 776039,
-        title: 'ONE\'s hope',
-        singer: 'やなぎなぎ',
-        duration: 369.72,
-        cover: 'https://p1.music.126.net/l22TRH7bs4VG6HMT2Iy56w==/2511284557902801.jpg'
+    playingMusic: {
+        id: 536570745,
+        title: 'アクアテラリウム',
+        singer: 'あよ',
+        duration: 299.61,
+        cover: 'http://p4.music.126.net/8j39RI8MSR5-Y2ZbQ4WM7Q==/109951163161492393.jpg'  //封面图片
     },
 };
 
