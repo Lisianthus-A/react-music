@@ -39,7 +39,6 @@ const MusicPlayer = ({ audioRef, current, isPlaying, setPlaying, setTime, playli
             />
             <ProgressBar
                 audioRef={audioRef}
-                // progress={current / duration * 10000}
                 current={current}
                 duration={duration}
                 setTime={setTime}

@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState, useRef } from 'react';
 import './index.scss';
 import CustomIcon from 'Components/CustomIcon';
 import {
@@ -11,11 +11,14 @@ import {
     PlusOutlined
 } from '@ant-design/icons';
 import { Slider } from 'antd';
-import { convertTime } from 'Utils';
+import { convertTime, convertTimeString } from 'Utils';
+import { useInterval } from 'Utils/hooks';
 import { lyric } from 'Apis/apiCommon';
 
 const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayMode, setPlaylist, setPlayingMusic, id }) => {
     const [lyrics, setLyric] = useState(null);
+    const contentRef = useRef(null);
+    const activeRef = useRef(null);
     //设置音量
     const handleChange = (value) => {
         audioRef.current.volume = value / 100;
@@ -76,11 +79,29 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                 }
             }
             setLyric(lrc);
+
         }
         getLyric();
+        activeRef.current && activeRef.current.classList.remove('active');
     },
         [id]
     );
+
+    //不断读取当前播放进度，判断是否需要滚动歌词
+    //使用上层state.current的话，会使memo无效
+    useInterval(() => {
+        const currentTime = audioRef.current.currentTime;
+        const elemList = contentRef.current.getElementsByClassName('lyric');
+        for (let i = 0; i < elemList.length; i++) {
+            if (currentTime > +elemList[i].dataset.time && currentTime < +elemList[i + 1]?.dataset?.time) {
+                activeRef.current && activeRef.current.classList.remove('active');
+                activeRef.current = elemList[i];
+                elemList[i].classList.add('active');
+                elemList[i].scrollIntoView();
+                break;
+            }
+        }
+    }, 400);
 
     return (
         <div className='other-button'>
@@ -115,7 +136,7 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                     </div>
                     <div className='list-right'>
                         <div className='title'>{playingMusic.title}</div>
-                        <div className='content'>
+                        <div className='content' ref={contentRef}>
                             {
                                 lyrics === null &&
                                 <p>歌词加载中...</p>
@@ -130,10 +151,12 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                                     const bracketIndex = e.indexOf(']');  //中括号的下标
                                     const brIndex = e.indexOf('#br#');  //br的下标
                                     const timeString = e.slice(1, bracketIndex);  //时间字符串
+                                    const timeNumber = convertTimeString(timeString);  //将时间字符串转换成秒数
+
                                     const brString = brIndex !== -1 ? e.slice(brIndex + 4) : null;  //br标签后的歌词
                                     if (brString) {
                                         return (
-                                            <p data-time={timeString} key={idx}>
+                                            <p key={idx} data-time={timeNumber} className='lyric'>
                                                 {e.slice(bracketIndex + 1, brIndex)}
                                                 <br />
                                                 {brString}
@@ -141,7 +164,7 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                                         );
                                     } else {
                                         return (
-                                            <p data-time={timeString} key={idx}>
+                                            <p key={idx} data-time={timeNumber} className='lyric'>
                                                 {e.slice(bracketIndex + 1)}
                                             </p>
                                         );

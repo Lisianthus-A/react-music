@@ -97,9 +97,10 @@
 
     .content {
         height: 310px;
-        overflow-y: auto;
+        overflow: hidden auto;
         font-size: 14px;
         text-align: center;
+        scroll-behavior: smooth;
         scrollbar-width: thin; //FireFox浏览器有效
 
         //以下对Chrome有效
@@ -177,6 +178,15 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+    }
+
+    .lyric {
+        transition: transform 0.5s;
+    }
+
+    .active {
+        color: #fff;
+        transform: scale(1.1);
     }
 
     .close {

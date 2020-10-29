@@ -40,3 +40,9 @@ export const searchItem = (search, item) => {
     const match = search.match(new RegExp(`[?&]${item}=\\w+`));
     return match ? match[0].split('=')[1] : null;
 }
+
+//转换时间字符串  03:40.25 ->  220.25
+export const convertTimeString = (str) => {
+    const arr = str.split(':');
+    return arr[0] * 60 + +arr[1];
+}
