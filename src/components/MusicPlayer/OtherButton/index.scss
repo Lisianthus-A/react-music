@@ -93,6 +93,13 @@
     .list-right > .title {
         display: flex;
         justify-content: center;
+        & > span {
+            width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
     }
 
     .content {

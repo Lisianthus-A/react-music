@@ -8,8 +8,16 @@
         width: 50px;
         border-radius: 5px;
     }
+    .song {
+        display: flex;
+        align-items: center;
+    }
     a {
         color: #fff;
+        max-width: 220px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         &:hover {
             color: #fff;
             text-decoration: underline;
