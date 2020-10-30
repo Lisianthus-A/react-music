@@ -69,7 +69,7 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
 
             //原歌词与翻译后的歌词，过滤空字符串和非歌词内容
             const lrc = result.lrc.lyric.split('\n').filter(e => e !== '' && /\[.+\].+/.test(e));
-            const transLrc = result.tlyric.lyric.split('\n').filter(e => e !== '' && /\[.+\].+/.test(e));
+            const transLrc = result.tlyric.lyric ? result.tlyric.lyric.split('\n').filter(e => e !== '' && /\[.+\].+/.test(e)) : [];
 
             const len = transLrc.length;
             if (len !== 0) {  //合并歌词
@@ -142,7 +142,7 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                         </div>
                     </div>
                     <div className='list-right'>
-                        <div className='title'>{playingMusic.title}</div>
+                        <div className='title'><span title={playingMusic.title}>{playingMusic.title}</span></div>
                         <div className='content' ref={contentRef}>
                             {
                                 lyrics === null &&
