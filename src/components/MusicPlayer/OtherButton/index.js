@@ -75,7 +75,10 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
             if (len !== 0) {  //合并歌词
                 for (let i = 0; i < len; i++) {
                     const idx = transLrc[i].indexOf(']');
-                    lrc[i] += '#br#' + transLrc[i].slice(idx + 1);
+                    const targetLrcIndex = lrc.findIndex(e => e.includes(transLrc[i].slice(0, idx + 1)));
+                    if (~targetLrcIndex) {
+                        lrc[targetLrcIndex] += '#br#' + transLrc[i].slice(idx + 1);
+                    }
                 }
             }
             setLyric(lrc);
@@ -98,7 +101,7 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                 activeRef.current = elemList[i];
                 elemList[i].classList.add('active');
                 elemList[i].scrollIntoView();
-                break;
+                return;
             }
         }
         const lastElem = elemList[elemList.length - 1];
