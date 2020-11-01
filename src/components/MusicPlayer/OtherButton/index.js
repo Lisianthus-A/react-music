@@ -97,6 +97,9 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
         const elemList = contentRef.current.getElementsByClassName('lyric');
         for (let i = 0; i < elemList.length; i++) {
             if (currentTime > +elemList[i].dataset.time && currentTime < +elemList[i + 1]?.dataset?.time) {
+                if (activeRef.current === elemList[i]) {  //避免重复scroll
+                    return;
+                }
                 activeRef.current && activeRef.current.classList.remove('active');
                 activeRef.current = elemList[i];
                 elemList[i].classList.add('active');
@@ -105,7 +108,7 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
             }
         }
         const lastElem = elemList[elemList.length - 1];
-        if (lastElem && currentTime >= lastElem.dataset.time) {
+        if (lastElem && currentTime >= lastElem.dataset.time && activeRef.current !== lastElem) {
             activeRef.current && activeRef.current.classList.remove('active');
             activeRef.current = lastElem;
             lastElem.classList.add('active');
