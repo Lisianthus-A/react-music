@@ -103,7 +103,8 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                 activeRef.current && activeRef.current.classList.remove('active');
                 activeRef.current = elemList[i];
                 elemList[i].classList.add('active');
-                elemList[i].scrollIntoView();
+                //歌词置中  155为content高度的一半
+                contentRef.current.scrollTop = activeRef.current.offsetTop - activeRef.current.scrollHeight / 2 - 155;
                 return;
             }
         }
@@ -112,7 +113,7 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
             activeRef.current && activeRef.current.classList.remove('active');
             activeRef.current = lastElem;
             lastElem.classList.add('active');
-            lastElem.scrollIntoView();
+            contentRef.current.scrollTop = activeRef.current.offsetTop - activeRef.current.scrollHeight / 2 - 155;
         }
     }, 400);
 
