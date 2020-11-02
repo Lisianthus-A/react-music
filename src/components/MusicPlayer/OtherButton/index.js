@@ -133,8 +133,8 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                         <div className='content'>
                             {
                                 playlist.map(({ id, title, singer, duration }, idx) =>
-                                    <div className='item' key={idx} onClick={() => handlePlayMusic(idx)}>
-                                        {id === playingMusic.id && <CaretRightOutlined className='playing' />}
+                                    <div className={id===playingMusic.id ? 'item playing' : 'item'} key={idx} onClick={() => handlePlayMusic(idx)}>
+                                        {id === playingMusic.id && <CaretRightOutlined />}
                                         <div className='song-title' title={title}>{title}</div>
                                         <div className='icons'>
                                             <PlusOutlined title='添加到歌单' />

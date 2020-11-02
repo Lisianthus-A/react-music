@@ -1,16 +1,17 @@
 import React, { useEffect, memo } from 'react';
 import './View.scss';
 import { useLocation } from 'react-router-dom';
-import { playlistDetail } from 'Apis/apiSongList';
+import { playlistDetail, commentPlaylist } from 'Apis/apiSongList';
 import { searchItem } from 'Utils';
 import ListInfo from './ListInfo';
-import List from './List';
-import Comment from './Comment';
+import Songs from './Songs';
+import CommentList from './CommentList';
 
 const SongList = memo(() => {
     // useEffect(() => {
     //     const getData = async () => {
     //         console.log(await playlistDetail(3024706955));
+    //         console.log(await commentPlaylist(3136952023));
     //     }
     //     getData();
     // },
@@ -22,8 +23,8 @@ const SongList = memo(() => {
     return (
         <div className='songlist'>
             <ListInfo />
-            <List />
-            <Comment />
+            <Songs />
+            <CommentList />
         </div>
     );
 });
