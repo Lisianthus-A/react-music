@@ -5,7 +5,8 @@ const routeList = [
     '/Video',
     '/Song',
     '/Album',
-    '/MySong'
+    '/MySong',
+    '/User'
 ];
 
 export default routeList;

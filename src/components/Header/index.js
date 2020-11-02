@@ -33,7 +33,7 @@ const Header = memo(() => {
     return (
         <div className='header'>
             <LoginView visible={visible} onClose={toggleVisible} onSetName={setName} onSetImg={setImg} />
-            <Avatar size={40} icon={<UserOutlined />} onClick={toggleVisible} src={avatarImg} />
+            <Avatar size={40} icon={<UserOutlined />} onClick={toggleVisible} src={avatarImg ? `${avatarImg}?param=80y80` : ''} />
             <div className='username'>{name ? name : '未登录'}</div>
             <Input.Search
                 className='search'

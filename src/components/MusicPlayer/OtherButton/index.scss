@@ -130,12 +130,15 @@
         padding: 0 30px;
     }
 
-    .playing {
-        color: #c62f2f;
-        font-size: 18px;
-        position: absolute;
-        top: 6px;
-        left: 6px;
+    .playing  {
+        background-color: #1b1b1b;
+        & > .anticon {
+            color: #c62f2f;
+            font-size: 18px;
+            position: absolute;
+            top: 6px;
+            left: 6px;
+        }
     }
 
     .item {
@@ -145,7 +148,7 @@
         position: relative;
         cursor: pointer;
         &:hover {
-            background-color: #111;
+            background-color: #1b1b1b;
             .icons {
                 opacity: 1;
             }

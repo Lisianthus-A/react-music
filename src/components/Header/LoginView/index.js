@@ -39,6 +39,7 @@ const ModalView = ({ visible, onClose, onSetName, onSetImg }) => {
         onSetImg(result.profile.avatarUrl);
         window.localStorage.setItem('username', result.profile.nickname);
         window.localStorage.setItem('avatar', result.profile.avatarUrl);
+        window.localStorage.setItem('userid', result.account.id);
         onClose();
 
     }
