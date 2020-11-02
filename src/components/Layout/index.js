@@ -48,10 +48,11 @@ const Layout = ({ TargetComponent }) => {
 
     //设置播放列表  setMusic -> 是否改变当前播放歌曲
     const setPlaylist = useCallback((playlist, setMusic = true) => {
-        setState({ playlist });
+        setMusic && setPlaying(true);
         if (playlist[0] && setMusic) {
             setPlayingMusic(playlist[0]);
         }
+        setState({ playlist });
     },
         []
     );
@@ -133,7 +134,10 @@ const Layout = ({ TargetComponent }) => {
                 </div>
                 <div className="right">
                     <Suspense fallback={<Loading />}>
-                        <TargetComponent setPlaylist={setPlaylist} />
+                        <TargetComponent
+                            playlist={state.playlist}
+                            setPlaylist={setPlaylist}
+                        />
                     </Suspense>
                 </div>
             </div>
