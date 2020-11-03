@@ -5,7 +5,7 @@ const routeList = [
     '/Video',
     '/Song',
     '/Album',
-    '/MySong',
+    '/MySongList',
     '/User'
 ];
 

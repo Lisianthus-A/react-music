@@ -11,20 +11,20 @@ const initialState = {
     currentTime: 0,  //当前播放位置
     playlist: [  //播放列表
         {
-            id: 536570745,
-            title: 'アクアテラリウム',  //音乐名
-            singer: 'あよ',  //歌手
-            duration: 299.61,  //总时长
-            cover: 'http://p4.music.126.net/8j39RI8MSR5-Y2ZbQ4WM7Q==/109951163161492393.jpg'  //封面图片
+            id: 479764527,
+            title: 'The Ray of Light',  //音乐名
+            singer: 'Vivienne',  //歌手
+            duration: 222.98,  //总时长
+            cover: 'http://p2.music.126.net/izNmlpS7ZO5-tQu6H-jHuw==/18950082904839814.jpg'  //封面图片
         }
     ],
     playMode: 'list-loop',  //播放模式  list-loop  random  single-cycle
     playingMusic: {
-        id: 536570745,
-        title: 'アクアテラリウム',
-        singer: 'あよ',
-        duration: 299.61,
-        cover: 'http://p4.music.126.net/8j39RI8MSR5-Y2ZbQ4WM7Q==/109951163161492393.jpg'  //封面图片
+        id: 479764527,
+        title: 'The Ray of Light',
+        singer: 'Vivienne',
+        duration: 222.98,
+        cover: 'http://p2.music.126.net/izNmlpS7ZO5-tQu6H-jHuw==/18950082904839814.jpg'  //封面图片
     },
 };
 

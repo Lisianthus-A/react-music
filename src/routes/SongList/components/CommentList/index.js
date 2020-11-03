@@ -32,7 +32,7 @@ const CommentList = ({ data }) => {
                     </div>
                 )
             }
-            <div className='sub-title'>最新评论</div>
+            {comments.length > 0 && <div className='sub-title'>最新评论</div>}
             {
                 comments.map(({ beReplied, content, user, time, likedCount }, idx) =>
                     <div className='comment' key={idx}>

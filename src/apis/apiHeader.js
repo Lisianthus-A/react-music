@@ -1,5 +1,6 @@
 import ajax from './apiBase';
 
+//邮箱登录
 export const login = async ({ email, password }) => {
     const result = await ajax(`/login?email=${email}&password=${password}`, {
         method: 'POST'
@@ -7,9 +8,16 @@ export const login = async ({ email, password }) => {
     return result;
 }
 
+//手机号登录
 export const loginCellphone = async ({ phone, password }) => {
     const result = await ajax(`/login/cellphone?phone=${phone}&password=${password}`, {
         method: 'POST'
     });
+    return result;
+}
+
+//退出登录
+export const logout = async () => {
+    const result = await ajax('/logout');
     return result;
 }
