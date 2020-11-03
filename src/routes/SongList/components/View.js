@@ -11,6 +11,7 @@ import Loading from 'Components/Loading';
 const SongList = memo(({ playlist, setPlaylist }) => {
     const { search } = useLocation();
     const id = searchItem(search, 'id');
+    const userid = window.localStorage.getItem('userid');
     if (!id) {
         return (
             <div>id错误</div>
@@ -37,8 +38,10 @@ const SongList = memo(({ playlist, setPlaylist }) => {
                     fee: fee === 1
                 }))
             );
-            setState({ detail, comment, songs });
-            console.log('SongList State', { detail, comment, songs });
+            const playlistId = detail.playlist.id;  //歌单id
+            const isCreator = +userid === detail.playlist.creator.userId;  //是否创建者
+            setState({ detail, comment, songs, playlistId, isCreator });
+            console.log('SongList State', { detail, comment, songs, playlistId, isCreator });
         }
         getData();
     },
@@ -50,9 +53,21 @@ const SongList = memo(({ playlist, setPlaylist }) => {
 
     return (
         <div className='songlist'>
-            <ListInfo data={state.detail} songs={state.songs} setPlaylist={setPlaylist} />
-            <Songs data={state.songs} playlist={playlist} setPlaylist={setPlaylist} />
-            <CommentList data={state.comment} />
+            <ListInfo
+                data={state.detail}
+                songs={state.songs}
+                setPlaylist={setPlaylist}
+            />
+            <Songs
+                data={state.songs}
+                playlist={playlist}
+                setPlaylist={setPlaylist}
+                playlistId={state.playlistId}
+                isCreator={state.isCreator}
+            />
+            <CommentList
+                data={state.comment}
+            />
         </div>
     );
 });

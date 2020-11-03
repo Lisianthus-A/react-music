@@ -15,7 +15,7 @@ import { convertTime, convertTimeString } from 'Utils';
 import { useInterval } from 'Utils/hooks';
 import { lyric } from 'Apis/apiCommon';
 
-const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayMode, setPlaylist, setPlayingMusic, id }) => {
+const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayMode, setPlaylist, setPlayingMusic, setPlaying, id }) => {
     const [lyrics, setLyric] = useState(null);
     const contentRef = useRef(null);
     const activeRef = useRef(null);
@@ -42,7 +42,9 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
 
     //播放点击的歌曲
     const handlePlayMusic = (idx) => {
+        setPlaying(true);
         setPlayingMusic(playlist[idx]);
+        audioRef.current.play();
     }
 
     //下载
@@ -133,7 +135,7 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                         <div className='content'>
                             {
                                 playlist.map(({ id, title, singer, duration }, idx) =>
-                                    <div className={id===playingMusic.id ? 'item playing' : 'item'} key={idx} onClick={() => handlePlayMusic(idx)}>
+                                    <div className={id === playingMusic.id ? 'item playing' : 'item'} key={idx} onClick={() => handlePlayMusic(idx)}>
                                         {id === playingMusic.id && <CaretRightOutlined />}
                                         <div className='song-title' title={title}>{title}</div>
                                         <div className='icons'>

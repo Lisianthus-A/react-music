@@ -36,6 +36,7 @@ const MusicPlayer = ({ audioRef, current, isPlaying, setPlaying, setTime, playli
                 setPlayMode={setPlayMode}
                 setPlaylist={setPlaylist}
                 setPlayingMusic={setPlayingMusic}
+                setPlaying={setPlaying}
             />
             <ProgressBar
                 audioRef={audioRef}
