@@ -1,8 +1,8 @@
 import React from 'react';
 import SongView from './components/View';
 
-export default () => {
+export default (props) => {
     return (
-        <SongView />
+        <SongView {...props} />
     );
 }

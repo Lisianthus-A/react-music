@@ -1,5 +1,4 @@
 import ajax from './apiBase';
-import { playlistDetail, songDetail } from './apiCommon';
 
 //用户歌单
 export const userPlaylist = async (id) => {

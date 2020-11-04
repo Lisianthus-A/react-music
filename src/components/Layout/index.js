@@ -52,6 +52,7 @@ const Layout = ({ TargetComponent }) => {
         if (playlist[0] && setMusic) {
             setPlayingMusic(playlist[0]);
         }
+        audioRef.current.play();
         setState({ playlist });
     },
         []

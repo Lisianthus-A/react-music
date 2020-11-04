@@ -11,7 +11,7 @@ import {
     PlusOutlined
 } from '@ant-design/icons';
 import { Slider } from 'antd';
-import { convertTime, convertTimeString } from 'Utils';
+import { convertLyric, convertTime } from 'Utils';
 import { useInterval } from 'Utils/hooks';
 import { lyric } from 'Apis/apiCommon';
 
@@ -69,21 +69,7 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                 return;
             }
 
-            //原歌词与翻译后的歌词，过滤空字符串和非歌词内容
-            const lrc = result.lrc.lyric.split('\n').filter(e => e !== '' && /\[.+\].+/.test(e));
-            const transLrc = result.tlyric.lyric ? result.tlyric.lyric.split('\n').filter(e => e !== '' && /\[.+\].+/.test(e)) : [];
-
-            const len = transLrc.length;
-            if (len !== 0) {  //合并歌词
-                for (let i = 0; i < len; i++) {
-                    const idx = transLrc[i].indexOf(']');
-                    const targetLrcIndex = lrc.findIndex(e => e.includes(transLrc[i].slice(0, idx + 1)));
-                    if (~targetLrcIndex) {
-                        lrc[targetLrcIndex] += '#br#' + transLrc[i].slice(idx + 1);
-                    }
-                }
-            }
-            setLyric(lrc);
+            setLyric(convertLyric(result));
 
         }
         getLyric();
@@ -163,29 +149,18 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
                             }
                             {
                                 lyrics &&
-                                lyrics.map((e, idx) => {
-                                    const bracketIndex = e.indexOf(']');  //中括号的下标
-                                    const brIndex = e.indexOf('#br#');  //br的下标
-                                    const timeString = e.slice(1, bracketIndex);  //时间字符串
-                                    const timeNumber = convertTimeString(timeString);  //将时间字符串转换成秒数
-
-                                    const brString = brIndex !== -1 ? e.slice(brIndex + 4) : null;  //br标签后的歌词
-                                    if (brString) {
-                                        return (
-                                            <p key={idx} data-time={timeNumber} className='lyric'>
-                                                {e.slice(bracketIndex + 1, brIndex)}
+                                lyrics.map(([origin, trans, time], idx) =>   //原歌词，翻译歌词，时间
+                                    <p key={idx} data-time={time} className='lyric'>
+                                        {origin}
+                                        {
+                                            trans &&
+                                            <>
                                                 <br />
-                                                {brString}
-                                            </p>
-                                        );
-                                    } else {
-                                        return (
-                                            <p key={idx} data-time={timeNumber} className='lyric'>
-                                                {e.slice(bracketIndex + 1)}
-                                            </p>
-                                        );
-                                    }
-                                })
+                                                {trans}
+                                            </>
+                                        }
+                                    </p>
+                                )
                             }
                         </div>
                     </div>
