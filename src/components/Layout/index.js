@@ -48,11 +48,10 @@ const Layout = ({ TargetComponent }) => {
 
     //设置播放列表  setMusic -> 是否改变当前播放歌曲
     const setPlaylist = useCallback((playlist, setMusic = true) => {
-        setMusic && setPlaying(true);
+        setMusic && setPlaying(true) && audioRef.current.play();
         if (playlist[0] && setMusic) {
             setPlayingMusic(playlist[0]);
         }
-        audioRef.current.play();
         setState({ playlist });
     },
         []
