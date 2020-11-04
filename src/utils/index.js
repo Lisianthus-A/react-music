@@ -1,5 +1,3 @@
-import { message } from 'antd';
-
 const getCookie = (name) => {
     let matches = document.cookie.match(new RegExp(
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -27,11 +25,6 @@ export const convertCount = (count) => {
     return count;
 }
 
-//显示错误信息
-export const showErrorMessage = (msg) => {
-    message.error(msg);
-}
-
 //搜索字符串中指定参数的值  searchItem('?id=1&data=2', data) --> 2
 export const searchItem = (search, item) => {
     const match = search.match(new RegExp(`[?&]${item}=\\w+`));
@@ -53,4 +46,33 @@ export const convertDate = (timestamp) => {
         diff <= 86400000 ? `${parseInt(diff / 3600000)}小时前` :  //24小时内
         d.getFullYear() > 1970 ? `${d.getFullYear() - 1970}年前` :
         d.getMonth() ? `${d.getMonth()}个月前` : `${d.getDate() - 1}天前`;
+}
+
+//转换歌词
+//返回歌词数组 [ [原歌词字符串, 翻译歌词字符串, 歌词对应的时间] * n ]
+export const convertLyric = (result) => {
+    //原歌词与翻译歌词，过滤空字符串和非歌词内容
+    const lrc = result.lrc.lyric.split('\n').filter(e => e !== '' && /\[.+\].+/.test(e));
+    const transLrc = result.tlyric.lyric ? result.tlyric.lyric.split('\n').filter(e => e !== '' && /\[.+\].+/.test(e)) : [];
+    if (transLrc.length > 0) {  //合并原歌词与翻译歌词
+        for (let i = 0; i < transLrc.length; i++) {
+            const bracketIndex = transLrc[i].indexOf(']');  //右中括号的下标
+            const targetLrcIndex = lrc.findIndex(e => e.includes(transLrc[i].slice(0, bracketIndex + 1)));  //时间相同的原歌词
+            if (~targetLrcIndex) {
+                lrc[targetLrcIndex] += '#br#' + transLrc[i].slice(bracketIndex + 1);
+            }
+        }
+    }
+
+    for (let i = 0; i < lrc.length; i++) {
+        const bracketIndex = lrc[i].indexOf(']');  //右中括号的下标
+        const timeString = lrc[i].slice(1, bracketIndex);  //时间字符串
+        const timeNumber = convertTimeString(timeString);  //将时间字符串转换成秒数
+        const lrcArray = lrc[i].split('#br#');
+        lrcArray[0] = lrcArray[0].slice(bracketIndex + 1);
+        lrcArray.length < 2 && lrcArray.push('');  //没有翻译歌词，push一个空字符串
+        lrcArray.push(timeNumber);
+        lrc[i] = lrcArray;
+    }
+    return lrc;
 }
