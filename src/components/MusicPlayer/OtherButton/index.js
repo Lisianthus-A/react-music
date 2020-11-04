@@ -109,7 +109,7 @@ const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayM
         <div className='other-button'>
             <div className='playlist'>
                 <div className='icon' title='播放列表'>
-                    <label htmlFor='toggle-list'><UnorderedListOutlined /></label>
+                    <label htmlFor='toggle-list'><UnorderedListOutlined /><span>{playlist.length}</span></label>
                 </div>
                 <input type='checkbox' id='toggle-list' style={{ display: 'none' }} />
                 <div className='list'>

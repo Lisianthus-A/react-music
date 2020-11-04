@@ -13,6 +13,18 @@
         }
     }
 
+    .icon > label {
+        display: flex;
+        background-color: #444;
+        width: 60px;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: space-around;
+        & > span:nth-of-type(2) {
+            font-size:14px;
+        }
+    }
+
     .playlist label {
         cursor: pointer;
     }
