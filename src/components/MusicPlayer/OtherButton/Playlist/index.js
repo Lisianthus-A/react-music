@@ -69,6 +69,7 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
         }
         getLyric();
         activeRef.current && activeRef.current.classList.remove('active');
+        contentRef.current.scrollTop = 0;
     },
         [id]
     );
@@ -80,7 +81,7 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
         const elemList = contentRef.current.getElementsByClassName('lyric');
         for (let i = 0; i < elemList.length; i++) {
             if (currentTime > +elemList[i].dataset.time && currentTime < +elemList[i + 1]?.dataset?.time) {
-                if (activeRef.current === elemList[i]) {  //避免重复scroll
+                if (activeRef.current === elemList[i] || contentRef.current.getBoundingClientRect().top === 0) {  //避免重复scroll
                     return;
                 }
                 activeRef.current && activeRef.current.classList.remove('active');
