@@ -1,10 +1,8 @@
 import ajax from './apiBase';
+import { userPlaylist } from './apiCommon';
 
 //用户歌单
-export const userPlaylist = async (id) => {
-    const result = await ajax(`/user/playlist?uid=${id}`);
-    return result;
-}
+export { userPlaylist };
 
 //删除歌单
 export const deletePlaylist = async (id) => {

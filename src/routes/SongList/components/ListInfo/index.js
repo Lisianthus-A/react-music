@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import './index.scss';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { CaretRightOutlined, HeartOutlined } from '@ant-design/icons';
+import { playlistSubscribe } from 'Apis/apiSongList';
 
-const ListInfo = ({ data, setPlaylist, songs }) => {
+const ListInfo = ({ data, setPlaylist, songs, isCreator, playlistId }) => {
     const { playlist } = data;
 
     //播放所有歌曲
@@ -12,6 +13,13 @@ const ListInfo = ({ data, setPlaylist, songs }) => {
         setPlaylist(list);
     },
         [songs, setPlaylist]
+    );
+
+    //收藏歌单
+    const handleCollectPlaylist = useCallback(() => {
+        playlistSubscribe(playlistId).then(() => message.success('已收藏'));
+    },
+        [playlistId]
     );
 
     return (
@@ -27,7 +35,7 @@ const ListInfo = ({ data, setPlaylist, songs }) => {
                 </div>
                 <div className='btns'>
                     <Button icon={<CaretRightOutlined />} onClick={handlePlayAll}>播放全部</Button>
-                    <Button icon={<HeartOutlined />}>添加到歌单</Button>
+                    {!isCreator && <Button icon={<HeartOutlined />} onClick={handleCollectPlaylist}>收藏歌单</Button>}
                 </div>
                 <div className='label'>
                     标签：{playlist.tags.map((e, idx) => <span key={idx}>{e}</span>)}

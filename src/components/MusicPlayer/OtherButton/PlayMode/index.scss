@@ -1,0 +1,11 @@
+.play-mode {
+    margin-left: 15px;
+    margin-right: 15px;
+
+    .icon {
+        cursor: pointer;
+        &:hover {
+            color: #fff;
+        }
+    }
+}
