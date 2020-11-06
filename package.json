@@ -2,16 +2,27 @@
   "name": "react-music",
   "version": "1.0.0",
   "private": true,
-  "description": "react music",
+  "description": "基于React + JavaScript的仿网易云音乐播放器",
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run front\"",
-    "front": "webpack-dev-server --progress --inline --config ./config/webpack.dev.config.js &",
-    "server": "node ./server/app.js &",
+    "front": "webpack-dev-server --progress --inline --config ./config/webpack.dev.config.js",
+    "server": "node ./server/app.js",
     "build": "webpack --progress --config ./config/webpack.prod.config.js"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lisianthus-a/react-music.git"
+  },
+  "keywords": [
+    "react",
+    "react hook",
+    "music",
+    "网易云音乐",
+    "音乐",
+    "网易云"
+  ],
+  "author": "Lisianthus-A",
   "license": "MIT",
   "dependencies": {
     "@ant-design/icons": "^4.2.2",

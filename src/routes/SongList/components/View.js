@@ -56,6 +56,8 @@ const SongList = memo(({ playlist, setPlaylist }) => {
             <ListInfo
                 data={state.detail}
                 songs={state.songs}
+                isCreator={state.isCreator}
+                playlistId={state.playlistId}
                 setPlaylist={setPlaylist}
             />
             <Songs

@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import './index.scss';
+import { Modal } from 'antd';
 import {
     CaretRightOutlined,
     PlusOutlined, HeartOutlined,
@@ -8,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { convertTime } from 'Utils';
 import { playlistTracks } from 'Apis/apiSongList';
+import CollectSong from 'Components/CollectSong';
 
 const Songs = ({ data, playlist, setPlaylist, playlistId, isCreator }) => {
     const [songsData, setData] = useState(data);
@@ -48,6 +50,19 @@ const Songs = ({ data, playlist, setPlaylist, playlistId, isCreator }) => {
         [songsData, playlistId]
     );
 
+    //收藏歌单中的某首歌
+    const handleCollectSong = useCallback((id) => {
+        Modal.info({
+            title: '收藏歌曲',
+            maskClosable: true,
+            okButtonProps: { style: { display: 'none' } },
+            width: 500,
+            content: <CollectSong songId={id} />
+        });
+    },
+        [songsData]
+    );
+
     return (
         <div className='songs'>
             <div className='title'>歌曲列表<span>{songsData.length}首歌</span></div>
@@ -73,7 +88,7 @@ const Songs = ({ data, playlist, setPlaylist, playlistId, isCreator }) => {
                                             !fee &&
                                             <>
                                                 <PlusOutlined title="添加到播放列表" onClick={() => handleAddToPlaylist(id)} />
-                                                <HeartOutlined title="收藏到歌单" />
+                                                <HeartOutlined title="收藏到歌单" onClick={() => handleCollectSong(id)} />
                                                 <DownloadOutlined title="下载" onClick={() => handleDownload(id)} />
                                             </>
                                         }

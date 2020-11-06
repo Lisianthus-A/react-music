@@ -1,0 +1,25 @@
+.volume {
+    display: flex;
+
+    .slider {
+        padding-left: 5px;
+        width: 150px;
+    }
+
+    .icon {
+        cursor: pointer;
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    .ant-slider-rail {
+        background-color: #666 !important;
+    }
+    .ant-slider-track {
+        background-color: #c62f2f !important;
+    }
+    .ant-slider-handle {
+        border: none;
+    }
+}

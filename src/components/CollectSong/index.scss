@@ -1,0 +1,12 @@
+.collect-song {
+    padding-top: 20px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .ant-btn {
+        margin-top: 30px;
+        width: 64px;
+    }
+}
