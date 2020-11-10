@@ -20,7 +20,7 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
 
     //清空播放列表
     const handleClean = () => {
-        setPlaylist([]);
+        setPlaylist([], false);
     }
 
     //播放点击的歌曲
