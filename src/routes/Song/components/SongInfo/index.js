@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 import './index.scss';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { CaretRightOutlined, HeartOutlined, DownloadOutlined } from '@ant-design/icons';
+import CollectSong from 'Components/CollectSong';
 
 const SongInfo = ({ song, lyric, setPlaylist }) => {
     const { cover, singer, album, title, fee, singerId, albumId, id } = song;
@@ -13,6 +14,19 @@ const SongInfo = ({ song, lyric, setPlaylist }) => {
         [song, setPlaylist]
     );
 
+    //添加到歌单
+    const handleCollectSong = (e) => {
+        e.stopPropagation();
+        Modal.info({
+            title: '收藏歌曲',
+            maskClosable: true,
+            okButtonProps: { style: { display: 'none' } },
+            width: 500,
+            content: <CollectSong songId={id} />
+        });
+    }
+
+    //下载
     const handleDownload = useCallback(() => {
         window.open(`https://music.163.com/song/media/outer/url?id=${id}`);
     },
@@ -30,8 +44,8 @@ const SongInfo = ({ song, lyric, setPlaylist }) => {
                 <div className='album'>所属专辑：<a href={`#/Album?id=${albumId}`}>{album}</a></div>
                 <div className='btns'>
                     <Button icon={<CaretRightOutlined />} onClick={handlePlay} disabled={fee}>播放</Button>
-                    <Button icon={<HeartOutlined />}>添加到歌单</Button>
-                    <Button icon={<DownloadOutlined />} onClick={handleDownload}>下载</Button>
+                    <Button icon={<HeartOutlined />} onClick={handleCollectSong} disabled={fee}>添加到歌单</Button>
+                    <Button icon={<DownloadOutlined />} onClick={handleDownload} disabled={fee}>下载</Button>
                 </div>
                 <input type='checkbox' id='toggle-lyric' style={{ display: 'none' }} />
                 <div className='lyric'>

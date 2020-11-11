@@ -10,6 +10,7 @@
         display: flex;
         height: calc(100vh - 128px);
         position: relative;
+        transition: height 1s;
     }
 
     .left {

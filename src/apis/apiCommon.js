@@ -33,6 +33,6 @@ export const playlistTracks = async (opt, playlistId, tracks) => {
 
 //用户歌单
 export const userPlaylist = async (id) => {
-    const result = await ajax(`/user/playlist?uid=${id}`);
+    const result = await ajax(`/user/playlist?uid=${id}&timestamp=${Date.now()}`);
     return result;
 }
