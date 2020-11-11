@@ -37,7 +37,7 @@ const Song = memo(({ setPlaylist }) => {
             );
 
             let lrc = null;
-            if (!lyricData.uncollected || !lyricData.nolyric) {
+            if (!lyricData.uncollected && !lyricData.nolyric) {
                 lrc = convertLyric(lyricData);
             }
 
