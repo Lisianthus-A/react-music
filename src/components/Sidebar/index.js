@@ -1,6 +1,6 @@
 import React, { useState, useEffect, memo } from 'react';
 import './index.scss';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
     HeartOutlined,
     SearchOutlined,
@@ -12,16 +12,10 @@ import {
 
 const Sidebar = memo(() => {
     const [currentKey, setKey] = useState(0);
-    const history = useHistory();
     const { pathname } = useLocation();
 
-    const handleClick = (key) => {
-        setKey(key);
-        history.replace(key);
-    }
-
     useEffect(() => {
-        setKey(pathname);
+        setKey(pathname.slice(1));
     },
         [pathname]
     );
@@ -33,42 +27,42 @@ const Sidebar = memo(() => {
                 <div className='category'>推荐</div>
                 {
                     [
-                        { text: '发现音乐', Icon: SearchOutlined, key: '/Discovery' },
-                        { text: '私人FM', Icon: CustomerServiceOutlined, key: '/PersonalFM' },
-                        { text: '视频', Icon: VideoCameraOutlined, key: '/Video' }
+                        { text: '发现音乐', Icon: SearchOutlined, key: 'Discovery' },
+                        { text: '私人FM', Icon: CustomerServiceOutlined, key: 'PersonalFM' },
+                        { text: '视频', Icon: VideoCameraOutlined, key: 'Video' }
                     ].map(
                         ({ key, text, Icon }) =>
-                            <div
+                            <a
                                 className={currentKey === key ? 'item active' : 'item'}
                                 key={key}
-                                onClick={() => handleClick(key)}
+                                href={`/#/${key}`}
                             >
                                 <Icon /> {text}
-                            </div>
+                            </a>
                     )
                 }
                 <div className='category'>我的音乐</div>
                 {
                     [
-                        { text: '我的歌单', Icon: HeartOutlined, key: '/MySongList' }
+                        { text: '我的歌单', Icon: HeartOutlined, key: 'MySongList' }
                     ].map(
                         ({ key, text, Icon }) =>
-                            <div
+                            <a
                                 className={currentKey === key ? 'item active' : 'item'}
                                 key={key}
-                                onClick={() => handleClick(key)}
+                                href={`/#/${key}`}
                             >
                                 <Icon /> {text}
-                            </div>
+                            </a>
                     )
                 }
                 <div className='category'>GitHub</div>
-                <div className='item' onClick={() => window.open('https://github.com/lisianthus-a/react-music')}>
+                <a className='item' href="https://github.com/lisianthus-a/react-music" target="_blank">
                     <GithubOutlined /> 项目地址
-                </div>
-                <div className='item' onClick={() => window.open('https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi')}>
+                </a>
+                <a className='item' href="https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi" target="_blank">
                     <FileTextOutlined /> API文档
-                </div>
+                </a>
             </div>
             <label htmlFor="toggle">
                 <div className='toggle-button'>

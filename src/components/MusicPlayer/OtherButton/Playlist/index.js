@@ -40,8 +40,12 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
     const handleDelete = (e, idx) => {
         e.stopPropagation();
         const list = JSON.parse(JSON.stringify(playlist));
+        const playingIndex = list.findIndex(e => e.id === playingMusic.id);  //正在播放的歌曲的index
         list.splice(idx, 1);
         setPlaylist(list, false);
+        if (playingIndex === idx) {  //删除的是正在播放的歌曲
+            setPlayingMusic(list[idx] || list[list.length - 1]);
+        }
     }
 
     //收藏歌单中的某首歌
