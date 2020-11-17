@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import './index.scss';
 import Loading from 'Components/Loading';
 import { useInterval } from 'Utils/hooks';
-import { message } from 'antd';
 
 const Carousel = ({ data }) => {
     if (data.length === 0) {
@@ -48,7 +47,7 @@ const Carousel = ({ data }) => {
     }
 
     //点击当前active的图片打开type指定的页面
-    const handleClick = (idx, id, type) => {
+    const handleClick = (idx, id, type, url) => {
         if (currentKey === idx) {
             switch (type) {
                 case 1:  //歌曲
@@ -64,7 +63,7 @@ const Carousel = ({ data }) => {
                     history.push(`/Video?id=${id}`);
                     break;
                 case 3000:  //广告
-                    message.info('点击项为网易云音乐广告页面， 未打开');
+                    window.open(url);
                     break;
                 default:
                     return;
@@ -78,11 +77,11 @@ const Carousel = ({ data }) => {
         <div className='carousel'>
             <div className='card-container'>
                 {
-                    data.map(({ imageUrl, targetId, targetType }, idx) =>
+                    data.map(({ imageUrl, targetId, targetType, url }, idx) =>
                         <div
                             className='card'
                             key={`card-${idx}`}
-                            onClick={() => handleClick(idx, targetId, targetType)}
+                            onClick={() => handleClick(idx, targetId, targetType, url)}
                             style={getStyle(idx)}
                         >
                             <img src={`${imageUrl}?param=500y200`} />

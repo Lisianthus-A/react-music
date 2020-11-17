@@ -13,6 +13,7 @@
     //让图片宽高相同，使用css奇技淫巧
     //padding使用百分比是相对于父width的
     .image {
+        display: block;
         position: relative;
         padding-bottom: 100%;
         overflow: hidden;
