@@ -17,6 +17,7 @@ const Carousel = ({ data }) => {
     useInterval(() => {
         setKey((currentKey + 1) % len);
     }, 5000);
+    
 
     //根据当前下标返回style
     const getStyle = (idx) => {

@@ -32,7 +32,7 @@ const RecentMusicList = ({ data, setPlaylist }) => {
                         <div className='music-item' key={id}>
                             <div className='order'>{(idx + 1).toString().padStart(2, 0)}</div>
                             <a className='image' href={`/#/Song?id=${id}`}>
-                                <img src={`${album.picUrl}?param=50y50`} />
+                                <img src={`${album.picUrl}?param=50y50`} loading='lazy' />
                                 <div className='play-button' onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
                             </a>
                             <div className='information'>
@@ -49,7 +49,7 @@ const RecentMusicList = ({ data, setPlaylist }) => {
                         <div className='music-item' key={id}>
                             <div className='order'>{(idx + 5).toString().padStart(2, 0)}</div>
                             <a className='image' href={`/#/Song?id=${id}`}>
-                                <img src={`${album.picUrl}?param=50y50`} />
+                                <img src={`${album.picUrl}?param=50y50`} loading='lazy' />
                                 <div className='play-button' onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
                             </a>
                             <div className='information'>

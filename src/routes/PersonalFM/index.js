@@ -1,8 +1,8 @@
 import React from 'react';
 import PersonalFMView from './components/View';
 
-export default () => {
+export default (props) => {
     return (
-        <PersonalFMView />
+        <PersonalFMView {...props} />
     );
 }
