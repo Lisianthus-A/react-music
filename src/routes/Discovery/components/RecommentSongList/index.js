@@ -36,7 +36,7 @@ const RecommentSongList = ({ data, setPlaylist }) => {
                     data.slice(0, 5).map(({ picUrl, name, copywriter, playCount, id }, idx) =>
                         <div className='listitem' key={'item' + idx}>
                             <a className='image' href={`/#/SongList?id=${id}`}>
-                                <img src={`${picUrl}?param=240y240`} />
+                                <img src={`${picUrl}?param=240y240`} loading='lazy' />
                                 <div className='copywriter'>{copywriter}</div>
                                 <div className='play-count'><CustomerServiceOutlined />{convertCount(playCount)}</div>
                                 <div className='play-button' onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
@@ -51,7 +51,7 @@ const RecommentSongList = ({ data, setPlaylist }) => {
                     data.slice(5, 10).map(({ picUrl, name, copywriter, playCount, id }, idx) =>
                         <div className='listitem' key={'item' + idx + 5}>
                             <a className='image' href={`/#/SongList?id=${id}`}>
-                                <img src={`${picUrl}?param=240y240`} />
+                                <img src={`${picUrl}?param=240y240`}  loading='lazy'/>
                                 <div className='copywriter'>{copywriter}</div>
                                 <div className='play-count'><CustomerServiceOutlined />{convertCount(playCount)}</div>
                                 <div className='play-button' onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>

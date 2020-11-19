@@ -81,11 +81,14 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
     //不断读取当前播放进度，判断是否需要滚动歌词
     //使用上层state.current的话，会使memo无效
     useInterval(() => {
+        if (contentRef.current.getBoundingClientRect().top === 0) {  //避免重复scroll
+            return;
+        }
         const currentTime = audioRef.current.currentTime;
         const elemList = contentRef.current.getElementsByClassName('lyric');
         for (let i = 0; i < elemList.length; i++) {
             if (currentTime > +elemList[i].dataset.time && currentTime < +elemList[i + 1]?.dataset?.time) {
-                if (activeRef.current === elemList[i] || contentRef.current.getBoundingClientRect().top === 0) {  //避免重复scroll
+                if (activeRef.current === elemList[i]) {  //避免重复scroll
                     return;
                 }
                 activeRef.current && activeRef.current.classList.remove('active');

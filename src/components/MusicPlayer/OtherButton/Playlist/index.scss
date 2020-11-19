@@ -176,12 +176,12 @@
     }
 
     .lyric {
-        transition: transform 0.5s;
+        transition: font-size 0.5s;
     }
 
     .active {
         color: #fff;
-        transform: scale(1.1);
+        font-size: 15px;
     }
 
     .close {

@@ -137,6 +137,8 @@ const Layout = ({ TargetComponent }) => {
                         <TargetComponent
                             playlist={state.playlist}
                             setPlaylist={setPlaylist}
+                            setPlaying={setPlaying}
+                            audioRef={audioRef}
                         />
                     </Suspense>
                 </div>
@@ -163,7 +165,7 @@ const Layout = ({ TargetComponent }) => {
                 src={`https://music.163.com/song/media/outer/url?id=${state.playingMusic.id}`}
                 onEnded={handleEnded}
                 onTimeUpdate={handleTimeUpdate}
-                onDurationChange={handleDurationChange}
+                // onDurationChange={handleDurationChange}
                 onCanPlay={handleCanPlay}
             />
         </div>

@@ -4,16 +4,16 @@ import { LikeOutlined } from '@ant-design/icons';
 import { convertDate } from 'Utils';
 
 const CommentList = ({ data }) => {
-    const { hotComments, comments } = data;
+    const { hotComments, comments, total } = data;
     return (
         <div className='comment-list'>
-            <div className='title'>评论列表</div>
+            <div className='title'>评论列表<span className='total'>共{total}条</span></div>
             {hotComments.length > 0 && <div className='sub-title'>精彩评论</div>}
             {
                 hotComments.length > 0 &&
                 hotComments.map(({ beReplied, content, user, time, likedCount }, idx) =>
                     <div className='comment' key={idx}>
-                        <div className='image'><img src={`${user.avatarUrl}?param=50y50`} /></div>
+                        <div className='image'><img src={`${user.avatarUrl}?param=50y50`} loading='lazy' /></div>
                         <div className='content-container'>
                             <div className='content'>
                                 <span><a href={`#/User?id=${user.userId}`}>{user.nickname}：</a>{content}</span>
@@ -36,7 +36,7 @@ const CommentList = ({ data }) => {
             {
                 comments.map(({ beReplied, content, user, time, likedCount }, idx) =>
                     <div className='comment' key={idx}>
-                        <div className='image'><img src={`${user.avatarUrl}?param=50y50`} /></div>
+                        <div className='image'><img src={`${user.avatarUrl}?param=50y50`} loading='lazy' /></div>
                         <div className='content-container'>
                             <div className='content'>
                                 <span><a href={`#/User?id=${user.userId}`}>{user.nickname}：</a>{content}</span>

@@ -5,7 +5,7 @@ import ControlButton from './ControlButton';
 import OtherButton from './OtherButton';
 import ProgressBar from './ProgressBar';
 
-const MusicPlayer = ({ audioRef, current, isPlaying, setPlaying, setTime, playlist, playingMusic, playMode, setPlayMode, setPlayingMusic, setPlaylist }) => {
+const MusicPlayer = ({ audioRef, current, isPlaying, setPlaying, playlist, playingMusic, playMode, setPlayMode, setPlayingMusic, setPlaylist }) => {
     const { id, title, singer, cover, duration } = playingMusic;
 
     return (
@@ -42,7 +42,6 @@ const MusicPlayer = ({ audioRef, current, isPlaying, setPlaying, setTime, playli
                 audioRef={audioRef}
                 current={current}
                 duration={duration}
-                setTime={setTime}
             />
         </div>
     );

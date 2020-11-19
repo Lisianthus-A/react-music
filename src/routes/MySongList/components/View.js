@@ -83,7 +83,7 @@ const MySongList = memo(() => {
                 state.create.map(({ name, coverImgUrl, trackCount, id }, idx) =>
                     <div className='list-item' key={idx} onClick={() => handleClick(id)}>
                         <div className='image'>
-                            <img src={`${coverImgUrl}?param=100y100`} />
+                            <img src={`${coverImgUrl}?param=100y100`} loading='lazy' />
                         </div>
                         <div className='content'>
                             <span>{name}</span>
@@ -98,7 +98,7 @@ const MySongList = memo(() => {
                 state.subscribe.map(({ name, coverImgUrl, trackCount, id }, idx) =>
                     <div className='list-item' key={idx} onClick={() => handleClick(id)}>
                         <div className='image'>
-                            <img src={`${coverImgUrl}?param=100y100`} />
+                            <img src={`${coverImgUrl}?param=100y100`} loading='lazy' />
                         </div>
                         <div className='content'>
                             <span>{name}</span>
