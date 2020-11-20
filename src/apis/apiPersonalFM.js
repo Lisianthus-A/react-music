@@ -1,7 +1,8 @@
 import ajax from './apiBase';
 
+//获取私人FM列表
 export const getFMList = async () => {
-    const result = await ajax('/personal_fm');
+    const result = await ajax(`/personal_fm?timestamp=${Date.now()}`);
     return result;
 }
 
