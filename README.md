@@ -53,7 +53,7 @@ $ npm install
 ```
 $ npm run start
 ```
-运行命令后，浏览器会自动打开页面。前端默认运行在4000端口，后台在4001端口
+运行命令后，在浏览器地址栏输入`localhost:4000`即可打开页面。前端默认运行在4000端口，后台在4001端口
 
 可在`./config/webpack.dev.config.js`和`./server/app.js`中修改默认端口。
 
