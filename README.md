@@ -1,5 +1,5 @@
 # React Music
-基于React + JavaScript的仿网易云音乐播放器，无需额外服务器，使用一行npm命令即可在本地运行前后端。(页面搭建中)
+基于React + JavaScript的仿网易云音乐播放器，使用一行npm命令即可在本地运行前后端。(页面搭建中)
 
 技术栈: React(hooks) + axios + antd + Sass
 
@@ -40,6 +40,7 @@
 - [ ] 用户页面
 - [ ] 歌手页面
 - [ ] 视频页面
+- [ ] 搜索页面
 
 ## 安装
 ```
