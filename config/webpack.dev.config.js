@@ -13,7 +13,7 @@ module.exports = merge(common, {
     },
     devServer: {
         contentBase: path.resolve(__dirname, '../build'),
-        open: true,  //自动打开浏览器
+        // open: true,  //自动打开浏览器
         port: 4000,  //端口
         compress: true,  //gzip压缩
         hot: true
