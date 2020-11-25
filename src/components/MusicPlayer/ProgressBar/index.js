@@ -13,9 +13,10 @@ const ProgressBar = ({ audioRef, current, duration }) => {
         window.addEventListener('mouseup', handleMouseUp);
 
         setVisible(true);
-        const percent = e.clientX / window.innerWidth;
+        const width = window.innerWidth < 1000 ? 1000 : window.innerWidth;
+        const percent = e.clientX / width;
         railRef.current.style.width = `${percent * 100}%`;
-        tipRef.current.innerText = convertTime(percent * duration);
+        tipRef.current.textContent = convertTime(percent * duration);
     },
         [duration]
     );
@@ -26,7 +27,8 @@ const ProgressBar = ({ audioRef, current, duration }) => {
         window.removeEventListener('mouseup', handleMouseUp);
 
         setVisible(false);
-        const percent = e.clientX / window.innerWidth;
+        const width = window.innerWidth < 1000 ? 1000 : window.innerWidth;
+        const percent = e.clientX / width;
         audioRef.current.currentTime = percent * duration;
     },
         [duration]
@@ -34,9 +36,10 @@ const ProgressBar = ({ audioRef, current, duration }) => {
 
     //鼠标移动
     const handleMouseMove = useCallback((e) => {
-        const percent = e.clientX / window.innerWidth;
+        const width = window.innerWidth < 1000 ? 1000 : window.innerWidth;
+        const percent = e.clientX / width;
         railRef.current.style.width = `${percent * 100}%`;
-        tipRef.current.innerText = convertTime(percent * duration);
+        tipRef.current.textContent = convertTime(percent * duration);
     },
         [duration]
     );
