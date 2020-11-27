@@ -6,7 +6,8 @@ const routeList = [
     '/Song',
     '/Album',
     '/MySongList',
-    '/User'
+    '/User',
+    '/Singer'
 ];
 
 export default routeList;

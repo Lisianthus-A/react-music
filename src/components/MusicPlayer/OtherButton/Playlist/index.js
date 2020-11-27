@@ -94,8 +94,9 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
                 activeRef.current && activeRef.current.classList.remove('active');
                 activeRef.current = elemList[i];
                 elemList[i].classList.add('active');
-                //歌词置中  155为content高度的一半
-                contentRef.current.scrollTop = activeRef.current.offsetTop - activeRef.current.scrollHeight / 2 - 155;
+                //歌词置中  195 = content高度 / 2 + title高度
+                //activeRef的offsetTop会从title计算
+                contentRef.current.scrollTop = activeRef.current.offsetTop + activeRef.current.scrollHeight / 2 - 195;
                 return;
             }
         }
@@ -104,7 +105,7 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
             activeRef.current && activeRef.current.classList.remove('active');
             activeRef.current = lastElem;
             lastElem.classList.add('active');
-            contentRef.current.scrollTop = activeRef.current.offsetTop - activeRef.current.scrollHeight / 2 - 155;
+            contentRef.current.scrollTop = activeRef.current.offsetTop + activeRef.current.scrollHeight / 2 - 195;
         }
     }, 400);
 
