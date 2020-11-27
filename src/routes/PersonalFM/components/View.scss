@@ -60,6 +60,7 @@
         background-color: #666;
         border-radius: 2px;
         margin-left: 5px;
+        cursor: pointer;
         &:after {
             width: var(--progress);
             display: block;
