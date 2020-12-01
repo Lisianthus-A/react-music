@@ -18,8 +18,7 @@
     }
 
     .right {
-        overflow: scroll;
-        scrollbar-width: none;
+        overflow-y: auto;
         width: 100%;
         display: flex;
         justify-content: center;
