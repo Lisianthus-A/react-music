@@ -105,7 +105,7 @@ const PersonalFM = memo(({ audioRef: externalAudioRef, setPlaying: externalSetPl
     //设置进度
     const handleSetProgress = (e) => {
         const element = progressRef.current;
-        const percent = (e.screenX - element.offsetLeft) / element.clientWidth;
+        const percent = (e.pageX - element.offsetLeft) / element.clientWidth;
         audioRef.current.currentTime = percent * playingMusic.duration;
     }
 
@@ -133,7 +133,7 @@ const PersonalFM = memo(({ audioRef: externalAudioRef, setPlaying: externalSetPl
             <div className='title'>私人FM</div>
             <div className='music-box'>
                 <div className='image'><img src={`${playingMusic.cover}?param=300y300`} /></div>
-                <a className='song' href={`/#/Song?id=${playingMusic.id}`} target="_blank">{playingMusic.title}</a>
+                <a className='song' href={`/#/Song?id=${playingMusic.id}`} target="_blank" title={playingMusic.title}>{playingMusic.title}</a>
                 <div className='progress-container' ref={progressContainerRef}>
                     <div className="progress" ref={progressRef} onClick={handleSetProgress}></div>
                 </div>

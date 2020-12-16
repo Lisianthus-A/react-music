@@ -1,5 +1,7 @@
 .carousel {
     height: calc(100% - 20px);
+    overflow: hidden;
+
     .card-container {
         height: 100%;
         position: relative;
