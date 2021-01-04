@@ -29,7 +29,7 @@ module.exports = merge(common, {
     module: {
         rules: [
           {
-            test: /\.css$/,
+            test: /(?<!module)\.css$/,  //匹配前面不是 module 的 .css 文件
             use: [ 
               'style-loader',
               'css-loader',
@@ -37,10 +37,33 @@ module.exports = merge(common, {
             ]
           },
           {
-            test: /\.(scss|sass)$/,
+            test: /(?<!module)\.(scss|sass)$/,  //匹配前面不是 module 的 .scss|.sass 文件
             use: [
               'style-loader',
               'css-loader',
+              'postcss-loader',
+              'sass-loader'
+            ]
+          },
+          {
+            test: /\.module\.css?$/,  //对于 .module.css 文件，启用CSS模块化
+            use: [
+              'style-loader',
+              {
+                loader: 'css-loader',
+                options: { modules: { localIdentName: '[local]_[hash:base64:5]' } }
+              },
+              'postcss-loader'
+            ]
+          },
+          {
+            test: /\.module\.(scss|sass)$/,  //对于 .module.scss|.module.sass 文件，启用CSS模块化
+            use: [
+              'style-loader',
+              {
+                loader: 'css-loader',
+                options: { modules: { localIdentName: '[local]_[hash:base64:5]' } }
+              },
               'postcss-loader',
               'sass-loader'
             ]
