@@ -28,7 +28,7 @@
     "@ant-design/icons": "^4.2.2",
     "antd": "^4.9.3",
     "axios": "^0.20.0",
-    "core-js": "^3.6.5",
+    "core-js": "^3.8.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "pac-proxy-agent": "^4.1.0",
