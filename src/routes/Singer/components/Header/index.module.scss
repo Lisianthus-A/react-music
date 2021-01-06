@@ -1,0 +1,16 @@
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    & > span {
+        font-size: 12px;
+        color: #666;
+    }
+}
+
+.image {
+    height: 300px;
+    & > img {
+        height: 100%;
+        width: 100%;
+    }
+}

@@ -40,6 +40,11 @@
     .ant-input {
         background-color: transparent;
         color: #fff;
+        border: none;
+    }
+
+    .ant-input:focus, .ant-input-focused {
+        box-shadow: none;
     }
 
     .ant-input-search-icon::before {
@@ -54,5 +59,17 @@
 
     .ant-modal-confirm-btns {
         display: none;
+    }
+
+    .ant-btn {
+        border: none;
+        background: none;
+    }
+    .ant-btn:hover, .ant-btn:focus, .ant-btn:active {
+        background: none;
+    }
+
+    .ant-input-group-addon {
+        background: none;
     }
 }
