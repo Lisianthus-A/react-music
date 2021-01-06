@@ -3,9 +3,11 @@ import './index.scss';
 import { Button, Modal } from 'antd';
 import { CaretRightOutlined, HeartOutlined, DownloadOutlined } from '@ant-design/icons';
 import CollectSong from 'Components/CollectSong';
+import { downLoadMusic } from 'Apis/apiCommon';
 
 const SongInfo = ({ song, lyric, setPlaylist }) => {
     const { cover, singer, album, title, fee, singerId, albumId, id } = song;
+    const [isDownloading, setIsDownloading] = useState(false);
 
     //播放歌曲
     const handlePlay = useCallback(() => {
@@ -28,7 +30,11 @@ const SongInfo = ({ song, lyric, setPlaylist }) => {
 
     //下载
     const handleDownload = useCallback(() => {
-        window.open(`https://music.163.com/song/media/outer/url?id=${id}`);
+        if (isDownloading) {
+            return;
+        }
+        setIsDownloading(true);
+        downLoadMusic(title, id).then(() => setIsDownloading(false));
     },
         [song]
     );

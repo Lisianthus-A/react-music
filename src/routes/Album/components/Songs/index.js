@@ -8,9 +8,11 @@ import {
 } from '@ant-design/icons';
 import { convertTime } from 'Utils';
 import CollectSong from 'Components/CollectSong';
+import { downLoadMusic } from 'Apis/apiCommon';
 
 const Songs = ({ data, playlist, setPlaylist }) => {
     const [songsData, setData] = useState(data);
+    const [isDownloading, setIsDownloading] = useState(false);
 
     //添加到播放列表
     const handleAddToPlaylist = useCallback((id) => {
@@ -25,8 +27,12 @@ const Songs = ({ data, playlist, setPlaylist }) => {
     );
 
     //下载
-    const handleDownload = (id) => {
-        window.open(`https://music.163.com/song/media/outer/url?id=${id}`);
+    const handleDownload = (name, id) => {
+        if (isDownloading) {
+            return;
+        }
+        setIsDownloading(true);
+        downLoadMusic(name, id).then(() => setIsDownloading(false));
     }
 
     //播放指定歌曲
@@ -76,7 +82,7 @@ const Songs = ({ data, playlist, setPlaylist }) => {
                                             <>
                                                 <PlusOutlined title="添加到播放列表" onClick={() => handleAddToPlaylist(id)} />
                                                 <HeartOutlined title="收藏到歌单" onClick={() => handleCollectSong(id)} />
-                                                <DownloadOutlined title="下载" onClick={() => handleDownload(id)} />
+                                                <DownloadOutlined title="下载" onClick={() => handleDownload(title, id)} />
                                             </>
                                         }
                                     </div>

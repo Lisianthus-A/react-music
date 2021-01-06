@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { convertLyric, convertTime } from 'Utils';
 import { useInterval } from 'Utils/hooks';
-import { lyric } from 'Apis/apiCommon';
+import { lyric, downLoadMusic } from 'Apis/apiCommon';
 import CollectSong from 'Components/CollectSong';
 import { Modal } from 'antd';
 
@@ -17,6 +17,7 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
     const [lyrics, setLyric] = useState(null);
     const contentRef = useRef(null);
     const activeRef = useRef(null);
+    const [isDownloading, setIsDownloading] = useState(false);
 
     //清空播放列表
     const handleClean = () => {
@@ -31,9 +32,13 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
     }
 
     //下载
-    const handleDownload = (e, id) => {
+    const handleDownload = (e, name, id) => {
         e.stopPropagation();
-        window.open(`https://music.163.com/song/media/outer/url?id=${id}`);
+        if (isDownloading) {
+            return;
+        }
+        setIsDownloading(true);
+        downLoadMusic(name, id).then(() => setIsDownloading(false));
     }
 
     //删除指定歌曲
@@ -129,7 +134,7 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
                                     <div className='song-title' title={title}>{title}</div>
                                     <div className='icons'>
                                         <PlusOutlined title='添加到歌单' onClick={(e) => handleCollectSong(e, id)} />
-                                        <DownloadOutlined title='下载' onClick={(e) => handleDownload(e, id)} />
+                                        <DownloadOutlined title='下载' onClick={(e) => handleDownload(e, title, id)} />
                                         <DeleteOutlined title='删除' onClick={(e) => handleDelete(e, idx)} />
                                     </div>
                                     <div className='singer' title={singer}>{singer}</div>
