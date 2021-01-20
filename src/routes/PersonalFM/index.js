@@ -19,7 +19,8 @@ export default () => {
         //隐藏外部音乐播放器
         const middle = document.getElementsByClassName(targetClass)[0];
         middle.style.height = 'calc(100% - 64px)';
-        const src = externalAudioRef.src;
+        middle.style.transition = 'height 1s';
+        const src = externalAudioRef.current.src;
 
         //隐藏歌词面板
         toggleList.checked && toggleList.click();
@@ -31,6 +32,7 @@ export default () => {
 
         return () => {
             middle.style.height = 'calc(100% - 128px)';
+            setTimeout(() => middle.style.transition = '', 1000);
             externalAudioRef.current.src = src;
         }
     },
