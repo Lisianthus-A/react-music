@@ -36,7 +36,7 @@ const Detail = ({ data, songs, lyric }) => {
     //下载
     const handleDownload = () => {
         if (isDownloading) {
-            message.info('下载中');
+            message.loading('下载中');
             return;
         }
         const { name, id } = songs[0];
@@ -53,13 +53,27 @@ const Detail = ({ data, songs, lyric }) => {
                 <div className={style.title} style={{ '--text': `'${category}'` }}>{title}</div>
                 {isAlbum &&
                     <>
-                        <div className={style.singer}>歌手：<a href={`#/Singer?id=${singers[0].id}`}>{singers.map(({ name }) => name).join('/')}</a></div>
+                        <div className={style.singer}>歌手：
+                        {singers.map(({ id, name }, idx) =>
+                            <>
+                                <a href={`#/Singer?id=${id}`} key={'a' + idx}>{name}</a>
+                                <span key={'s' + idx}> / </span>
+                            </>
+                        )}
+                        </div>
                         <div>发行时间：{new Date(publishTime).toLocaleDateString().replace(/\//g, '-')}</div>
                     </>
                 }
                 {isSong &&
                     <>
-                        <div className={style.singer}>歌手：<a href={`#/Singer?id=${singers[0].id}`}>{singers.map(({ name }) => name).join('/')}</a></div>
+                        <div className={style.singer}>歌手：
+                        {singers.map(({ id, name }, idx) =>
+                            <>
+                                <a href={`#/Singer?id=${id}`} key={'a' + idx}>{name}</a>
+                                <span key={'s' + idx}> / </span>
+                            </>
+                        )}
+                        </div>
                         <div>所属专辑：<a href={`#/Album?id=${albumId}`}>{albumName}</a></div>
                     </>
                 }

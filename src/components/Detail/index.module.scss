@@ -82,6 +82,10 @@
         }
     }
 
+    .singer span:nth-last-of-type(1) {
+        display: none;
+    }
+
     .lyric {
         overflow: hidden;
     }

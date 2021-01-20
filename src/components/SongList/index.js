@@ -32,7 +32,7 @@ const Songs = ({ data, isCreator }) => {
     //下载
     const handleDownload = (name, id) => {
         if (isDownloading) {
-            message.info("下载中");
+            message.loading("下载中");
             return;
         }
         setIsDownloading(true);
@@ -100,10 +100,12 @@ const Songs = ({ data, isCreator }) => {
                             </td>
                             <td>{convertTime(duration)}</td>
                             <td>
-                                <a
-                                    href={`#/Singer?id=${singers[0].id}`}
-                                    title={singers.map(({ name }) => name).join('/')}>
-                                    {singers.map(({ name }) => name).join('/')}</a>
+                                {singers.map(({ id, name }, idx) =>
+                                    <>
+                                        <a href={`#/Singer?id=${id}`} title={name} className={style.singer} key={'a' + idx}>{name}</a>
+                                        <span key={'s' + idx}> / </span>
+                                    </>
+                                )}
                             </td>
                             <td><a href={`#/Album?id=${albumId}`} title={albumName}>{albumName}</a></td>
                         </tr>

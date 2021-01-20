@@ -25,6 +25,9 @@ export const resolveLyric = (lyricRes) => {
             if (isOrigin) {
                 obj[second] = [lrc, '', second];
             } else {
+                if (obj[second] === undefined) {
+                    return;
+                }
                 obj[second][1] = lrc;
             }
         });

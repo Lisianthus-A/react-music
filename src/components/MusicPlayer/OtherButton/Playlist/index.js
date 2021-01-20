@@ -36,7 +36,7 @@ const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setP
     const handleDownload = (e, name, id) => {
         e.stopPropagation();
         if (isDownloading) {
-            message.info('下载中');
+            message.loading('下载中');
             return;
         }
         setIsDownloading(true);
