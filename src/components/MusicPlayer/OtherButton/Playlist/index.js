@@ -62,15 +62,10 @@ const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setP
     useEffect(() => {
         const getLyric = async () => {
             const result = await lyric(id);
-            if (result.uncollected || result.nolyric) {  //没有歌词
-                setLyric(false);
-                return;
-            }
-
             setLyric(resolveLyric(result));
-
         }
         getLyric();
+        
         activeRef.current && activeRef.current.classList.remove(style.active);
         contentRef.current.scrollTop = 0;
     },

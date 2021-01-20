@@ -1,7 +1,7 @@
-//将字符串转为秒数  03:40.25 ->  220.25
+//将字符串转为秒数  03:40.25 | 03:40:25 ->  220.25
 const convertStringToSeconds = (str) => {
-    const arr = str.split(':');
-    return arr[0] * 60 + +arr[1];
+    const match = str.match(/\d+/g);
+    return match[0] * 60 + +match[1] + match[2] / 100;
 }
 
 //解析歌词
@@ -12,14 +12,14 @@ export const resolveLyric = (lyricRes) => {
     }
 
     //原歌词与翻译歌词，过滤掉不包含时间的字符串
-    const originLrc = lyricRes.lrc.lyric.split('\n').filter(e => /\d{2}\:\d{2}\.\d{2,3}/.test(e));
-    const transLrc = lyricRes.tlyric.lyric ? lyricRes.tlyric.lyric.split('\n').filter(e => /\d{2}\:\d{2}\.\d{2,3}/.test(e)) : [];
+    const originLrc = lyricRes.lrc.lyric.split('\n').filter(e => /\d{2}\:\d{2}[\.\:]\d{2,3}/.test(e));
+    const transLrc = lyricRes.tlyric.lyric ? lyricRes.tlyric.lyric.split('\n').filter(e => /\d{2}\:\d{2}[\.\:]\d{2,3}/.test(e)) : [];
 
     //处理歌词数组中每个字符串的函数
     const handler = (str, isOrigin) => {
         const idx = str.lastIndexOf(']');  //右中括号的下标
         const lrc = str.slice(idx + 1);  //歌词
-        const times = str.match(/\d{2}\:\d{2}\.\d{2,3}/g);  //匹配到的所有时间
+        const times = str.match(/\d{2}\:\d{2}[\.\:]\d{2,3}/g);  //匹配到的所有时间
         times.forEach(time => {
             const second = convertStringToSeconds(time);  //歌词对应的秒数
             if (isOrigin) {

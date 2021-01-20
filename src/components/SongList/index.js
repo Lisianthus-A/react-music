@@ -60,10 +60,12 @@ const Songs = ({ data, isCreator }) => {
             okText: '是',
             cancelText: '否',
             onOk() {
-                const newList = songlist.slice();
-                songlist.splice(targetIndex, 1);
-                setList(newList);
-                return playlistTracks('del', playlistId, [id]).then(() => { message.info('已删除') });
+                return playlistTracks('del', playlistId, [id]).then(() => {
+                    message.info('已删除');
+                    const newList = songlist.slice();
+                    songlist.splice(targetIndex, 1);
+                    setList(newList);
+                });
             }
         })
     }
