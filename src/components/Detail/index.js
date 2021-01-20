@@ -12,7 +12,7 @@ const Detail = ({ data, songs, lyric }) => {
 
     const { isSonglist, isAlbum, isSong, title, cover, creator, labels, description, singers, publishTime, albumId, albumName } = data;
     const category = isSonglist ? '歌单' : isAlbum ? '专辑' : '单曲';  //分类
-    // const isFree = songs[0].isFree;  //单曲是否免费
+    const isFree = songs[0].isFree;  //单曲是否免费
     const [isDownloading, setIsDownloading] = useState(false);  //是否下载中
 
     /* 专辑和歌单调用的方法 */
@@ -74,7 +74,7 @@ const Detail = ({ data, songs, lyric }) => {
                     {(isAlbum || isSonglist) &&
                         <Button icon={<CaretRightOutlined />} onClick={handlePlayAll}>播放全部</Button>
                     }
-                    {isSong && false &&
+                    {isSong &&
                         <>
                             <Button icon={<CaretRightOutlined />} onClick={handlePlay} disabled={!isFree}>播放</Button>
                             <Button icon={<HeartOutlined />} onClick={handleCollectSong} disabled={!isFree}>添加到歌单</Button>
