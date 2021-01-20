@@ -1,9 +1,9 @@
 import React from 'react';
-import './index.scss';
+import style from './index.module.scss';
 
 const Loading = () => {
     return (
-        <div className='loading'></div>
+        <div className={style.loading}></div>
     );
 }
 

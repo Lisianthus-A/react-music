@@ -1,5 +1,6 @@
 import React, { useState, useEffect, memo } from 'react';
-import './index.scss';
+import style from './index.module.scss';
+import './reset.scss';
 import { Avatar, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import LoginView from './LoginView';
@@ -42,13 +43,13 @@ const Header = memo(() => {
     }
 
     return (
-        <div className='header'>
+        <div className={style.header + ' header'}>
             <LoginView visible={visible} onClose={toggleVisible} onSetName={setName} onSetImg={setImg} />
             <Avatar size={40} icon={<UserOutlined />} onClick={toggleVisible} src={avatarImg ? `${avatarImg}?param=80y80` : ''} />
-            <div className='username'>{name ? name : '未登录'}</div>
-            {name && <div className='logout' onClick={handleLogout}>退出登录</div>}
+            <div className={style.username}>{name ? name : '未登录'}</div>
+            {name && <div className={style.logout} onClick={handleLogout}>退出登录</div>}
             <Input.Search
-                className='search'
+                className={style.search}
                 placeholder="搜索音乐"
                 onSearch={value => console.log(value)}
             />

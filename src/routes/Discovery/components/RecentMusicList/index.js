@@ -1,64 +1,45 @@
 import React from 'react';
-import './index.scss';
+import style from './index.module.scss';
 import { CaretRightOutlined } from '@ant-design/icons';
-import { songDetail } from 'Apis/apiDiscovery';
-import Loading from 'Components/Loading';
 
-const RecentMusicList = ({ data, setPlaylist }) => {
-    if (data.length === 0) {
-        return <Loading />;
-    }
-    
-    //点击播放按钮，直接播放歌曲
+const RecentMusicList = ({ data, onPlay }) => {
+
     const handlePlay = (e, id) => {
         e.preventDefault();
-        songDetail([id]).then(result => {
-            const list = result.songs.map(({ id, name, ar, dt, al: { picUrl } }) => ({
-                id,
-                title: name,
-                singer: ar.map(({ name }) => name).join('/'),
-                duration: dt / 1000,
-                cover: picUrl
-            }));
-            setPlaylist(list);
-        });
+        onPlay(id);
     }
 
     return (
-        <div className='recent-music-list'>
-            <div className='left'>
-                {
-                    data.slice(0, 5).map(({ album, artists, name, id }, idx) => //id是歌曲id
-                        <div className='music-item' key={id}>
-                            <div className='order'>{(idx + 1).toString().padStart(2, 0)}</div>
-                            <a className='image' href={`/#/Song?id=${id}`}>
-                                <img src={`${album.picUrl}?param=50y50`} loading='lazy' />
-                                <div className='play-button' onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
-                            </a>
-                            <div className='information'>
-                                <div className='song-title'>{name}</div>
-                                <div className='singer'>{artists.map(({ name }) => name).join('/')}</div>
-                            </div>
+        <div className={style['recent-music-list']}>
+            <div className={style.left}>
+                {data.slice(0, 5).map(({ cover, singers, name, id }, idx) =>
+                    <div className={style.item} key={id}>
+                        <div className={style.order}>{(idx + 1).toString().padStart(2, 0)}</div>
+                        <a className={style.image} href={`/#/Song?id=${id}`}>
+                            <img src={`${cover}?param=50y50`} loading='lazy' />
+                            <div className={style['play-button']} onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
+                        </a>
+                        <div className={style.information}>
+                            <div>{name}</div>
+                            <div className={style.singer}>{singers.map(({ name }) => name).join('/')}</div>
                         </div>
-                    )
-                }
+                    </div>
+                )}
             </div>
-            <div className='right'>
-                {
-                    data.slice(5, 10).map(({ album, artists, name, id }, idx) => //id是歌曲id
-                        <div className='music-item' key={id}>
-                            <div className='order'>{(idx + 5).toString().padStart(2, 0)}</div>
-                            <a className='image' href={`/#/Song?id=${id}`}>
-                                <img src={`${album.picUrl}?param=50y50`} loading='lazy' />
-                                <div className='play-button' onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
-                            </a>
-                            <div className='information'>
-                                <div className='song-title'>{name}</div>
-                                <div className='singer'>{artists.map(({ name }) => name).join('/')}</div>
-                            </div>
+            <div className={style.right}>
+                {data.slice(5, 10).map(({ cover, singers, name, id }, idx) =>
+                    <div className={style.item} key={id}>
+                        <div className={style.order}>{(idx + 6).toString().padStart(2, 0)}</div>
+                        <a className={style.image} href={`/#/Song?id=${id}`}>
+                            <img src={`${cover}?param=50y50`} loading='lazy' />
+                            <div className={style['play-button']} onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
+                        </a>
+                        <div className={style.information}>
+                            <div>{name}</div>
+                            <div className={style.singer}>{singers.map(({ name }) => name).join('/')}</div>
                         </div>
-                    )
-                }
+                    </div>
+                )}
             </div>
         </div>
     );

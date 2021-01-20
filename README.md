@@ -3,6 +3,9 @@
 
 技术栈: React(hooks) + axios + antd + Sass
 
+预览：
+![preview](./assets/images/preview.png)
+
 ## Todo
 - [x] 脚手架搭建
 - [x] NodeJS代理解决API接口跨域问题

@@ -13,6 +13,7 @@ module.exports = {
         alias: {
           Components: path.resolve(__dirname, '../src/components'),
           Apis: path.resolve(__dirname, '../src/apis'),
+          AppContainer: path.resolve(__dirname, '../src/containers'),
           Utils: path.resolve(__dirname, '../src/utils'),
           Images: path.resolve(__dirname, '../assets/images'),
           TestData: path.resolve(__dirname, '../apiDataExample')

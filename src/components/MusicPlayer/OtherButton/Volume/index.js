@@ -1,22 +1,24 @@
-import React from 'react';
-import './index.scss';
+import React, { memo } from 'react';
+import style from './index.module.scss';
+import './reset.scss';
 import { Slider } from 'antd';
 import { SoundOutlined } from '@ant-design/icons';
 
-const Volume = ({ audioRef }) => {
+const Volume = memo(({ audioRef }) => {
+
     //设置音量
-    const handleChange = (value) => {
+    const handleChangeVolume = (value) => {
         audioRef.current.volume = value / 100;
     }
 
     return (
-        <div className='volume'>
-            <div className='icon' title='音量'><SoundOutlined /></div>
-            <div className='slider'>
-                <Slider defaultValue={100} onChange={handleChange} tipFormatter={(value) => `${value}%`} />
+        <div className={style.volume + ' volume'}>
+            <div className={style.icon} title='音量'><SoundOutlined /></div>
+            <div className={style.slider}>
+                <Slider defaultValue={100} onChange={handleChangeVolume} tipFormatter={(value) => `${value}%`} />
             </div>
         </div>
     );
-}
+});
 
 export default Volume;

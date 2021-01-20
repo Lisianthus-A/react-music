@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './index.scss';
+import React, { useState, useRef, useEffect, memo } from 'react';
+import style from './index.module.scss';
+import './reset.scss';
 import {
     UnorderedListOutlined,
     CaretRightOutlined,
@@ -7,13 +8,14 @@ import {
     DeleteOutlined,
     PlusOutlined
 } from '@ant-design/icons';
-import { convertLyric, convertTime } from 'Utils';
+import { convertTime } from 'Utils';
+import { resolveLyric } from 'Utils/resolve';
 import { useInterval } from 'Utils/hooks';
-import { lyric, downLoadMusic } from 'Apis/apiCommon';
-import CollectSong from 'Components/CollectSong';
-import { Modal } from 'antd';
+import { collectSong, downloadMusic } from 'Utils/methods';
+import { lyric } from 'Apis/apiCommon';
+import { message } from 'antd';
 
-const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, playlist, playingMusic }) => {
+const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setPlaying, setPlayingMusic }) => {
     const [lyrics, setLyric] = useState(null);
     const contentRef = useRef(null);
     const activeRef = useRef(null);
@@ -28,41 +30,33 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
     const handlePlayMusic = (idx) => {
         setPlaying(true);
         setPlayingMusic(playlist[idx]);
-        audioRef.current.play();
     }
 
     //下载
     const handleDownload = (e, name, id) => {
         e.stopPropagation();
         if (isDownloading) {
+            message.info('下载中');
             return;
         }
         setIsDownloading(true);
-        downLoadMusic(name, id).then(() => setIsDownloading(false));
+        downloadMusic(name, id).then(() => setIsDownloading(false));
     }
 
     //删除指定歌曲
     const handleDelete = (e, idx) => {
         e.stopPropagation();
-        const list = JSON.parse(JSON.stringify(playlist));
+        const list = [...playlist];
         const playingIndex = list.findIndex(e => e.id === playingMusic.id);  //正在播放的歌曲的index
         list.splice(idx, 1);
         setPlaylist(list, false);
-        if (playingIndex === idx) {  //删除的是正在播放的歌曲
-            setPlayingMusic(list[idx] || list[list.length - 1]);
-        }
+        playingIndex === idx && setPlayingMusic(list[idx] || list[list.length - 1]);  //删除的是正在播放的歌曲
     }
 
     //收藏歌单中的某首歌
     const handleCollectSong = (e, id) => {
         e.stopPropagation();
-        Modal.info({
-            title: '收藏歌曲',
-            maskClosable: true,
-            okButtonProps: { style: { display: 'none' } },
-            width: 500,
-            content: <CollectSong songId={id} />
-        });
+        collectSong(id);
     }
 
     useEffect(() => {
@@ -73,11 +67,11 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
                 return;
             }
 
-            setLyric(convertLyric(result));
+            setLyric(resolveLyric(result));
 
         }
         getLyric();
-        activeRef.current && activeRef.current.classList.remove('active');
+        activeRef.current && activeRef.current.classList.remove(style.active);
         contentRef.current.scrollTop = 0;
     },
         [id]
@@ -90,15 +84,15 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
             return;
         }
         const currentTime = audioRef.current.currentTime;
-        const elemList = contentRef.current.getElementsByClassName('lyric');
+        const elemList = contentRef.current.getElementsByClassName(style.lyric);
         for (let i = 0; i < elemList.length; i++) {
             if (currentTime > +elemList[i].dataset.time && currentTime < +elemList[i + 1]?.dataset?.time) {
                 if (activeRef.current === elemList[i]) {  //避免重复scroll
                     return;
                 }
-                activeRef.current && activeRef.current.classList.remove('active');
+                activeRef.current && activeRef.current.classList.remove(style.active);
                 activeRef.current = elemList[i];
-                elemList[i].classList.add('active');
+                elemList[i].classList.add(style.active);
                 //歌词置中  195 = content高度 / 2 + title高度
                 //activeRef的offsetTop会从title计算
                 contentRef.current.scrollTop = activeRef.current.offsetTop + activeRef.current.scrollHeight / 2 - 195;
@@ -107,75 +101,71 @@ const Playlist = ({ setPlaylist, setPlaying, setPlayingMusic, audioRef, id, play
         }
         const lastElem = elemList[elemList.length - 1];
         if (lastElem && currentTime >= lastElem.dataset.time && activeRef.current !== lastElem) {
-            activeRef.current && activeRef.current.classList.remove('active');
+            activeRef.current && activeRef.current.classList.remove(style.active);
             activeRef.current = lastElem;
-            lastElem.classList.add('active');
+            lastElem.classList.add(style.active);
             contentRef.current.scrollTop = activeRef.current.offsetTop + activeRef.current.scrollHeight / 2 - 195;
         }
     }, 400);
 
     return (
-        <div className='playlist'>
-            <div className='icon' title='播放列表'>
-                <label htmlFor='toggle-list'><UnorderedListOutlined /><span>{playlist.length}</span></label>
+        <div className={style.playlist}>
+            <div className={style.icon} title='播放列表'>
+                <label htmlFor='toggleList'><UnorderedListOutlined /><span>{playlist.length}</span></label>
             </div>
-            <input type='checkbox' id='toggle-list' style={{ display: 'none' }} />
-            <div className='list'>
-                <div className='list-left'>
-                    <div className='title'>
+            <input type='checkbox' id='toggleList' style={{ display: 'none' }} className={style.toggle} />
+            <div className={style.list}>
+                <div className={style['list-left']}>
+                    <div className={style.title}>
                         <span>播放列表({playlist.length})</span>
-                        <span className='clean' onClick={handleClean}><DeleteOutlined />清空</span>
+                        <span className={style.clean} onClick={handleClean}><DeleteOutlined />清空</span>
                     </div>
-                    <div className='content'>
-                        {
-                            playlist.map(({ id, title, singer, duration }, idx) =>
-                                <div className={id === playingMusic.id ? 'item playing' : 'item'} key={idx} onClick={() => handlePlayMusic(idx)}>
-                                    {id === playingMusic.id && <CaretRightOutlined />}
-                                    <div className='song-title' title={title}>{title}</div>
-                                    <div className='icons'>
-                                        <PlusOutlined title='添加到歌单' onClick={(e) => handleCollectSong(e, id)} />
-                                        <DownloadOutlined title='下载' onClick={(e) => handleDownload(e, title, id)} />
-                                        <DeleteOutlined title='删除' onClick={(e) => handleDelete(e, idx)} />
-                                    </div>
-                                    <div className='singer' title={singer}>{singer}</div>
-                                    <div className='duration'>{convertTime(duration)}</div>
+                    <div className={style.content}>
+                        {playlist.map(({ id, name, singers, duration }, idx) =>
+                            <div
+                                className={id === playingMusic.id ? `${style.item} playing` : style.item}
+                                key={idx}
+                                onClick={() => handlePlayMusic(idx)}
+                            >
+                                {id === playingMusic.id && <CaretRightOutlined />}
+                                <div className={style['song-title']} title={name}>{name}</div>
+                                <div className={style.icons}>
+                                    <PlusOutlined title='添加到歌单' onClick={(e) => handleCollectSong(e, id)} />
+                                    <DownloadOutlined title='下载' onClick={(e) => handleDownload(e, name, id)} />
+                                    <DeleteOutlined title='删除' onClick={(e) => handleDelete(e, idx)} />
                                 </div>
-                            )
-                        }
+                                <div className={style.singer} title={singers.map(({ name }) => name).join('/')}>{singers.map(({ name }) => name).join('/')}</div>
+                                <div className={style.duration}>{convertTime(duration)}</div>
+                            </div>
+                        )}
                     </div>
                 </div>
-                <div className='list-right'>
-                    <div className='title'><span title={playingMusic.title}>{playingMusic.title}</span></div>
-                    <div className='content' ref={contentRef}>
-                        {
-                            lyrics === null &&
+                <div className={style['list-right']}>
+                    <div className={style.title}><span title={playingMusic.name}>{playingMusic.name}</span></div>
+                    <div className={style.content} ref={contentRef}>
+                        {!lyrics &&
                             <p>歌词加载中...</p>
                         }
-                        {
-                            lyrics === false &&
+                        {lyrics && lyrics.length === 0 &&
                             <p>暂无歌词</p>
                         }
-                        {
-                            lyrics &&
-                            lyrics.map(([origin, trans, time], idx) =>   //原歌词，翻译歌词，时间
-                                <p key={idx} data-time={time} className='lyric'>
-                                    {origin}
-                                    {
-                                        trans &&
-                                        <>
-                                            <br />
-                                            {trans}
-                                        </>
-                                    }
-                                </p>
-                            )
-                        }
+                        {lyrics && lyrics.map(([origin, trans, time], idx) =>   //原歌词，翻译歌词，时间
+                            <p key={idx} data-time={time} className={style.lyric}>
+                                {origin}
+                                {trans &&
+                                    <>
+                                        <br />
+                                        {trans}
+                                    </>
+                                }
+                            </p>
+                        )}
                     </div>
                 </div>
-                <label htmlFor='toggle-list'><div className='close'>X</div></label>
+                <label htmlFor='toggleList'><div className={style.close}>X</div></label>
             </div>
         </div>
     );
-}
+});
 
 export default Playlist;

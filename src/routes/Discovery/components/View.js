@@ -1,48 +1,33 @@
-import React, { useEffect, useState, memo } from 'react';
-import './View.scss';
-import { banner, personalized, topSong } from 'Apis/apiDiscovery';
-import Carousel from 'Components/Carousel';
+import React from 'react';
+import style from './View.module.scss';
 
+import Loading from 'Components/Loading';
+
+import Carousel from './Carousel';
 import RecommentSongList from './RecommentSongList';
 import RecentMusicList from './RecentMusicList';
 
-const initialState = {
-    bannerData: null,
-    recommendData: null,
-    topSongData: null
-};
+const Discovery = ({ state, onSongPlay, onSonglistPlay }) => {
 
-const Discovery = memo(({ setPlaylist }) => {
-    const [state, setState] = useState(initialState);
-
-    useEffect(() => {
-        const getData = async () => {
-            const bannerData = await banner();
-            const recommendData = await personalized();
-            const topSongData = await topSong();
-            setState({ bannerData, recommendData, topSongData });
-            console.log('state', { bannerData, recommendData, topSongData });
-        }
-        getData();
-    },
-        []
-    );
+    if (!state) {
+        return <Loading />;
+    }
 
     return (
-        <div className='discovery'>
-            <div className='banner'>
-                <Carousel data={state.bannerData?.banners || []} />
+        <div className={style.discovery}>
+            <div className={style.banner}>
+                <Carousel data={state.bannerData.banners} />
             </div>
-            <div className='recommend'>
-                <div className='title'>推荐歌单</div>
-                <RecommentSongList data={state.recommendData?.result || []} setPlaylist={setPlaylist} />
+            <div>
+                <div className={style.title}>推荐歌单</div>
+                <RecommentSongList data={state.recommendData.result} onPlay={onSonglistPlay} />
             </div>
-            <div className='recent-music'>
-                <div className='title'>最新音乐</div>
-                <RecentMusicList data={state.topSongData?.data || []} setPlaylist={setPlaylist} />
+            <div>
+                <div className={style.title}>最新音乐</div>
+                <RecentMusicList data={state.topSongData} onPlay={onSongPlay} />
             </div>
         </div>
     );
-});
+}
 
 export default Discovery;

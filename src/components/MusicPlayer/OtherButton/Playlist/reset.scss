@@ -1,0 +1,10 @@
+.playing {
+    background-color: #1b1b1b;
+    & > .anticon {
+        color: #c62f2f;
+        font-size: 18px;
+        position: absolute;
+        top: 6px;
+        left: 6px;
+    }
+}

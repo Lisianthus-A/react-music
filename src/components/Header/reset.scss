@@ -1,0 +1,45 @@
+.header {
+    .ant-avatar {
+        margin-left: 40px;
+        cursor: pointer;
+    }
+
+    .ant-input {
+        background-color: transparent;
+        color: #fff;
+        border: none;
+    }
+
+    .ant-input:focus,
+    .ant-input-focused {
+        box-shadow: none;
+    }
+
+    .ant-input-search-icon::before {
+        display: none;
+    }
+
+    .ant-input-affix-wrapper:hover,
+    .ant-input-affix-wrapper:focus {
+        border: none;
+        box-shadow: none;
+    }
+
+    .ant-modal-confirm-btns {
+        display: none;
+    }
+
+    .ant-btn {
+        border: none;
+        background: none;
+    }
+    .ant-btn:hover,
+    .ant-btn:focus,
+    .ant-btn:active {
+        background: none;
+    }
+
+    .ant-input-group-addon {
+        background: none;
+    }
+}

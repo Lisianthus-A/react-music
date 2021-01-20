@@ -25,9 +25,6 @@ export const resolveLyric = (lyricRes) => {
             if (isOrigin) {
                 obj[second] = [lrc, '', second];
             } else {
-                if (obj[second] === undefined) {
-                    console.log(time);
-                }
                 obj[second][1] = lrc;
             }
         });

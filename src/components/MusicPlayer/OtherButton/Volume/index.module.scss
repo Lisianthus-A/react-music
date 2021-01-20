@@ -1,0 +1,15 @@
+.volume {
+    display: flex;
+
+    .slider {
+        padding-left: 5px;
+        width: 150px;
+    }
+
+    .icon {
+        cursor: pointer;
+        &:hover {
+            color: #fff;
+        }
+    }
+}

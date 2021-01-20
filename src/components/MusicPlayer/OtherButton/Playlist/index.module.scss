@@ -1,0 +1,185 @@
+.playlist {
+    label {
+        cursor: pointer;
+    }
+
+    .icon {
+        cursor: pointer;
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    .icon > label {
+        display: flex;
+        background-color: #444;
+        width: 60px;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: space-around;
+        & > span:nth-of-type(2) {
+            font-size: 14px;
+        }
+    }
+
+    .toggle:checked + .list {
+        display: flex;
+    }
+
+    .list {
+        position: absolute;
+        height: 350px;
+        top: -350px;
+        width: 900px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #222;
+        display: none;
+        border-bottom: 1px solid #666;
+        z-index: 1000;
+    }
+
+    .list-left,
+    .list-right {
+        width: 50%;
+    }
+
+    .title {
+        font-size: 16px;
+        color: #fff;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #666;
+    }
+
+    .clean {
+        cursor: pointer;
+        font-size: 14px;
+        color: #bbb;
+        &:hover {
+            text-decoration: underline;
+            color: #fff;
+        }
+    }
+
+    .list-left > .title {
+        border-right: 1px solid #666;
+        padding: 0 30px;
+        justify-content: space-between;
+    }
+
+    .list-right > .title {
+        display: flex;
+        justify-content: center;
+        & > span {
+            width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+    }
+
+    .content {
+        height: 310px;
+        overflow: hidden auto;
+        font-size: 14px;
+        text-align: center;
+        scroll-behavior: smooth;
+        scrollbar-width: thin; //FireFox浏览器有效
+
+        //以下对Chrome有效
+        &::-webkit-scrollbar {
+            //滚动条
+            display: block;
+            width: 5px;
+            height: 100%;
+            background-color: #111;
+            border-radius: 5px;
+        }
+        &::-webkit-scrollbar-thumb {
+            //滑块
+            background-color: #666;
+            border-radius: 5px;
+        }
+    }
+
+    .list-right > .content {
+        padding: 0 30px;
+    }
+
+
+    .item {
+        display: flex;
+        height: 30px;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+        &:hover {
+            background-color: #1b1b1b;
+            .icons {
+                opacity: 1;
+            }
+        }
+    }
+
+    .song-title {
+        margin-left: 30px;
+        width: 130px;
+    }
+
+    .icons {
+        width: 100px;
+        height: 100%;
+        margin-left: 10px;
+        margin-right: 10px;
+        opacity: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & > span {
+            cursor: pointer;
+            margin: 0 5px;
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+
+    .singer {
+        width: 80px;
+    }
+
+    .duration {
+        width: 50px;
+        margin-left: 10px;
+    }
+
+    .song-title,
+    .singer {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .lyric {
+        transition: font-size 0.5s;
+    }
+
+    .active {
+        color: #fff;
+        font-size: 15px;
+    }
+
+    .close {
+        position: absolute;
+        right: 14px;
+        top: 6px;
+        font-size: 18px;
+        cursor: pointer;
+        &:hover {
+            color: #fff;
+        }
+    }
+}

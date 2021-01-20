@@ -1,26 +1,14 @@
 import React, { memo } from 'react';
-import './index.scss';
+import style from './index.module.scss';
 import { StepBackwardOutlined, CaretRightOutlined, PauseOutlined, StepForwardOutlined } from '@ant-design/icons';
 
-const ControlButton = memo(({ isPlaying, setPlaying, audioRef, playMode, playlist, playingMusic, setPlayingMusic }) => {
-    const togglePlay = () => {
-        const audio = audioRef.current;
+const ControlButton = memo(({ isPlaying, playMode, playlist, playingMusic, setPlaying, setPlayingMusic, audioRef }) => {
 
-        //播放或暂停
-        if (isPlaying) {
-            audio.pause();
-        } else {
-            audio.play();
-        }
-
-        setPlaying(!isPlaying)
-    }
-
-
+    //切换音乐
     const handleChangeMusic = (type = 'next') => {
         const len = playlist.length;
         const audio = audioRef.current;
-        if (len === 1 || playMode === 'single-cycle') {  //列表只有一首歌 || 单曲循环，设置播放位置为0
+        if (len === 1 || playMode === 'single-cycle') {  //列表只有一首歌 || 单曲循环，设置播放位置为 0
             audio.currentTime = 0;
             return;
         }
@@ -34,7 +22,7 @@ const ControlButton = memo(({ isPlaying, setPlaying, audioRef, playMode, playlis
             nextIndex = type === 'next' ? (currentIndex + 1) % len : (len + currentIndex - 1) % len;
         } else {  //随机
             nextIndex = parseInt(Math.random() * len);
-            if (nextIndex === currentIndex) {  //随机的下标与当前播放音乐下标相同，设置播放位置为0
+            if (nextIndex === currentIndex) {  //随机的下标与当前播放音乐下标相同，设置播放位置为 0
                 audio.currentTime = 0;
                 return;
             }
@@ -44,12 +32,12 @@ const ControlButton = memo(({ isPlaying, setPlaying, audioRef, playMode, playlis
     }
 
     return (
-        <div className='control-button-container'>
-            <div className='prev' title='上一首' onClick={() => handleChangeMusic('prev')}><StepBackwardOutlined /></div>
-            <div className='play-or-pause' onClick={togglePlay} title='播放/暂停'>
+        <div className={style.container}>
+            <div className={style.prev} title='上一首' onClick={() => handleChangeMusic('prev')}><StepBackwardOutlined /></div>
+            <div className={style['play-or-pause']} onClick={() => setPlaying(!isPlaying)} title='播放/暂停'>
                 {isPlaying ? <PauseOutlined /> : <CaretRightOutlined />}
             </div>
-            <div className='next' title='下一首' onClick={() => handleChangeMusic('next')}><StepForwardOutlined /></div>
+            <div className={style.next} title='下一首' onClick={() => handleChangeMusic('next')}><StepForwardOutlined /></div>
         </div>
     );
 });

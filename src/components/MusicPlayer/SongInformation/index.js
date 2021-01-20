@@ -1,19 +1,21 @@
 import React from 'react';
-import './index.scss';
-import { convertTime } from 'Utils';
+import style from './index.module.scss';
 
-const SongInformation = ({ current, duration, title, singer, cover, id }) => {
+const SongInformation = ({ id, name, cover, singers, convertedTime, convertedDuration }) => {
+
+    const singer = singers.map(({ name }) => name).join('/');
+
     return (
-        <div className='song-container'>
-            <div className='image'>
+        <div className={style.container}>
+            <div className={style.image}>
                 <img src={`${cover}?param=50y50`} />
             </div>
-            <div className='information'>
-                <div className='song'><a href={`/#/Song?id=${id}`}>{title}</a> - <span className='singer' title={singer}>{singer}</span></div>
-                <div className='time'>{`${convertTime(current)} / ${convertTime(duration)}`}</div>
+            <div className={style.information}>
+                <div className={style.song}><a href={`/#/Song?id=${id}`}>{name}</a> - <span className={style.singer} title={singer}>{singer}</span></div>
+                <div className={style.time}>{`${convertedTime} / ${convertedDuration}`}</div>
             </div>
         </div>
     );
-}
+};
 
 export default SongInformation;

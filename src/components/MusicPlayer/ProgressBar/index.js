@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useRef } from 'react';
-import './index.scss';
+import style from './index.module.scss';
 import { convertTime } from 'Utils';
 
-const ProgressBar = ({ audioRef, current, duration }) => {
+const ProgressBar = ({ currentTime, duration, audioRef }) => {
+
     const [visible, setVisible] = useState(false);  //文本框是否可见
     const railRef = useRef(null);
     const tipRef = useRef(null);
@@ -48,18 +49,18 @@ const ProgressBar = ({ audioRef, current, duration }) => {
         if (visible) {  //文本框可见，说明正在拖动
             return { width: railRef.current.style.width };
         } else {
-            return { width: `${current / duration * 100}%` };
+            return { width: `${currentTime / duration * 100}%` };
         }
     },
-        [current, duration]
+        [currentTime, duration]
     );
 
     return (
-        <div className='progressbar'>
-            <div className='track' onMouseDown={handleMouseDown}></div>
-            <div className='rail' onMouseDown={handleMouseDown} ref={railRef} style={getStyle()}>
-                <div className='handle'></div>
-                <div className='tooltip' ref={tipRef} style={{ display: visible ? 'block' : 'none' }}>00:00</div>
+        <div className={style.progressbar}>
+            <div className={style.track} onMouseDown={handleMouseDown}></div>
+            <div className={style.rail} onMouseDown={handleMouseDown} ref={railRef} style={getStyle()}>
+                <div className={style.handle}></div>
+                <div className={style.tooltip} ref={tipRef} style={{ display: visible ? 'block' : 'none' }}>00:00</div>
             </div>
         </div>
     );

@@ -1,30 +1,16 @@
 import React, { memo } from 'react';
-import './index.scss';
+import style from './index.module.scss';
 import Playlist from './Playlist';
 import PlayMode from './PlayMode';
 import Volume from './Volume';
 
-
-const OtherButton = memo(({ audioRef, playlist, playingMusic, playMode, setPlayMode, setPlaylist, setPlayingMusic, setPlaying, id }) => {
+const OtherButton = memo(({ id, playMode, playlist, playingMusic, setPlaying, setPlayingMusic, setPlayMode, setPlaylist, audioRef }) => {
 
     return (
-        <div className='other-button'>
-            <Playlist
-                id={id}
-                audioRef={audioRef}
-                playlist={playlist}
-                playingMusic={playingMusic}
-                setPlaylist={setPlaylist}
-                setPlaying={setPlaying}
-                setPlayingMusic={setPlayingMusic}
-            />
-            <PlayMode
-                playMode={playMode}
-                setPlayMode={setPlayMode}
-            />
-            <Volume
-                audioRef={audioRef}
-            />
+        <div className={style['other-button']}>
+            <Playlist {...{ id, playlist, playingMusic, audioRef, setPlaylist, setPlaying, setPlayingMusic }} />
+            <PlayMode {...{ playMode, setPlayMode }} />
+            <Volume audioRef={audioRef} />
         </div>
     );
 });

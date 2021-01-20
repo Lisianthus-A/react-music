@@ -36,20 +36,3 @@ export const userPlaylist = async (id) => {
     const result = await ajax(`/user/playlist?uid=${id}&timestamp=${Date.now()}`);
     return result;
 }
-
-//下载音乐，保存为mp3
-export const downLoadMusic = async (fileName, id) => {
-    const response = await ajax(`/song/url?id=${id}`);
-    const url = response.data[0].url;
-    await fetch(url)
-        .then(Function.call.bind(Response.prototype.blob))
-        .then(blob => {
-            const link = document.createElement('a');
-            const blobUrl = window.URL.createObjectURL(blob);
-            link.href = blobUrl;
-            link.download = `${fileName}.mp3`;
-            link.click();
-            window.URL.revokeObjectURL(blobUrl);
-        });
-    return true;
-}

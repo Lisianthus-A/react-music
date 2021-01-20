@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
+import style from './index.module.scss';
 import { TreeSelect, Button, Modal, message } from 'antd';
 import Loading from 'Components/Loading';
 import { userPlaylist, playlistTracks } from 'Apis/apiCommon';
@@ -58,7 +58,7 @@ const CollectSong = ({ songId }) => {
     }
 
     return (
-        <div className='collect-song'>
+        <div className={style['collect-song']}>
             <TreeSelect
                 treeData={tree}
                 style={{ width: '100%' }}
@@ -70,6 +70,7 @@ const CollectSong = ({ songId }) => {
                 onClick={handleClick}
                 type="primary"
                 loading={isLoading}
+                style={{marginTop: '30px'}}
             >确认</Button>
         </div>
     );

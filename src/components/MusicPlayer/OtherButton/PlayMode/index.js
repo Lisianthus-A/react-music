@@ -1,32 +1,37 @@
-import React from 'react';
-import './index.scss';
+import React, { memo } from 'react';
+import style from './index.module.scss';
 import CustomIcon from 'Components/CustomIcon';
 import { RetweetOutlined } from '@ant-design/icons';
 
-const PlayMode = ({ setPlayMode, playMode }) => {
+const PlayMode = memo(({ playMode, setPlayMode }) => {
 
     //设置播放模式
     const handleSetPlayMode = () => {
-        if (playMode === 'list-loop') {
-            setPlayMode('random');
-        } else if (playMode === 'random') {
-            setPlayMode('single-cycle');
-        } else {
-            setPlayMode('list-loop');
+        switch (playMode) {
+            case 'list-loop':
+                setPlayMode('random');
+                break;
+            case 'random':
+                setPlayMode('single-cycle');
+                break;
+            default:
+                setPlayMode('list-loop');
         }
     }
 
     return (
-        <div className='play-mode'>
-            <div className='icon' onClick={handleSetPlayMode}>
+        <div className={style['play-mode']}>
+            <div className={style.icon} onClick={handleSetPlayMode}>
                 {
-                    playMode === 'list-loop' ? <RetweetOutlined title='列表循环' /> :
-                        playMode === 'random' ? <CustomIcon type='icon-random' title='随机' /> :
-                            <CustomIcon type='icon-Singlecycle' title='单曲循环' />
+                    {
+                        'list-loop': <RetweetOutlined title='列表循环' />,
+                        'random': <CustomIcon type='icon-random' title='随机' />,
+                        'single-cycle': <CustomIcon type='icon-Singlecycle' title='单曲循环' />
+                    }[playMode]
                 }
             </div>
         </div>
     );
-}
+});
 
 export default PlayMode;
