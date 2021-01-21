@@ -8,7 +8,7 @@ const Header = ({ data }) => {
     return (
         <>
             <div className={style.title}>{name}<span>{alias.join(';')}</span></div>
-            <div className={style.image}><img src={`${cover}?param=800y300`} /></div>
+            <div className={style.image}><img src={`${cover}?param=640y300`} /></div>
         </>
     );
 }

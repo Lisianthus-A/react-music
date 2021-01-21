@@ -24,7 +24,7 @@ const Songs = ({ data, isCreator }) => {
         if (playlist.find(e => e.id === id)) {  //播放列表中已有该歌曲
             return;
         }
-        const target = songsData.find(e => e.id === id);  //需要添加的歌曲
+        const target = songlist.find(e => e.id === id);  //需要添加的歌曲
         const newList = [...playlist, target];
         setPlaylist(newList, false);
     }
