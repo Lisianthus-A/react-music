@@ -1,7 +1,7 @@
 //将字符串转为秒数  03:40.25 | 03:40:25 ->  220.25
 const convertStringToSeconds = (str) => {
     const match = str.match(/\d+/g);
-    return match[0] * 60 + +match[1] + match[2] / 100;
+    return match[0] * 60 + +match[1] + match[2] / 1000;
 }
 
 //解析歌词
