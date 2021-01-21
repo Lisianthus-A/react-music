@@ -24,11 +24,12 @@ export default () => {
             const comment = await commentPlaylist(id);  //评论
 
             setState({ detail, songs, comment });
-
         }
+
+        setState(null);
         getData();
     },
-        []
+        [id]
     );
 
     return (

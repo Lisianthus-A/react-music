@@ -17,7 +17,6 @@ export default () => {
 
     useEffect(() => {
         const getData = async () => {
-
             const detailRes = await songDetail([id]);
 
             const songs = resolveSongs(detailRes.songs);  //歌曲
@@ -28,13 +27,11 @@ export default () => {
             setState({ detail, songs, lyric, comment });
         }
 
+        setState(null);
         getData();
     },
-        []
+        [id]
     );
-
-
-
 
     return (
         <SongView state={state} />

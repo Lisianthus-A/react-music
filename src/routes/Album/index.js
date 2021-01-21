@@ -22,11 +22,14 @@ export default () => {
             const songs = resolveSongs(detailRes.songs);  //歌曲列表
             const detail = resolveDetail(detailRes);  //专辑详情
             const comment = await commentAlbum(id);  //评论
+            
             setState({ detail, comment, songs });
         }
+        
+        setState(null);
         getData();
     },
-        []
+        [id]
     );
 
     return (

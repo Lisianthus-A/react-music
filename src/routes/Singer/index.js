@@ -31,9 +31,10 @@ export default () => {
             setState({ header, songs, intro })
         }
 
+        setState(null);
         getData();
     },
-        []
+        [id]
     );
 
     return (
