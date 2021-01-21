@@ -63,7 +63,7 @@ const Songs = ({ data, isCreator }) => {
                 return playlistTracks('del', playlistId, [id]).then(() => {
                     message.info('已删除');
                     const newList = songlist.slice();
-                    songlist.splice(targetIndex, 1);
+                    newList.splice(targetIndex, 1);
                     setList(newList);
                 });
             }
@@ -72,7 +72,7 @@ const Songs = ({ data, isCreator }) => {
 
     return (
         <div className={style.songs}>
-            <div className={style.title}>歌曲列表<span>{data.length}首歌</span></div>
+            <div className={style.title}>歌曲列表<span>{songlist.length}首歌</span></div>
             <table>
                 <thead>
                     <tr>
@@ -84,7 +84,7 @@ const Songs = ({ data, isCreator }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(({ id, name, singers, duration, isFree, albumId, albumName }, idx) =>
+                    {songlist.map(({ id, name, singers, duration, isFree, albumId, albumName }, idx) =>
                         <tr key={idx} className={isFree ? '' : style.fee}>
                             <td><span>{idx + 1}</span><CaretRightOutlined className={style.playButton} onClick={() => handlePlay(id)} /></td>
                             <td>
@@ -103,10 +103,10 @@ const Songs = ({ data, isCreator }) => {
                             <td>{convertTime(duration)}</td>
                             <td>
                                 {singers.map(({ id, name }, idx) =>
-                                    <>
-                                        <a href={`#/Singer?id=${id}`} title={name} className={style.singer} key={'a' + idx}>{name}</a>
-                                        <span key={'s' + idx}> / </span>
-                                    </>
+                                    <React.Fragment key={idx}>
+                                        <a href={`#/Singer?id=${id}`} title={name} className={style.singer}>{name}</a>
+                                        <span> / </span>
+                                    </React.Fragment>
                                 )}
                             </td>
                             <td><a href={`#/Album?id=${albumId}`} title={albumName}>{albumName}</a></td>
