@@ -30,7 +30,7 @@ const MySongList = ({ state, onDelete }) => {
                     <DeleteOutlined className={style.delete} onClick={(e) => handleDelete(e, id)} />
                 </a>
             )}
-            <div className='title'>我收藏的歌单</div>
+            <div className={style.title}>我收藏的歌单</div>
             {state.subscribe.map(({ name, coverImgUrl, trackCount, id }, idx) =>
                 <a className={style['list-item']} key={idx} href={`#/SongList?id=${id}`}>
                     <div className={style.image}>
