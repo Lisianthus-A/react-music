@@ -86,8 +86,11 @@
     }
   }
 
-  .singer + span:nth-last-of-type(1) {
-    display: none;
+  .singer + span {
+    color: #999;
+    &:nth-last-of-type(1) {
+      display: none;
+    }
   }
 
   .playButton {
