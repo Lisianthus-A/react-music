@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { userPlaylist, deletePlaylist } from 'Apis/apiMySongList';
 import { Modal } from 'antd';
 import MySongListView from './components/View';
+import { getToken } from 'Utils';
 
 export default () => {
     const userid = window.localStorage.getItem('userid');
-    
-    if (!userid) {
-        return <div>userid 错误，请重新登录</div>;
+
+    if (!userid || !getToken()) {
+        return <div>需要登录使用</div>;
     }
 
     const [state, setState] = useState(null);

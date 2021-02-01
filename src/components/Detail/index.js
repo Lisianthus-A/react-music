@@ -55,10 +55,10 @@ const Detail = ({ data, songs, lyric }) => {
                     <>
                         <div className={style.singer}>歌手：
                         {singers.map(({ id, name }, idx) =>
-                            <>
-                                <a href={`#/Singer?id=${id}`} key={'a' + idx}>{name}</a>
-                                <span key={'s' + idx}> / </span>
-                            </>
+                            <React.Fragment key={idx}>
+                                <a href={`#/Singer?id=${id}`}>{name}</a>
+                                <span> / </span>
+                            </React.Fragment>
                         )}
                         </div>
                         <div>发行时间：{new Date(publishTime).toLocaleDateString().replace(/\//g, '-')}</div>
@@ -68,10 +68,10 @@ const Detail = ({ data, songs, lyric }) => {
                     <>
                         <div className={style.singer}>歌手：
                         {singers.map(({ id, name }, idx) =>
-                            <>
-                                <a href={`#/Singer?id=${id}`} key={'a' + idx}>{name}</a>
-                                <span key={'s' + idx}> / </span>
-                            </>
+                            <React.Fragment key={idx}>
+                                <a href={`#/Singer?id=${id}`}>{name}</a>
+                                <span> / </span>
+                            </React.Fragment>
                         )}
                         </div>
                         <div>所属专辑：<a href={`#/Album?id=${albumId}`}>{albumName}</a></div>
