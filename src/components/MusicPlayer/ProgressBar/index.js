@@ -10,6 +10,10 @@ const ProgressBar = ({ currentTime, duration, audioRef }) => {
 
     //鼠标按下
     const handleMouseDown = useCallback((e) => {
+        if (e.button !== 0) {  //按下的不是鼠标左键
+            return;
+        }
+
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
 

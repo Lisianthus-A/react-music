@@ -11,7 +11,7 @@ const Loading = () => {
                     <div className={style.square} key={idx} />
                 )}
             </div>
-            <div className="loading-text">加载中</div>
+            <div className={style['loading-text']}>加载中</div>
         </div>
     );
 }
