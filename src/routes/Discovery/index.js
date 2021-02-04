@@ -33,9 +33,7 @@ export default () => {
             setState({ bannerData, recommendData, topSongData: resolveSongs(topSongData.data.slice(0, 10), 2) });
         }
         getData();
-    },
-        []
-    );
+    }, []);
 
     return (
         <DiscoveryView state={state} onSongPlay={handleSongPlay} onSonglistPlay={handleSonglistPlay} />

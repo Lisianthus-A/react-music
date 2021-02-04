@@ -16,9 +16,7 @@ const Sidebar = memo(() => {
 
     useEffect(() => {
         setKey(pathname.slice(1));
-    },
-        [pathname]
-    );
+    }, [pathname]);
 
     return (
         <>
@@ -43,7 +41,7 @@ const Sidebar = memo(() => {
                     { text: '我的歌单', Icon: HeartOutlined, key: 'MySongList' }
                 ].map(({ key, text, Icon }) =>
                     <a
-                    className={currentKey === key ? `${style.item} ${style.active}` : style.item}
+                        className={currentKey === key ? `${style.item} ${style.active}` : style.item}
                         key={key}
                         href={`/#/${key}`}
                     >

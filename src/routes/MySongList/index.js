@@ -21,9 +21,7 @@ export default () => {
             setState({ create, subscribe });
         }
         getData();
-    },
-        []
-    );
+    }, []);
 
     //删除歌单
     const handleDelete = (id, type) => {

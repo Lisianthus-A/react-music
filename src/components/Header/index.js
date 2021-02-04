@@ -21,9 +21,7 @@ const Header = memo(() => {
                 setImg(window.localStorage.getItem('avatar'));
             }
         }
-    },
-        []
-    )
+    }, []);
 
     const toggleVisible = () => {
         if (name !== null) {  //已登录
@@ -46,7 +44,7 @@ const Header = memo(() => {
         <div className={style.header + ' header'}>
             <LoginView visible={visible} onClose={toggleVisible} onSetName={setName} onSetImg={setImg} />
             <Avatar size={40} icon={<UserOutlined />} onClick={toggleVisible} src={avatarImg ? `${avatarImg}?param=80y80` : ''} />
-            <div className={style.username}>{name ? name : '未登录'}</div>
+            <div className={style.username}>{name || '未登录'}</div>
             {name && <div className={style.logout} onClick={handleLogout}>退出登录</div>}
             <Input.Search
                 className={style.search}

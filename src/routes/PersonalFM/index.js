@@ -35,9 +35,7 @@ export default () => {
             setTimeout(() => middle.style.transition = '', 1000);
             externalAudioRef.current.src = src;
         }
-    },
-        []
-    );
+    }, []);
 
     const [like, setLike] = useState(false);  //喜欢
     const [playingMusic, setMusic] = useState(null);  //正在播放的音乐
@@ -68,9 +66,7 @@ export default () => {
             setList(list);
         }
         getData();
-    },
-        [musicList]
-    );
+    }, [musicList]);
 
     //播放或暂停
     const handlePlayOrPause = () => {

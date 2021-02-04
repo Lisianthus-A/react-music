@@ -49,9 +49,7 @@ const CollectSong = ({ songId }) => {
             setTree(treeData);
         }
         getData();
-    },
-        []
-    );
+    }, []);
 
     if (!tree) {
         return <Loading />;
@@ -70,7 +68,7 @@ const CollectSong = ({ songId }) => {
                 onClick={handleClick}
                 type="primary"
                 loading={isLoading}
-                style={{marginTop: '30px'}}
+                style={{ marginTop: '30px' }}
             >确认</Button>
         </div>
     );

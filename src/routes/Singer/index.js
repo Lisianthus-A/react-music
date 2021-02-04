@@ -33,9 +33,7 @@ export default () => {
 
         setState(null);
         getData();
-    },
-        [id]
-    );
+    }, [id]);
 
     return (
         <SingerView state={state} />

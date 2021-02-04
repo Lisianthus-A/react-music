@@ -65,12 +65,10 @@ const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setP
             setLyric(resolveLyric(result));
         }
         getLyric();
-        
+
         activeRef.current && activeRef.current.classList.remove(style.active);
         contentRef.current.scrollTop = 0;
-    },
-        [id]
-    );
+    }, [id]);
 
     //不断读取当前播放进度，判断是否需要滚动歌词
     //使用上层state.current的话，会使memo无效

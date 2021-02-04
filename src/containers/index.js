@@ -58,9 +58,7 @@ const AppContainer = () => {
             audioRef.current.pause();
         }
         setState({ isPlaying });
-    },
-        [audioRef]
-    );
+    }, [audioRef]);
     globalMethods.setPlaying = setPlaying;
 
     //设置当前播放位置
@@ -74,33 +72,25 @@ const AppContainer = () => {
             setPlayingMusic(list[0]);
         }
         setState({ playlist: list });
-    },
-        []
-    );
+    }, []);
     globalMethods.setPlaylist = setPlaylist;
 
     //设置当前播放的音乐
     const setPlayingMusic = useCallback((playingMusic) => {
         setState({ playingMusic });
-    },
-        []
-    );
+    }, []);
     globalMethods.setPlayingMusic = setPlayingMusic;
 
     //设置播放模式
     const setPlayMode = useCallback((playMode) => {
         setState({ playMode });
-    },
-        []
-    );
+    }, []);
     globalMethods.setPlayMode = setPlayMode;
 
     //播放位置更新触发事件
     const handleTimeUpdate = useCallback((e) => {
         setTime(e.target.currentTime);
-    },
-        []
-    );
+    }, []);
 
     //播放结束触发事件
     const handleEnded = useCallback((e) => {
@@ -126,18 +116,14 @@ const AppContainer = () => {
         }
 
         setPlayingMusic(state.playlist[nextIndex]);
-    },
-        [state.playlist, state.playingMusic, state.playMode]
-    );
+    }, [state.playlist, state.playingMusic, state.playMode]);
 
     //音频可以播放时触发事件
     const handleCanPlay = useCallback((e) => {
         if (state.isPlaying) {
             e.target.play();
         }
-    },
-        [state.isPlaying]
-    );
+    }, [state.isPlaying]);
 
     const TargetComponent = useMemo(() => React.lazy(() => import(`../routes${pathname}`)), [pathname]);
 

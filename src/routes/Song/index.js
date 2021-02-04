@@ -29,9 +29,7 @@ export default () => {
 
         setState(null);
         getData();
-    },
-        [id]
-    );
+    }, [id]);
 
     return (
         <SongView state={state} />

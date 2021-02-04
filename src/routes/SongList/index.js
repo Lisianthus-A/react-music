@@ -28,9 +28,7 @@ export default () => {
 
         setState(null);
         getData();
-    },
-        [id]
-    );
+    }, [id]);
 
     return (
         <SongListView state={state} />

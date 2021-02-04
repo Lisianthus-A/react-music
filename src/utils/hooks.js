@@ -17,9 +17,7 @@ export const useInterval = (callback, delay) => {
             let id = setInterval(tick, delay);
             return () => clearInterval(id);
         }
-    },
-        [delay]
-    );
+    }, [delay]);
 }
 
 //实现state合并
@@ -27,8 +25,6 @@ export const useSetState = (initialState = {}) => {
     const [state, saveState] = useState(initialState);
     const setState = useCallback((newState) => {
         saveState(prevState => ({ ...prevState, ...newState }));
-    },
-        []
-    );
+    }, []);
     return [state, setState];
 }

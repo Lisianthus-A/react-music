@@ -61,7 +61,7 @@ const Songs = ({ data, isCreator }) => {
             cancelText: '否',
             onOk() {
                 return playlistTracks('del', playlistId, [id]).then(() => {
-                    message.info('已删除');
+                    message.success('已删除');
                     const newList = songlist.slice();
                     newList.splice(targetIndex, 1);
                     setList(newList);
