@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import style from './index.module.scss';
-import { middle as targetClass } from 'Components/Layout/index.module.scss';
+import { middle as middleClass, bottom as bottomClass } from 'Components/Layout/index.module.scss';
 import { CaretRightOutlined, HeartOutlined, DeleteOutlined, StepForwardOutlined, HeartFilled, PauseOutlined } from '@ant-design/icons';
 import Loading from 'Components/Loading';
 import { globalMethods } from 'AppContainer';
@@ -17,9 +17,11 @@ export default () => {
 
     useEffect(() => {
         //隐藏外部音乐播放器
-        const middle = document.getElementsByClassName(targetClass)[0];
+        const middle = document.getElementsByClassName(middleClass)[0];
+        const bottom = document.getElementsByClassName(bottomClass)[0];
         middle.style.height = 'calc(100% - 64px)';
         middle.style.transition = 'height 1s';
+        bottom.style.display = 'none';
         const src = externalAudioRef.current.src;
 
         //隐藏歌词面板
@@ -32,6 +34,7 @@ export default () => {
 
         return () => {
             middle.style.height = 'calc(100% - 128px)';
+            bottom.style.display = 'block';
             setTimeout(() => middle.style.transition = '', 1000);
             externalAudioRef.current.src = src;
         }
