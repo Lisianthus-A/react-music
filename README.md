@@ -1,5 +1,5 @@
 # React Music
-基于React + JavaScript的仿网易云音乐播放器，使用一行npm命令即可在本地运行前后端。(页面搭建中)
+基于 React + JavaScript 的仿网易云音乐播放器，使用一行 npm 命令即可在本地运行前后端。
 
 技术栈: React(hooks) + axios + antd + Sass
 
@@ -39,8 +39,14 @@
     - [x] 歌曲信息
     - [x] 歌曲评论
 - [x] 私人FM页面
+    - [x] 简化版播放器
 - [x] 专辑页面
+    - [x] 专辑信息
+    - [x] 歌曲列表
+    - [x] 评论
 - [x] 歌手页面
+    - [x] 热门作品
+    - [x] 歌手介绍
 - [ ] 用户页面
 - [ ] 视频页面
 - [ ] 搜索页面
@@ -56,12 +62,12 @@ $ npm install
 ```
 $ npm run start
 ```
-运行命令后，在浏览器地址栏输入`localhost:4000`即可打开页面。前端默认运行在4000端口，后台在4001端口
+运行命令后，在浏览器地址栏输入 `localhost:4000` 即可打开页面。前端默认运行在 4000 端口，后端在 4001 端口。
 
-可在`./config/webpack.dev.config.js`和`./server/app.js`中修改默认端口。
+可在 `./config/webpack.dev.config.js` 和 `./server/app.js` 中修改默认端口。
 
 ## API接口
-API来自[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+API 来自 [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
 [API文档](https://binaryify.github.io/NeteaseCloudMusicApi)
 
