@@ -14,9 +14,8 @@ import { convertTime, searchItem } from 'Utils';
 import { downloadMusic, collectSong } from 'Utils/methods';
 
 const Songs = ({ data, isCreator }) => {
-    const { playlist } = useContext(DataContext);
-    const { setPlaylist } = globalMethods;
-    const [isDownloading, setIsDownloading] = useState(false);
+    const { playlist } = useContext(DataContext);  //当前播放列表
+    const { setPlaylist } = globalMethods;  //设置播放列表的方法
     const [songlist, setList] = useState(data);
 
     //添加到播放列表
@@ -31,12 +30,7 @@ const Songs = ({ data, isCreator }) => {
 
     //下载
     const handleDownload = (name, id) => {
-        if (isDownloading) {
-            message.loading("下载中");
-            return;
-        }
-        setIsDownloading(true);
-        downloadMusic(name, id).then(() => setIsDownloading(false));
+        downloadMusic(name, id);
     }
 
     //播放指定歌曲

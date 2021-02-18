@@ -13,13 +13,11 @@ import { resolveLyric } from 'Utils/resolve';
 import { useInterval } from 'Utils/hooks';
 import { collectSong, downloadMusic } from 'Utils/methods';
 import { lyric } from 'Apis/apiCommon';
-import { message } from 'antd';
 
 const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setPlaying, setPlayingMusic }) => {
     const [lyrics, setLyric] = useState(null);
     const contentRef = useRef(null);
     const activeRef = useRef(null);
-    const [isDownloading, setIsDownloading] = useState(false);
 
     //清空播放列表
     const handleClean = () => {
@@ -35,12 +33,7 @@ const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setP
     //下载
     const handleDownload = (e, name, id) => {
         e.stopPropagation();
-        if (isDownloading) {
-            message.loading('下载中');
-            return;
-        }
-        setIsDownloading(true);
-        downloadMusic(name, id).then(() => setIsDownloading(false));
+        downloadMusic(name, id);
     }
 
     //删除指定歌曲

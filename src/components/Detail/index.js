@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import style from './index.module.scss';
 import './reset.scss';
 import { globalMethods } from 'AppContainer';
 import { collectSong, downloadMusic } from 'Utils/methods';
-import { Button, message } from 'antd';
+import { Button } from 'antd';
 import { CaretRightOutlined, HeartOutlined, DownloadOutlined } from '@ant-design/icons';
 
 const { setPlaylist } = globalMethods;
@@ -13,7 +13,6 @@ const Detail = ({ data, songs, lyric }) => {
     const { isSonglist, isAlbum, isSong, title, cover, creator, labels, description, singers, publishTime, albumId, albumName } = data;
     const category = isSonglist ? '歌单' : isAlbum ? '专辑' : '单曲';  //分类
     const isFree = songs[0].isFree;  //单曲是否免费
-    const [isDownloading, setIsDownloading] = useState(false);  //是否下载中
 
     /* 专辑和歌单调用的方法 */
     //播放所有歌曲
@@ -35,13 +34,7 @@ const Detail = ({ data, songs, lyric }) => {
 
     //下载
     const handleDownload = () => {
-        if (isDownloading) {
-            message.loading('下载中');
-            return;
-        }
-        const { name, id } = songs[0];
-        setIsDownloading(true);
-        downloadMusic(name, id).then(() => setIsDownloading(false));
+        downloadMusic(name, id);
     }
 
     return (
