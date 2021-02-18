@@ -63,35 +63,55 @@ const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setP
         contentRef.current.scrollTop = 0;
     }, [id]);
 
-    //不断读取当前播放进度，判断是否需要滚动歌词
-    //使用上层state.current的话，会使memo无效
+    //不断读取当前播放进度，滚动歌词
     useInterval(() => {
-        if (contentRef.current.getBoundingClientRect().top === 0) {  //避免重复scroll
+        if (contentRef.current.getBoundingClientRect().top === 0) {  //播放列表处于收起状态，无需滚动歌词
             return;
         }
-        const currentTime = audioRef.current.currentTime;
-        const elemList = contentRef.current.getElementsByClassName(style.lyric);
-        for (let i = 0; i < elemList.length; i++) {
-            if (currentTime > +elemList[i].dataset.time && currentTime < +elemList[i + 1]?.dataset?.time) {
-                if (activeRef.current === elemList[i]) {  //避免重复scroll
-                    return;
+        const currentTime = audioRef.current.currentTime;  //当前播放时间
+        const elemList = contentRef.current.getElementsByClassName(style.lyric);  //所有歌词 DOM 元素列表
+
+        //二分查找当前播放时间对应的元素的下标
+        const find = () => {
+            let left = 0, right = elemList.length - 1;
+            while (left <= right) {
+                const mid = left + right >> 1;
+
+                if (currentTime < +elemList[mid].dataset.time) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
                 }
-                activeRef.current && activeRef.current.classList.remove(style.active);
-                activeRef.current = elemList[i];
-                elemList[i].classList.add(style.active);
-                //歌词置中  195 = content高度 / 2 + title高度
-                //activeRef的offsetTop会从title计算
-                contentRef.current.scrollTop = activeRef.current.offsetTop + activeRef.current.scrollHeight / 2 - 195;
-                return;
             }
+
+            return left - 1;
         }
-        const lastElem = elemList[elemList.length - 1];
-        if (lastElem && currentTime >= lastElem.dataset.time && activeRef.current !== lastElem) {
-            activeRef.current && activeRef.current.classList.remove(style.active);
-            activeRef.current = lastElem;
-            lastElem.classList.add(style.active);
-            contentRef.current.scrollTop = activeRef.current.offsetTop + activeRef.current.scrollHeight / 2 - 195;
+
+        //判断需要滚动置中的元素
+        let elementToScroll;
+        if (currentTime >= +elemList[elemList.length - 1].dataset.time) {  //当前播放时间比最后的歌词对应时间大
+            elementToScroll = elemList[elemList.length - 1];
+        } else if (currentTime <= +elemList[0].dataset.time) {  //当前播放时间比第一条歌词对应时间小
+            return;
+        } else {
+            const index = find();
+            elementToScroll = elemList[index];
         }
+
+        if (activeRef.current === elementToScroll) {  //无需改变置中的元素
+            return;
+        }
+
+        //移除旧元素的 CSS 类
+        activeRef.current && activeRef.current.classList.remove(style.active);
+
+        //新元素添加 CSS 类
+        activeRef.current = elementToScroll;
+        elementToScroll.classList.add(style.active);
+
+        //歌词置中 195 = content 高度 / 2 + title 高度
+        const scrollPosition = activeRef.current.offsetTop + activeRef.current.scrollHeight / 2 - 195;
+        contentRef.current.scrollTop = scrollPosition < 0 ? 0 : scrollPosition;
     }, 400);
 
     return (
