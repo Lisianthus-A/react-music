@@ -33,3 +33,28 @@ export const convertDate = (timestamp) => {
         d.getFullYear() > 1970 ? `${d.getFullYear() - 1970}年前` :
         d.getMonth() ? `${d.getMonth()}个月前` : `${d.getDate() - 1}天前`;
 }
+
+//节流， timeout 时间内多次调用，也只会执行一次函数
+export const throttle = (fn, timeout) => {
+    let canRun = true;
+    return function() {  //使用 function，防止丢失 this
+        if (canRun) {
+            canRun = false;
+            fn.call(this, ...arguments);
+            setTimeout(() => {
+                canRun = true;    
+            }, timeout);
+        }
+    }
+}
+
+//防抖，在最后一次调用的 timeout 时间后才执行函数
+export const debounce = (fn, timeout) => {
+    let timer;
+    return function() {  //使用 function，防止丢失 this
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn.call(this, ...arguments);
+        }, timeout);
+    }
+}

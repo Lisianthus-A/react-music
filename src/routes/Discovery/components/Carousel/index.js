@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import style from './index.module.scss';
+import { debounce } from 'Utils';
 import { useInterval } from 'Utils/hooks';
 
 const Carousel = ({ data }) => {
     const [currentKey, setKey] = useState(0);
     const len = data.length;
     const history = useHistory();
+    const [autoPlay, setAutoPlay] = useState(true);  //是否开启轮播
+    const debounceSetAutoPlay = debounce(setAutoPlay, 5000);  //防抖的 setAutoPlay
 
     //图片轮播
     useInterval(() => {
         setKey((currentKey + 1) % len);
-    }, 5000);
+    }, autoPlay ? 5000 : null);
 
 
     //根据当前下标返回style
@@ -42,7 +45,7 @@ const Carousel = ({ data }) => {
         return styleObj;
     }
 
-    //点击当前active的图片打开type指定的页面
+    //点击当前的图片，打开指定的页面
     const handleClick = (idx, id, type, url) => {
         if (currentKey === idx) {
             switch (type) {
@@ -65,8 +68,15 @@ const Carousel = ({ data }) => {
                     return;
             }
         } else {
-            setKey(idx);
+            handleSetKey(idx);
         }
+    }
+
+    //手动改变轮播的 active 图片
+    const handleSetKey = (idx) => {
+        setKey(idx);
+        setAutoPlay(false);  //停止轮播
+        debounceSetAutoPlay(true);  //5s 后开始轮播
     }
 
     return (
@@ -88,7 +98,7 @@ const Carousel = ({ data }) => {
                     <div
                         key={idx}
                         className={style.rect + (currentKey === idx ? ` ${style.active}` : '')}
-                        onClick={() => setKey(idx)}
+                        onClick={() => handleSetKey(idx)}
                     ></div>
                 )}
             </div>
