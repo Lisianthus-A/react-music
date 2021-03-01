@@ -4,7 +4,7 @@ import { middle as middleClass, bottom as bottomClass } from 'Components/Layout/
 import { CaretRightOutlined, HeartOutlined, DeleteOutlined, StepForwardOutlined, HeartFilled, PauseOutlined } from '@ant-design/icons';
 import Loading from 'Components/Loading';
 import { globalMethods } from 'AppContainer';
-import { getFMList, unlike } from 'Apis/apiPersonalFM';
+import { getFMList, unlike } from 'Apis/personalFM';
 import { getToken, convertTime } from 'Utils';
 import { collectSong } from 'Utils/methods';
 

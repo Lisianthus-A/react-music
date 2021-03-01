@@ -1,3 +1,5 @@
+//专辑相关 API
+
 import ajax from './apiBase';
 
 //专辑评论

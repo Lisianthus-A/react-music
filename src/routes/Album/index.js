@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { album, commentAlbum } from 'Apis/apiAlbum';
+import { album, commentAlbum } from 'Apis/album';
 import { searchItem } from 'Utils';
 import { resolveSongs, resolveDetail } from 'Utils/resolve';
 import AlbumView from './components/View';

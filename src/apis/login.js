@@ -1,8 +1,10 @@
+//登录相关 API
+
 import ajax from './apiBase';
 import md5 from 'Utils/md5';
 
 //邮箱登录
-export const login = async ({ email, password }) => {
+export const emailLogin = async (email, password) => {
     const result = await ajax(`/login?email=${email}&md5_password=${md5(password)}`, {
         method: 'POST'
     });
@@ -10,7 +12,7 @@ export const login = async ({ email, password }) => {
 }
 
 //手机号登录
-export const loginCellphone = async ({ phone, password }) => {
+export const phoneLogin = async (phone, password) => {
     const result = await ajax(`/login/cellphone?phone=${phone}&md5_password=${md5(password)}`, {
         method: 'POST'
     });

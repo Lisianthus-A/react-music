@@ -12,7 +12,7 @@ import { convertTime } from 'Utils';
 import { resolveLyric } from 'Utils/resolve';
 import { useInterval } from 'Utils/hooks';
 import { collectSong, downloadMusic } from 'Utils/methods';
-import { lyric } from 'Apis/apiCommon';
+import { getLyric } from 'Apis/song';
 
 const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setPlaying, setPlayingMusic }) => {
     const [lyrics, setLyric] = useState(null);
@@ -53,11 +53,11 @@ const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setP
     }
 
     useEffect(() => {
-        const getLyric = async () => {
-            const result = await lyric(id);
+        const getData = async () => {
+            const result = await getLyric(id);
             setLyric(resolveLyric(result));
         }
-        getLyric();
+        getData();
 
         activeRef.current && activeRef.current.classList.remove(style.active);
         contentRef.current.scrollTop = 0;
@@ -65,7 +65,7 @@ const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setP
 
     //不断读取当前播放进度，滚动歌词
     useInterval(() => {
-        if (contentRef.current.getBoundingClientRect().top === 0) {  //播放列表处于收起状态，无需滚动歌词
+        if (!toggleList.checked) {  //播放列表处于收起状态，无需滚动歌词
             return;
         }
         const currentTime = audioRef.current.currentTime;  //当前播放时间

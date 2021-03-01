@@ -1,5 +1,6 @@
+//推荐相关 API
+
 import ajax from './apiBase';
-import { playlistDetail, songDetail } from './apiCommon';
 
 //轮播图
 export const banner = async () => {
@@ -8,7 +9,7 @@ export const banner = async () => {
 }
 
 //推荐歌单
-export const personalized = async (limit = 10) => {
+export const recommendSonglist = async (limit = 10) => {
     const result = await ajax(`/personalized?limit=${limit}`);
     return result;
 }
@@ -20,8 +21,8 @@ export const topSong = async (type = 0) => {
     return result;
 }
 
-//歌单详情
-export { playlistDetail };
-
-//歌曲详情
-export { songDetail };
+//获取相似的歌曲
+export const simiSong = async (id) => {
+    const result = await ajax(`/simi/song?id=${id}`);
+    return result;
+}

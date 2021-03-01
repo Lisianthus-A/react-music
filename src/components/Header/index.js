@@ -5,7 +5,7 @@ import { Avatar, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import LoginView from './LoginView';
 import { getToken } from 'Utils';
-import { logout } from 'Apis/apiHeader';
+import { logout } from 'Apis/login';
 
 const Header = memo(() => {
     const [name, setName] = useState(null);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { searchItem } from 'Utils';
 import { resolveSongs } from 'Utils/resolve';
-import { artists, artistDesc } from 'Apis/apiSinger';
+import { singerInfo, singerDesc } from 'Apis/singer';
 
 import SingerView from './components/View';
 
@@ -14,15 +14,15 @@ export default () => {
 
     useEffect(() => {
         const getData = async () => {
-            const artistsRes = await artists(id);
-            const descRes = await artistDesc(id);
+            const singerRes = await singerInfo(id);
+            const descRes = await singerDesc(id);
 
             const header = {
-                name: artistsRes.artist.name,
-                alias: artistsRes.artist.alias,
-                cover: artistsRes.artist.picUrl
+                name: singerRes.artist.name,
+                alias: singerRes.artist.alias,
+                cover: singerRes.artist.picUrl
             };
-            const songs = resolveSongs(artistsRes.hotSongs);
+            const songs = resolveSongs(singerRes.hotSongs);
             const intro = {
                 intro: descRes.introduction,
                 briefDesc: descRes.briefDesc

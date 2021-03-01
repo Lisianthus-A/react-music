@@ -45,7 +45,7 @@ export const resolveLyric = (lyricRes) => {
 //解析歌曲列表
 //返回歌曲数组 [{ id, name, singers, duration, cover, isFree, albumId, albumName } * n]
 //歌曲id 歌曲名 歌手列表 时长 图片 是否免费 专辑id 专辑名
-export var resolveSongs = (songs, type = 1) => {
+export const resolveSongs = (songs, type = 1) => {
     const result = [];
 
     if (type === 1) {
@@ -62,6 +62,15 @@ export var resolveSongs = (songs, type = 1) => {
             const { id, name, album: { id: albumId, name: albumName, picUrl: cover } } = item;
             const singers = item.artists.map(({ id, name }) => ({ id, name }));
             const duration = item.dt / 1000;
+            const isFree = item.fee !== 1;
+
+            result.push({ id, name, singers, duration, cover, isFree, albumId, albumName });
+        });
+    } else if (type === 3) {  //相似音乐接口返回的数据
+        songs.forEach((item) => {
+            const { id, name, album: { id: albumId, name: albumName, picUrl: cover } } = item;
+            const singers = item.artists.map(({ id, name }) => ({ id, name }));
+            const duration = item.duration / 1000;
             const isFree = item.fee !== 1;
 
             result.push({ id, name, singers, duration, cover, isFree, albumId, albumName });

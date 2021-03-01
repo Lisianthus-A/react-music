@@ -9,7 +9,7 @@ import {
     DownloadOutlined,
     DeleteOutlined
 } from '@ant-design/icons';
-import { playlistTracks } from 'Apis/apiCommon';
+import { songlistTracks } from 'Apis/songlist';
 import { convertTime, searchItem } from 'Utils';
 import { downloadMusic, collectSong } from 'Utils/methods';
 
@@ -54,7 +54,7 @@ const Songs = ({ data, isCreator }) => {
             okText: '是',
             cancelText: '否',
             onOk() {
-                return playlistTracks('del', playlistId, [id]).then(() => {
+                return songlistTracks('del', playlistId, [id]).then(() => {
                     message.success('已删除');
                     const newList = songlist.slice();
                     newList.splice(targetIndex, 1);

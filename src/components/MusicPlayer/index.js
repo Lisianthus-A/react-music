@@ -8,6 +8,7 @@ import ControlButton from './ControlButton';
 import OtherButton from './OtherButton';
 import ProgressBar from './ProgressBar';
 
+//使用 memo 防止 TargetComponent 改变时重新渲染
 const MusicPlayer = memo(() => {
 
     const {

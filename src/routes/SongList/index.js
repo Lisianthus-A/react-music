@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { searchItem } from 'Utils';
 import { resolveSongs, resolveDetail } from 'Utils/resolve';
-import { playlistDetail, commentPlaylist, songDetail } from 'Apis/apiSongList';
+import { songlistDetail, songlistComment } from 'Apis/songlist';
+import { songDetail } from 'Apis/song';
 import SongListView from './components/View';
 
 export default () => {
@@ -16,12 +17,12 @@ export default () => {
 
     useEffect(() => {
         const getData = async () => {
-            const detailRes = await playlistDetail(id);
+            const detailRes = await songlistDetail(id);
             const ids = detailRes.playlist.trackIds.map(({ id }) => id);  //歌单所有歌曲id
 
             const detail = resolveDetail(detailRes);  //歌单详情
             const songs = await songDetail(ids).then(res => resolveSongs(res.songs));  //歌曲列表
-            const comment = await commentPlaylist(id);  //评论
+            const comment = await songlistComment(id);  //评论
 
             setState({ detail, songs, comment });
         }

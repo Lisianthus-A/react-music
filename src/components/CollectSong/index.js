@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import style from './index.module.scss';
 import { TreeSelect, Button, Modal, message } from 'antd';
 import Loading from 'Components/Loading';
-import { userPlaylist, playlistTracks } from 'Apis/apiCommon';
+import { userSonglist, songlistTracks } from 'Apis/songlist';
 
 const CollectSong = ({ songId }) => {
     const [tree, setTree] = useState(null);
@@ -21,7 +21,7 @@ const CollectSong = ({ songId }) => {
         }
 
         setLoading(true);
-        playlistTracks('add', selectId, [songId]).then(() => {
+        songlistTracks('add', selectId, [songId]).then(() => {
             Modal.destroyAll();
             message.success('已收藏歌曲');
         });
@@ -29,7 +29,7 @@ const CollectSong = ({ songId }) => {
 
     useEffect(() => {
         const getData = async () => {
-            const listData = await userPlaylist(userid);
+            const listData = await userSonglist(userid);
             const create = listData.playlist.filter(({ subscribed }) => !subscribed);  //创建的歌单
             const subscribe = listData.playlist.filter(({ subscribed }) => subscribed);  //收藏的歌单
             const treeData = [

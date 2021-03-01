@@ -1,3 +1,5 @@
+//私人 FM 相关 API
+
 import ajax from './apiBase';
 
 //获取私人FM列表
