@@ -12,14 +12,14 @@ export const resolveLyric = (lyricRes) => {
     }
 
     //原歌词与翻译歌词，过滤掉不包含时间的字符串
-    const originLrc = lyricRes.lrc.lyric.split('\n').filter(e => /\d{2}\:\d{2}[\.\:]\d{2,3}/.test(e));
-    const transLrc = lyricRes.tlyric.lyric ? lyricRes.tlyric.lyric.split('\n').filter(e => /\d{2}\:\d{2}[\.\:]\d{2,3}/.test(e)) : [];
+    const originLrc = lyricRes.lrc.lyric.split('\n').filter(e => /\d{2}\:\d{2}[\.\:]\d{1,3}/.test(e));
+    const transLrc = lyricRes.tlyric.lyric ? lyricRes.tlyric.lyric.split('\n').filter(e => /\d{2}\:\d{2}[\.\:]\d{1,3}/.test(e)) : [];
 
     //处理歌词数组中每个字符串的函数
     const handler = (str, isOrigin) => {
         const idx = str.lastIndexOf(']');  //右中括号的下标
         const lrc = str.slice(idx + 1);  //歌词
-        const times = str.match(/\d{2}\:\d{2}[\.\:]\d{2,3}/g);  //匹配到的所有时间
+        const times = str.match(/\d{2}\:\d{2}[\.\:]\d{1,3}/g);  //匹配到的所有时间
         times.forEach(time => {
             const second = convertStringToSeconds(time);  //歌词对应的秒数
             if (isOrigin) {
@@ -66,7 +66,7 @@ export const resolveSongs = (songs, type = 1) => {
 
             result.push({ id, name, singers, duration, cover, isFree, albumId, albumName });
         });
-    } else if (type === 3) {  //相似音乐接口返回的数据
+    } else if (type === 3) {  //simiSong 接口返回的歌曲时长是 duration 而非 dt
         songs.forEach((item) => {
             const { id, name, album: { id: albumId, name: albumName, picUrl: cover } } = item;
             const singers = item.artists.map(({ id, name }) => ({ id, name }));
@@ -90,12 +90,13 @@ export const resolveDetail = (res) => {
     const isSong = !isSonglist && !isAlbum;
     if (isSonglist) {  //歌单
         const { name: title, coverImgUrl: cover, tags: labels, description } = res.playlist;
-        const creator = {};
-        creator.id = res.playlist.creator.userId;
-        creator.name = res.playlist.creator.nickname;
-        creator.avatar = res.playlist.creator.avatarUrl;
-        creator.createTime = res.playlist.createTime;
-        const isCreator = +window.localStorage.getItem('userid') === creator.id;
+        const creator = {  //歌单创建者
+            id: res.playlist.creator.userId,  //用户 id
+            name: res.playlist.creator.nickname,  //用户昵称
+            avatar: res.playlist.creator.avatarUrl,  //用户头像 url
+            createTime: res.playlist.createTime  //创建时间
+        };
+        const isCreator = +window.localStorage.getItem('userid') === creator.id;  //当前登录的用户是否创建者
         return { isSonglist, isAlbum, isSong, title, cover, creator, isCreator, labels, description };
     } else if (isAlbum) {  //专辑
         const { name: title, picUrl: cover, publishTime, description } = res.album;
