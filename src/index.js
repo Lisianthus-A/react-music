@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './app';
 
 const render = () => {
     ReactDOM.render(
@@ -12,5 +12,5 @@ const render = () => {
 render();
 
 if (module.hot) {
-    module.hot.accept('./App.js', () => render());
+    module.hot.accept('./app.js', () => render());
 }
