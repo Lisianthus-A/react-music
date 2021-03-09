@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import style from './index.module.scss';
-import { middle, bottom } from 'Components/Layout/index.module.scss';
+import layoutStyle from 'Components/Layout/index.module.scss';
 import { Link } from 'react-router-dom';
 import { CaretRightOutlined, HeartOutlined, DeleteOutlined, StepForwardOutlined, HeartFilled, PauseOutlined } from '@ant-design/icons';
 import Loading from 'Components/Loading';
@@ -18,11 +18,10 @@ export default () => {
 
     useEffect(() => {
         //隐藏外部音乐播放器
-        console.log('middleClass', middle);
-        console.log('bottomClass', bottom);
+        console.log('layoutStyle', layoutStyle);
 
-        const middleEl = document.getElementsByClassName(middle)[0];
-        const bottomEl = document.getElementsByClassName(bottom)[0];
+        const middleEl = document.getElementsByClassName(layoutStyle.middle)[0];
+        const bottomEl = document.getElementsByClassName(layoutStyle.bottom)[0];
         middleEl.style.height = 'calc(100% - 64px)';
         middleEl.style.transition = 'height 1s';
         bottomEl.style.display = 'none';
