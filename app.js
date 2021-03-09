@@ -76,7 +76,7 @@ fs.readdirSync(path.join(__dirname, 'module'))
       question(query, request)
         .then((answer) => {
           console.log('[OK]', decodeURIComponent(req.originalUrl))
-          res.append('Set-Cookie', answer.cookie)
+          res.append('Set-Cookie', answer.cookie + 'SameSite=None; Secure')
           res.status(answer.status).send(answer.body)
         })
         .catch((answer) => {
