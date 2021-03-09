@@ -71,6 +71,10 @@ const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setP
         const currentTime = audioRef.current.currentTime;  //当前播放时间
         const elemList = contentRef.current.getElementsByClassName(style.lyric);  //所有歌词 DOM 元素列表
 
+        if (elemList.length === 0) {
+            return;
+        }
+
         //二分查找当前播放时间对应的元素的下标
         const find = () => {
             let left = 0, right = elemList.length - 1;
