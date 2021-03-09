@@ -18,6 +18,10 @@ export default () => {
 
     useEffect(() => {
         //隐藏外部音乐播放器
+        console.log('middleClass', middleClass);
+        console.log('bottomClass', bottomClass);
+        debugger;
+
         const middle = document.getElementsByClassName(middleClass)[0];
         const bottom = document.getElementsByClassName(bottomClass)[0];
         middle.style.height = 'calc(100% - 64px)';
