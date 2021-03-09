@@ -3,7 +3,9 @@
 
 技术栈: React(hooks) + axios + antd + Sass
 
-预览：
+## 预览
+[在线预览](https://lisianthus-a.github.io/react-music/#/Discovery)（服务器部署在 heroku，可能需要科学上网）
+
 ![preview](./assets/images/preview.png)
 
 ## Todo
