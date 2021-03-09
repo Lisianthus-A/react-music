@@ -18,8 +18,6 @@ export default () => {
 
     useEffect(() => {
         //隐藏外部音乐播放器
-        console.log('layoutStyle', layoutStyle);
-
         const middleEl = document.getElementsByClassName(layoutStyle.middle)[0];
         const bottomEl = document.getElementsByClassName(layoutStyle.bottom)[0];
         middleEl.style.height = 'calc(100% - 64px)';
