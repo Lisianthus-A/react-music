@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 //服务器地址
+// const baseUrl = 'http://localhost:4001';  //本地测试地址
 const baseUrl = 'https://server0309.herokuapp.com';
 
 //请求携带的参数

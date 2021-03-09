@@ -1,6 +1,7 @@
 import React from 'react';
 import style from './index.module.scss';
 import './reset.scss';
+import { Link } from 'react-router-dom';
 import { globalMethods } from 'AppContainer';
 import { collectSong, downloadMusic } from 'Utils/methods';
 import { Button } from 'antd';
@@ -49,7 +50,7 @@ const Detail = ({ data, songs, lyric }) => {
                         <div className={style.singer}>歌手：
                         {singers.map(({ id, name }, idx) =>
                             <React.Fragment key={idx}>
-                                <a href={`#/Singer?id=${id}`}>{name}</a>
+                                <Link to={`/Singer?id=${id}`}>{name}</Link>
                                 <span> / </span>
                             </React.Fragment>
                         )}
@@ -62,17 +63,17 @@ const Detail = ({ data, songs, lyric }) => {
                         <div className={style.singer}>歌手：
                         {singers.map(({ id, name }, idx) =>
                             <React.Fragment key={idx}>
-                                <a href={`#/Singer?id=${id}`}>{name}</a>
+                                <Link to={`/Singer?id=${id}`}>{name}</Link>
                                 <span> / </span>
                             </React.Fragment>
                         )}
                         </div>
-                        <div>所属专辑：<a href={`#/Album?id=${albumId}`}>{albumName}</a></div>
+                        <div>所属专辑：<Link to={`/Album?id=${albumId}`}>{albumName}</Link></div>
                     </>
                 }
                 {isSonglist &&
                     <div className={style.creator}>
-                        <a href={`#/User?id=${creator.id}`}><img src={`${creator.avatar}?param=40y40`} />{creator.name}</a>
+                        <Link to={`/User?id=${creator.id}`}><img src={`${creator.avatar}?param=40y40`} />{creator.name}</Link>
                         {new Date(creator.createTime).toLocaleString().replace(/[ ].+/, '').replace(/\//g, '-')}创建
                     </div>
                 }

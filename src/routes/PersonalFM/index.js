@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import style from './index.module.scss';
 import { middle as middleClass, bottom as bottomClass } from 'Components/Layout/index.module.scss';
+import { Link } from 'react-router-dom';
 import { CaretRightOutlined, HeartOutlined, DeleteOutlined, StepForwardOutlined, HeartFilled, PauseOutlined } from '@ant-design/icons';
 import Loading from 'Components/Loading';
 import { globalMethods } from 'AppContainer';
@@ -136,7 +137,7 @@ export default () => {
             <div className={style.title}>私人FM</div>
             <div className={style['music-box']}>
                 <div className={style.image}><img src={`${playingMusic.cover}?param=300y300`} /></div>
-                <a className={style.song} href={`/#/Song?id=${playingMusic.id}`} target="_blank" title={playingMusic.title}>{playingMusic.title}</a>
+                <Link className={style.song} to={`/Song?id=${playingMusic.id}`} target="_blank" title={playingMusic.title}>{playingMusic.title}</Link>
                 <div className={style['progress-container']} ref={progressContainerRef}>
                     <div className={style.progress} ref={progressRef} onClick={handleSetProgress}></div>
                 </div>

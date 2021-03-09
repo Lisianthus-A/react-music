@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './index.module.scss';
+import { Link } from 'react-router-dom';
 import { LikeOutlined } from '@ant-design/icons';
 import { convertDate } from 'Utils';
 
@@ -14,10 +15,10 @@ const CommentList = ({ data }) => {
                     <div className={style.image}><img src={`${user.avatarUrl}?param=50y50`} loading='lazy' /></div>
                     <div className={style.container}>
                         <div className={style.content}>
-                            <span><a href={`#/User?id=${user.userId}`}>{user.nickname}：</a>{content}</span>
+                            <span><Link to={`User?id=${user.userId}`}>{user.nickname}：</Link>{content}</span>
                             {beReplied[0] &&
                                 <div className={style.reply}>
-                                    <span><a href={`#/User?id=${beReplied[0].user.userId}`}>{beReplied[0].user.nickname}：</a>{beReplied[0].content}</span>
+                                    <span><Link to={`User?id=${beReplied[0].user.userId}`}>{beReplied[0].user.nickname}：</Link>{beReplied[0].content}</span>
                                 </div>
                             }
                         </div>
@@ -34,10 +35,10 @@ const CommentList = ({ data }) => {
                     <div className={style.image}><img src={`${user.avatarUrl}?param=50y50`} loading='lazy' /></div>
                     <div className={style.container}>
                         <div className={style.content}>
-                            <span><a href={`#/User?id=${user.userId}`}>{user.nickname}：</a>{content}</span>
+                            <span><Link to={`User?id=${user.userId}`}>{user.nickname}：</Link>{content}</span>
                             {beReplied[0] &&
                                 <div className={style.reply}>
-                                    <span><a href={`#/User?id=${beReplied[0].user.userId}`}>{beReplied[0].user.nickname}：</a>{beReplied[0].content}</span>
+                                    <span><Link to={`User?id=${beReplied[0].user.userId}`}>{beReplied[0].user.nickname}：</Link>{beReplied[0].content}</span>
                                 </div>
                             }
                         </div>

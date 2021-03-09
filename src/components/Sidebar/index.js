@@ -1,6 +1,6 @@
 import React, { useState, useEffect, memo } from 'react';
 import style from './index.module.scss';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import {
     HeartOutlined,
     SearchOutlined,
@@ -28,25 +28,25 @@ const Sidebar = memo(() => {
                     { text: '私人FM', Icon: CustomerServiceOutlined, key: 'PersonalFM' },
                     { text: '视频', Icon: VideoCameraOutlined, key: 'Video' }
                 ].map(({ key, text, Icon }) =>
-                    <a
+                    <Link
                         className={currentKey === key ? `${style.item} ${style.active}` : style.item}
                         key={key}
-                        href={`/#/${key}`}
+                        to={`/${key}`}
                     >
                         <Icon /> {text}
-                    </a>
+                    </Link>
                 )}
                 <div className={style.category}>我的音乐</div>
                 {[
                     { text: '我的歌单', Icon: HeartOutlined, key: 'MySongList' }
                 ].map(({ key, text, Icon }) =>
-                    <a
+                    <Link
                         className={currentKey === key ? `${style.item} ${style.active}` : style.item}
                         key={key}
-                        href={`/#/${key}`}
+                        to={`/${key}`}
                     >
                         <Icon /> {text}
-                    </a>
+                    </Link>
                 )}
                 <div className={style.category}>GitHub</div>
                 <a className={style.item} href="https://github.com/lisianthus-a/react-music" target="_blank">

@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './View.module.scss';
+import { Link } from 'react-router-dom';
 import { DeleteOutlined } from '@ant-design/icons';
 import Loading from 'Components/Loading';
 
@@ -19,7 +20,7 @@ const MySongList = ({ state, onDelete }) => {
         <div className={style['my-songlist']}>
             <div className={style.title}>我创建的歌单</div>
             {state.create.map(({ name, coverImgUrl, trackCount, id }, idx) =>
-                <a className={style['list-item']} key={idx} href={`#/SongList?id=${id}`}>
+                <Link className={style['list-item']} key={idx} to={`/SongList?id=${id}`}>
                     <div className={style.image}>
                         <img src={`${coverImgUrl}?param=100y100`} loading='lazy' />
                     </div>
@@ -28,11 +29,11 @@ const MySongList = ({ state, onDelete }) => {
                         <span>{trackCount}首</span>
                     </div>
                     <DeleteOutlined className={style.delete} onClick={(e) => handleDelete(e, id)} />
-                </a>
+                </Link>
             )}
             <div className={style.title}>我收藏的歌单</div>
             {state.subscribe.map(({ name, coverImgUrl, trackCount, id }, idx) =>
-                <a className={style['list-item']} key={idx} href={`#/SongList?id=${id}`}>
+                <Link className={style['list-item']} key={idx} to={`/SongList?id=${id}`}>
                     <div className={style.image}>
                         <img src={`${coverImgUrl}?param=100y100`} loading='lazy' />
                     </div>
@@ -41,7 +42,7 @@ const MySongList = ({ state, onDelete }) => {
                         <span>{trackCount}首</span>
                     </div>
                     <DeleteOutlined className={style.delete} onClick={(e) => handleDelete(e, id, 2)} />
-                </a>
+                </Link>
             )}
         </div>
     );

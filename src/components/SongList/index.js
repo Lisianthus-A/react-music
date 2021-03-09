@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import style from './index.module.scss';
+import { Link } from 'react-router-dom';
 import { DataContext, globalMethods } from 'AppContainer';
 import { message, Modal } from 'antd';
 import {
@@ -82,7 +83,7 @@ const Songs = ({ data, isCreator }) => {
                         <tr key={idx} className={isFree ? '' : style.fee}>
                             <td><span>{idx + 1}</span><CaretRightOutlined className={style.playButton} onClick={() => handlePlay(id)} /></td>
                             <td>
-                                <a href={`#/Song?id=${id}`}>{name}</a>
+                                <Link to={`/Song?id=${id}`}>{name}</Link>
                                 <div className={style.icons}>
                                     {isFree &&
                                         <>
@@ -98,12 +99,12 @@ const Songs = ({ data, isCreator }) => {
                             <td>
                                 {singers.map(({ id, name }, idx) =>
                                     <React.Fragment key={idx}>
-                                        <a href={`#/Singer?id=${id}`} title={name} className={style.singer}>{name}</a>
+                                        <Link to={`/Singer?id=${id}`} title={name} className={style.singer}>{name}</Link>
                                         <span> / </span>
                                     </React.Fragment>
                                 )}
                             </td>
-                            <td><a href={`#/Album?id=${albumId}`} title={albumName}>{albumName}</a></td>
+                            <td><Link to={`/Album?id=${albumId}`} title={albumName}>{albumName}</Link></td>
                         </tr>
                     )}
                 </tbody>
