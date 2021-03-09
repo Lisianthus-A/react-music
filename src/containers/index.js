@@ -13,7 +13,7 @@ const initialState = {
             name: 'The Ray of Light',  //音乐名
             singers: [{ name: 'Vivienne', id: 191056 }],  //歌手
             duration: 222.98,  //总时长
-            cover: 'http://p2.music.126.net/izNmlpS7ZO5-tQu6H-jHuw==/18950082904839814.jpg', //封面图片
+            cover: 'https://p2.music.126.net/izNmlpS7ZO5-tQu6H-jHuw==/18950082904839814.jpg', //封面图片
             isFree: true,  //是否免费
             albumName: 'Increase Beat',  //专辑名
             albumId: 35498685  //专辑id
@@ -25,7 +25,7 @@ const initialState = {
         name: 'The Ray of Light',  //音乐名
         singers: [{ name: 'Vivienne', id: 191056 }],  //歌手
         duration: 222.98,  //总时长
-        cover: 'http://p2.music.126.net/izNmlpS7ZO5-tQu6H-jHuw==/18950082904839814.jpg', //封面图片
+        cover: 'https://p2.music.126.net/izNmlpS7ZO5-tQu6H-jHuw==/18950082904839814.jpg', //封面图片
         isFree: true,  //是否免费
         albumName: 'Increase Beat',  //专辑名
         albumId: 35498685  //专辑id
