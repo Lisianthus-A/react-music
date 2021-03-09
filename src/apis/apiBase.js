@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //服务器地址
-const baseUrl = 'https://server0309.herokuapp.com/';
+const baseUrl = 'https://server0309.herokuapp.com';
 
 //请求携带的参数
 const baseParams = {
