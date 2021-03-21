@@ -3,6 +3,7 @@ import style from './View.module.scss';
 import { Link } from 'react-router-dom';
 import { DeleteOutlined } from '@ant-design/icons';
 import Loading from 'Components/Loading';
+import { replaceHttpToHttps as rp } from 'Utils';
 
 const MySongList = ({ state, onDelete }) => {
 
@@ -22,7 +23,7 @@ const MySongList = ({ state, onDelete }) => {
             {state.create.map(({ name, coverImgUrl, trackCount, id }, idx) =>
                 <Link className={style['list-item']} key={idx} to={`/SongList?id=${id}`}>
                     <div className={style.image}>
-                        <img src={`${coverImgUrl}?param=100y100`} loading='lazy' />
+                        <img src={`${rp(coverImgUrl)}?param=100y100`} loading='lazy' />
                     </div>
                     <div className={style.content}>
                         <span>{name}</span>
@@ -35,7 +36,7 @@ const MySongList = ({ state, onDelete }) => {
             {state.subscribe.map(({ name, coverImgUrl, trackCount, id }, idx) =>
                 <Link className={style['list-item']} key={idx} to={`/SongList?id=${id}`}>
                     <div className={style.image}>
-                        <img src={`${coverImgUrl}?param=100y100`} loading='lazy' />
+                        <img src={`${rp(coverImgUrl)}?param=100y100`} loading='lazy' />
                     </div>
                     <div className={style.content}>
                         <span>{name}</span>

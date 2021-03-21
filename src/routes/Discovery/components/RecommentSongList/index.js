@@ -2,6 +2,7 @@ import React from 'react';
 import style from './index.module.scss';
 import { Link } from 'react-router-dom';
 import { CustomerServiceOutlined, CaretRightOutlined } from '@ant-design/icons';
+import { replaceHttpToHttps as rp } from 'Utils';
 
 //将播放次数转换成形如 x万 的字符串，不满1万则原样返回
 const convertCount = (count) => {
@@ -24,7 +25,7 @@ const RecommentSongList = ({ data, onPlay }) => {
                 {data.slice(0, 5).map(({ picUrl, name, copywriter, playCount, id }, idx) =>
                     <div className={style.listitem} key={idx}>
                         <Link className={style.image} to={`/SongList?id=${id}`}>
-                            <img src={`${picUrl}?param=240y240`} loading='lazy' />
+                            <img src={`${rp(picUrl)}?param=240y240`} loading='lazy' />
                             <div className={style.copywriter}>{copywriter}</div>
                             <div className={style['play-count']}><CustomerServiceOutlined />{convertCount(playCount)}</div>
                             <div className={style['play-button']} onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
@@ -37,7 +38,7 @@ const RecommentSongList = ({ data, onPlay }) => {
                 {data.slice(5, 10).map(({ picUrl, name, copywriter, playCount, id }, idx) =>
                     <div className={style.listitem} key={idx}>
                         <Link className={style.image} to={`/SongList?id=${id}`}>
-                            <img src={`${picUrl}?param=240y240`} loading='lazy' />
+                            <img src={`${rp(picUrl)}?param=240y240`} loading='lazy' />
                             <div className={style.copywriter}>{copywriter}</div>
                             <div className={style['play-count']}><CustomerServiceOutlined />{convertCount(playCount)}</div>
                             <div className={style['play-button']} onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>

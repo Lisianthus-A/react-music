@@ -59,3 +59,6 @@ export const debounce = (fn, timeout) => {
         }, timeout);
     }
 }
+
+//将 http 转换为 https
+export const replaceHttpToHttps = (url) => url.replace(/http\:/, 'https:');

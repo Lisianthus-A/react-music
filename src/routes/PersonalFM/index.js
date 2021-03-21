@@ -6,7 +6,7 @@ import { CaretRightOutlined, HeartOutlined, DeleteOutlined, StepForwardOutlined,
 import Loading from 'Components/Loading';
 import { globalMethods } from 'AppContainer';
 import { getFMList, unlike } from 'Apis/personalFM';
-import { hasToken, convertTime } from 'Utils';
+import { hasToken, convertTime, replaceHttpToHttps as rp } from 'Utils';
 import { collectSong } from 'Utils/methods';
 
 export default () => {
@@ -136,7 +136,7 @@ export default () => {
         <div className={style['personal-fm']}>
             <div className={style.title}>私人FM</div>
             <div className={style['music-box']}>
-                <div className={style.image}><img src={`${playingMusic.cover}?param=300y300`} /></div>
+                <div className={style.image}><img src={`${rp(playingMusic.cover)}?param=300y300`} /></div>
                 <Link className={style.song} to={`/Song?id=${playingMusic.id}`} target="_blank" title={playingMusic.title}>{playingMusic.title}</Link>
                 <div className={style['progress-container']} ref={progressContainerRef}>
                     <div className={style.progress} ref={progressRef} onClick={handleSetProgress}></div>

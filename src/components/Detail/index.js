@@ -3,6 +3,7 @@ import style from './index.module.scss';
 import './reset.scss';
 import { Link } from 'react-router-dom';
 import { globalMethods } from 'AppContainer';
+import { replaceHttpToHttps as rp } from 'Utils';
 import { collectSong, downloadMusic } from 'Utils/methods';
 import { Button } from 'antd';
 import { CaretRightOutlined, HeartOutlined, DownloadOutlined } from '@ant-design/icons';
@@ -41,7 +42,7 @@ const Detail = ({ data, songs, lyric }) => {
     return (
         <div className={style.detail + ' detail'}>
             <div className={style['list-left']}>
-                <div className={style.image}><img src={`${cover}?param=240y240`} /></div>
+                <div className={style.image}><img src={`${rp(cover)}?param=240y240`} /></div>
             </div>
             <div className={style['list-right']}>
                 <div className={style.title} style={{ '--text': `'${category}'` }}>{title}</div>
@@ -73,7 +74,7 @@ const Detail = ({ data, songs, lyric }) => {
                 }
                 {isSonglist &&
                     <div className={style.creator}>
-                        <Link to={`/User?id=${creator.id}`}><img src={`${creator.avatar}?param=40y40`} />{creator.name}</Link>
+                        <Link to={`/User?id=${creator.id}`}><img src={`${rp(creator.avatar)}?param=40y40`} />{creator.name}</Link>
                         {new Date(creator.createTime).toLocaleString().replace(/[ ].+/, '').replace(/\//g, '-')}创建
                     </div>
                 }

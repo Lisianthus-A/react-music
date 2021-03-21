@@ -4,7 +4,7 @@ import './reset.scss';
 import { Avatar, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import LoginView from './LoginView';
-import { hasToken } from 'Utils';
+import { hasToken, replaceHttpToHttps as rp } from 'Utils';
 import { logout } from 'Apis/login';
 
 const Header = memo(() => {
@@ -43,7 +43,7 @@ const Header = memo(() => {
     return (
         <div className={style.header + ' header'}>
             <LoginView visible={visible} onClose={toggleVisible} onSetName={setName} onSetImg={setImg} />
-            <Avatar size={40} icon={<UserOutlined />} onClick={toggleVisible} src={avatarImg ? `${avatarImg}?param=80y80` : ''} />
+            <Avatar size={40} icon={<UserOutlined />} onClick={toggleVisible} src={avatarImg ? `${rp(avatarImg)}?param=80y80` : ''} />
             <div className={style.username}>{name || '未登录'}</div>
             {name && <div className={style.logout} onClick={handleLogout}>退出登录</div>}
             <Input.Search

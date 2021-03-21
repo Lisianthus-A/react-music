@@ -2,7 +2,7 @@ import React from 'react';
 import style from './index.module.scss';
 import { Link } from 'react-router-dom';
 import { LikeOutlined } from '@ant-design/icons';
-import { convertDate } from 'Utils';
+import { convertDate, replaceHttpToHttps as rp } from 'Utils';
 
 const CommentList = ({ data }) => {
     const { hotComments, comments, total } = data;
@@ -12,7 +12,7 @@ const CommentList = ({ data }) => {
             {hotComments.length > 0 && <div className={style['sub-title']}>精彩评论</div>}
             {hotComments.length > 0 && hotComments.map(({ beReplied, content, user, time, likedCount }, idx) =>
                 <div className={style.comment} key={idx}>
-                    <div className={style.image}><img src={`${user.avatarUrl}?param=50y50`} loading='lazy' /></div>
+                    <div className={style.image}><img src={`${rp(user.avatarUrl)}?param=50y50`} loading='lazy' /></div>
                     <div className={style.container}>
                         <div className={style.content}>
                             <span><Link to={`User?id=${user.userId}`}>{user.nickname}：</Link>{content}</span>
@@ -32,7 +32,7 @@ const CommentList = ({ data }) => {
             {comments.length > 0 && <div className={style['sub-title']}>最新评论</div>}
             {comments.length > 0 && comments.map(({ beReplied, content, user, time, likedCount }, idx) =>
                 <div className={style.comment} key={idx}>
-                    <div className={style.image}><img src={`${user.avatarUrl}?param=50y50`} loading='lazy' /></div>
+                    <div className={style.image}><img src={`${rp(user.avatarUrl)}?param=50y50`} loading='lazy' /></div>
                     <div className={style.container}>
                         <div className={style.content}>
                             <span><Link to={`User?id=${user.userId}`}>{user.nickname}：</Link>{content}</span>

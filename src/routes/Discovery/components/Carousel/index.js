@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import style from './index.module.scss';
-import { debounce } from 'Utils';
+import { debounce, replaceHttpToHttps as rp } from 'Utils';
 import { useInterval } from 'Utils/hooks';
 
 const Carousel = ({ data }) => {
@@ -89,7 +89,7 @@ const Carousel = ({ data }) => {
                         onClick={() => handleClick(idx, targetId, targetType, url)}
                         style={getStyle(idx)}
                     >
-                        <img src={`${imageUrl}?param=500y200`} />
+                        <img src={`${rp(imageUrl)}?param=500y200`} />
                     </div>
                 )}
             </div>
