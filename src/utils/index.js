@@ -1,13 +1,14 @@
-const getCookie = (name) => {
-    let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-}
+//判断是否有 token
+export const hasToken = () => {
+    const timestampBefore = window.localStorage.getItem('timestampBefore');  //token 过期时间
+    if (Date.now() >= timestampBefore) {  //token 已过期
+        window.localStorage.removeItem('timestampBefore');
+        window.localStorage.removeItem('token');
+        return false;
+    }
 
-//获取token
-export const getToken = () => {
-    return getCookie('MUSIC_U');
+    const token = window.localStorage.getItem('token');
+    return !!token;
 }
 
 //将秒数转换成形如01:42的字符串
@@ -37,12 +38,12 @@ export const convertDate = (timestamp) => {
 //节流， timeout 时间内多次调用，也只会执行一次函数
 export const throttle = (fn, timeout) => {
     let canRun = true;
-    return function() {  //使用 function，防止丢失 this
+    return function () {  //使用 function，防止丢失 this
         if (canRun) {
             canRun = false;
             fn.call(this, ...arguments);
             setTimeout(() => {
-                canRun = true;    
+                canRun = true;
             }, timeout);
         }
     }
@@ -51,7 +52,7 @@ export const throttle = (fn, timeout) => {
 //防抖，在最后一次调用的 timeout 时间后才执行函数
 export const debounce = (fn, timeout) => {
     let timer;
-    return function() {  //使用 function，防止丢失 this
+    return function () {  //使用 function，防止丢失 this
         clearTimeout(timer);
         timer = setTimeout(() => {
             fn.call(this, ...arguments);

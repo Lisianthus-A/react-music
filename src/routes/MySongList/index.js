@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { userSonglist, deleteSonglist } from 'Apis/songlist';
 import { Modal } from 'antd';
 import MySongListView from './components/View';
-import { getToken } from 'Utils';
+import { hasToken } from 'Utils';
 
 export default () => {
     const userid = window.localStorage.getItem('userid');
 
-    if (!userid || !getToken()) {
+    if (!userid || !hasToken()) {
         return <div>需要登录使用</div>;
     }
 

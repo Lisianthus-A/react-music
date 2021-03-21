@@ -32,11 +32,26 @@ const ModalView = ({ visible, onClose, onSetName, onSetImg }) => {
             ? await emailLogin(username, password)
             : await phoneLogin(username, password);
 
-        onSetName(result.profile.nickname);
-        onSetImg(result.profile.avatarUrl);
-        window.localStorage.setItem('username', result.profile.nickname);
-        window.localStorage.setItem('avatar', result.profile.avatarUrl);
-        window.localStorage.setItem('userid', result.account.id);
+        //昵称 头像地址 
+        const { nickname, avatarUrl } = result.profile;
+        //用户 id
+        const { id } = result.account;
+        //token
+        const { token } = result;
+        //token 过期时间
+        const maxAge = +result.cookie.match(/MUSIC_U=\w+;\s?Max-Age=(\d+)/)[1];
+
+
+        onSetName(nickname);
+        onSetImg(avatarUrl);
+        window.localStorage.setItem('username', nickname);
+        window.localStorage.setItem('avatar', avatarUrl);
+        window.localStorage.setItem('userid', id);
+
+        //js 无法访问到 document.cookie，所以将 token 存入 localStorage
+        window.localStorage.setItem('token', token);
+        window.localStorage.setItem('timestampBefore', Date.now() + maxAge * 1000);
+
         onClose();
     }
 

@@ -6,12 +6,12 @@ import { CaretRightOutlined, HeartOutlined, DeleteOutlined, StepForwardOutlined,
 import Loading from 'Components/Loading';
 import { globalMethods } from 'AppContainer';
 import { getFMList, unlike } from 'Apis/personalFM';
-import { getToken, convertTime } from 'Utils';
+import { hasToken, convertTime } from 'Utils';
 import { collectSong } from 'Utils/methods';
 
 export default () => {
 
-    if (!getToken()) {  //无token，未登录
+    if (!hasToken()) {  //无 token，未登录
         return <div>私人FM需要登录使用</div>;
     }
     const { audioRef: externalAudioRef, setPlaying: externalSetPlaying } = globalMethods;

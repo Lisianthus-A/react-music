@@ -4,7 +4,7 @@ import './reset.scss';
 import { Avatar, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import LoginView from './LoginView';
-import { getToken } from 'Utils';
+import { hasToken } from 'Utils';
 import { logout } from 'Apis/login';
 
 const Header = memo(() => {
@@ -13,7 +13,7 @@ const Header = memo(() => {
     const [avatarImg, setImg] = useState(null);
 
     useEffect(() => {
-        if (getToken()) {  //cookie未过期
+        if (hasToken()) {  //token 未过期
             const name = window.localStorage.getItem('username');
             const img = window.localStorage.getItem('avatar');
             if (name && img) {
