@@ -8,24 +8,28 @@ const ControlButton = memo(({ isPlaying, playMode, playlist, playingMusic, setPl
     const handleChangeMusic = (type = 'next') => {
         const len = playlist.length;
         const audio = audioRef.current;
-        if (len === 1 || playMode === 'single-cycle') {  //列表只有一首歌 || 单曲循环，设置播放位置为 0
+        if (len <= 1 || playMode === 'single-cycle') {  //列表只有一首歌 || 单曲循环，设置播放位置为 0
             audio.currentTime = 0;
             return;
         }
 
         //当前播放音乐对应的下标
-        const currentIndex = playlist.findIndex(({ id }) => id === playingMusic.id) ?? -1;
+        const currentIndex = playlist.findIndex(({ id }) => id === playingMusic.id);
 
-        let nextIndex = null;
-
-        if (playMode === 'list-loop') {  //列表循环
-            nextIndex = type === 'next' ? (currentIndex + 1) % len : (len + currentIndex - 1) % len;
-        } else {  //随机
-            nextIndex = parseInt(Math.random() * len);
-            if (nextIndex === currentIndex) {  //随机的下标与当前播放音乐下标相同，设置播放位置为 0
-                audio.currentTime = 0;
-                return;
-            }
+        //根据播放模式决定下一首歌曲
+        let nextIndex;
+        switch (playMode) {
+            case 'list-loop': //列表循环
+                nextIndex = type === 'next' 
+                    ? (currentIndex + 1) % len  //下一首
+                    : (len + currentIndex - 1) % len; //上一首
+                break;
+            case 'random':  //随机
+                nextIndex = Math.random() * len >> 0;
+                if (nextIndex === currentIndex) {  //随机的歌曲与当前歌曲相同，则选取下一首歌曲
+                    nextIndex = (currentIndex + 1) % len;
+                }
+                break;
         }
 
         setPlayingMusic(playlist[nextIndex]);

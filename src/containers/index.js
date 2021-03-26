@@ -66,10 +66,10 @@ const AppContainer = () => {
 
     //设置播放列表  setMusic -> 是否改变当前播放歌曲
     const setPlaylist = useCallback((playlist, setMusic = true) => {
-        setMusic && setPlaying(true) && audioRef.current.play();
         const list = playlist.filter(item => item.isFree);  //过滤掉 VIP 音乐
-        if (list[0] && setMusic) {
+        if (list[0] && setMusic) {  //改变当前播放歌曲
             setPlayingMusic(list[0]);
+            setPlaying(true);
         }
         setState({ playlist: list });
     }, []);
@@ -95,24 +95,26 @@ const AppContainer = () => {
     //播放结束触发事件
     const handleEnded = useCallback((e) => {
         const len = state.playlist.length;
-        if (len <= 1 || state.playMode === 'single-cycle') {  //列表只有一首歌，单曲循环
+        if (len <= 1 || state.playMode === 'single-cycle') {  //列表只有一首歌 || 播放模式为单曲循环
             e.target.play();
             return;
         }
 
-        //当前播放音乐对应的下标
-        const currentIndex = state.playlist.findIndex(({ id }) => id === state.playingMusic.id) ?? -1;
+        //当前播放歌曲的下标
+        const currentIndex = state.playlist.findIndex(({ id }) => id === state.playingMusic.id);
 
-        let nextIndex = null;
-
-        if (state.playMode === 'list-loop') {  //列表循环
-            nextIndex = (currentIndex + 1) % len;
-        } else {  //随机
-            nextIndex = parseInt(Math.random() * len);
-            if (nextIndex === currentIndex) {  //随机的下标与当前播放音乐下标相同，继续播放
-                e.target.play();
-                return;
-            }
+        //根据播放模式决定下一首歌曲
+        let nextIndex;
+        switch (state.playMode) {
+            case 'list-loop': //列表循环
+                nextIndex = (currentIndex + 1) % len;
+                break;
+            case 'random':  //随机
+                nextIndex = Math.random() * len >> 0;
+                if (nextIndex === currentIndex) {  //随机的歌曲与当前歌曲相同，则选取下一首歌曲
+                    nextIndex = (currentIndex + 1) % len;
+                }
+                break;
         }
 
         setPlayingMusic(state.playlist[nextIndex]);
@@ -120,9 +122,7 @@ const AppContainer = () => {
 
     //音频可以播放时触发事件
     const handleCanPlay = useCallback((e) => {
-        if (state.isPlaying) {
-            e.target.play();
-        }
+        state.isPlaying && e.target.play();
     }, [state.isPlaying]);
 
     const TargetComponent = useMemo(() => React.lazy(() => import(`../routes${pathname}`)), [pathname]);

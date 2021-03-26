@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, Modal } from 'antd';
 import { emailLogin, phoneLogin } from 'Apis/login';
 
@@ -11,7 +11,9 @@ const tailLayout = {
     wrapperCol: { offset: 18, span: 4 }
 };
 
-const ModalView = ({ visible, onClose, onSetName, onSetImg }) => {
+const ModalView = ({ visible, onClose: handleClose, onSetName, onSetImg }) => {
+    const [submiting, setSubmiting] = useState(false);  //登录中
+
     //提交
     const onFinish = async (values) => {
         const { username, password } = values;
@@ -28,6 +30,12 @@ const ModalView = ({ visible, onClose, onSetName, onSetImg }) => {
             return;
         }
 
+        //登录中
+        if (submiting) {
+            return;
+        }
+        setSubmiting(true);
+
         const result = loginType === 'email'
             ? await emailLogin(username, password)
             : await phoneLogin(username, password);
@@ -41,7 +49,6 @@ const ModalView = ({ visible, onClose, onSetName, onSetImg }) => {
         //token 过期时间
         const maxAge = +result.cookie.match(/MUSIC_U=\w+;\s?Max-Age=(\d+)/)[1];
 
-
         onSetName(nickname);
         onSetImg(avatarUrl);
         window.localStorage.setItem('username', nickname);
@@ -52,11 +59,12 @@ const ModalView = ({ visible, onClose, onSetName, onSetImg }) => {
         window.localStorage.setItem('token', token);
         window.localStorage.setItem('timestampBefore', Date.now() + maxAge * 1000);
 
-        onClose();
+        setSubmiting(false);
+        handleClose();
     }
 
     return (
-        <Modal title='登录' visible={visible} onCancel={onClose} footer={null}>
+        <Modal title='登录' visible={visible} onCancel={handleClose} footer={null}>
             <Form {...layout} onFinish={onFinish}>
                 <Form.Item label="账号" name="username">
                     <Input placeholder='输入手机号或邮箱' />
@@ -67,7 +75,7 @@ const ModalView = ({ visible, onClose, onSetName, onSetImg }) => {
                 </Form.Item>
 
                 <Form.Item {...tailLayout}>
-                    <Button type='primary' htmlType='submit'>登录</Button>
+                    <Button type='primary' htmlType='submit' loading={submiting}>登录</Button>
                 </Form.Item>
             </Form>
         </Modal>

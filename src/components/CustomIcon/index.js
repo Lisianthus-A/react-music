@@ -6,10 +6,6 @@ const IconFont = createFromIconfontCN({
 });
 
 //icon-random   icon-Singlecycle
-const CustomIcon = (props) => {
-    return (
-        <IconFont {...props} />
-    );
-}
+const CustomIcon = (props) => <IconFont {...props} />
 
 export default CustomIcon;
