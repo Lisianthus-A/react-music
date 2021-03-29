@@ -16,6 +16,11 @@ export default () => {
     }
     const { audioRef: externalAudioRef, setPlaying: externalSetPlaying } = globalMethods;
 
+    //改变标题
+    useEffect(() => {
+        document.title = '私人FM';
+    });
+
     useEffect(() => {
         //隐藏外部音乐播放器
         const middleEl = document.getElementsByClassName(layoutStyle.middle)[0];

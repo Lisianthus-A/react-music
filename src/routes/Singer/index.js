@@ -28,6 +28,9 @@ export default () => {
                 briefDesc: descRes.briefDesc
             };
 
+            //改变标题
+            document.title = `${header.name}的音乐`;
+
             setState({ header, songs, intro })
         }
 

@@ -15,6 +15,8 @@ export default () => {
 
     const [state, setState] = useState(null);
 
+    
+
     useEffect(() => {
         const getData = async () => {
             const detailRes = await songDetail([id]);
@@ -23,6 +25,9 @@ export default () => {
             const detail = resolveDetail(detailRes);  //歌曲详情
             const lyric = await getLyric(id).then(resolveLyric);  //歌词
             const comment = await songComment(id);  //评论
+
+            //改变标题
+            document.title = detail.title;
 
             setState({ detail, songs, lyric, comment });
         }

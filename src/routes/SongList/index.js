@@ -24,6 +24,9 @@ export default () => {
             const songs = await songDetail(ids).then(res => resolveSongs(res.songs));  //歌曲列表
             const comment = await songlistComment(id);  //评论
 
+            //改变标题
+            document.title = detail.title;
+
             setState({ detail, songs, comment });
         }
 

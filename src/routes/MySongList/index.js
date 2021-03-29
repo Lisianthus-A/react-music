@@ -13,6 +13,11 @@ export default () => {
 
     const [state, setState] = useState(null);
 
+    //改变标题
+    useEffect(() => {
+        document.title = '我的歌单';
+    });
+
     useEffect(() => {
         const getData = async () => {
             const listData = await userSonglist(userid);

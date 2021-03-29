@@ -27,6 +27,11 @@ export default () => {
         setPlaylist(resolveSongs(songsRes.songs));
     }
 
+    //改变标题
+    useEffect(() => {
+        document.title = '发现音乐';
+    });
+
     useEffect(() => {
         const getData = async () => {
             const bannerData = await banner();  //轮播图

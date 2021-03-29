@@ -23,6 +23,9 @@ export default () => {
             const detail = resolveDetail(detailRes);  //专辑详情
             const comment = await commentAlbum(id);  //评论
 
+            //改变标题
+            document.title = detail.title;
+
             setState({ detail, comment, songs });
         }
 
