@@ -6,9 +6,9 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run front\"",
-    "front": "webpack-dev-server --progress --inline --config ./config/webpack.dev.config.js",
+    "front": "webpack-dev-server --inline --config ./config/webpack.dev.config.js",
     "server": "node ./server/app.js",
-    "build": "webpack --progress --config ./config/webpack.prod.config.js"
+    "build": "webpack --config ./config/webpack.prod.config.js"
   },
   "repository": {
     "type": "git",

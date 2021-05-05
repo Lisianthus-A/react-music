@@ -1,20 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import style from './index.module.scss';
 import layoutStyle from 'Components/Layout/index.module.scss';
 import { Link } from 'react-router-dom';
 import { CaretRightOutlined, HeartOutlined, DeleteOutlined, StepForwardOutlined, HeartFilled, PauseOutlined } from '@ant-design/icons';
 import Loading from 'Components/Loading';
-import { globalMethods } from 'AppContainer';
+import { globalMethods, audio as externalAudio } from 'AppContainer';
 import { getFMList, unlike } from 'Apis/personalFM';
 import { hasToken, convertTime, replaceHttpToHttps as rp } from 'Utils';
 import { collectSong } from 'Utils/methods';
+
+const audio = new Audio();
 
 export default () => {
 
     if (!hasToken()) {  //无 token，未登录
         return <div>私人FM需要登录使用</div>;
     }
-    const { audioRef: externalAudioRef, setPlaying: externalSetPlaying } = globalMethods;
+    const { setPlaying: externalSetPlaying } = globalMethods;
 
     //改变标题
     useEffect(() => {
@@ -28,21 +30,22 @@ export default () => {
         middleEl.style.height = 'calc(100% - 64px)';
         middleEl.style.transition = 'height 1s';
         bottomEl.style.display = 'none';
-        const src = externalAudioRef.current.src;
+        const { src, currentTime } = externalAudio;
 
         //隐藏歌词面板
         toggleList.checked && toggleList.click();
 
         //暂停外部音乐播放器的歌曲
         externalSetPlaying(false);
-        externalAudioRef.current.currentTime = 0;
-        externalAudioRef.current.src = '#';
+        externalAudio.currentTime = 0;
+        externalAudio.src = '#';
 
         return () => {
             middleEl.style.height = 'calc(100% - 128px)';
             bottomEl.style.display = 'block';
             setTimeout(() => middleEl.style.transition = '', 1000);
-            externalAudioRef.current.src = src;
+            externalAudio.src = src;
+            externalAudio.currentTime = currentTime;
         }
     }, []);
 
@@ -50,7 +53,6 @@ export default () => {
     const [playingMusic, setMusic] = useState(null);  //正在播放的音乐
     const [musicList, setList] = useState([]);  //音乐列表
     const [playing, setPlaying] = useState(false);  //是否正在播放
-    const audioRef = useRef(null);
     const progressContainerRef = useRef(null);
     const progressRef = useRef(null);
 
@@ -78,11 +80,11 @@ export default () => {
     }, [musicList]);
 
     //播放或暂停
-    const handlePlayOrPause = () => {
+    const handlePlayOrPause = async () => {
         if (playing) {
-            audioRef.current.pause();
+            audio.pause();
         } else {
-            audioRef.current.play();
+            await audio.play();
         }
         setPlaying(!playing);
     }
@@ -100,7 +102,7 @@ export default () => {
     }
 
     //下一首
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         if (musicList.length === 0) {
             return;
         }
@@ -109,29 +111,45 @@ export default () => {
         setMusic(music);
         setList(list);
         setLike(false);
-    }
+        progressContainerRef.current.style.setProperty('--time', `'-00:00'`);
+        progressRef.current.style.setProperty('--progress', `0`);
+    }, [musicList, progressContainerRef.current, progressRef.current]);
 
     //设置进度
     const handleSetProgress = (e) => {
         const element = progressRef.current;
         const percent = (e.pageX - element.offsetLeft) / element.clientWidth;
-        audioRef.current.currentTime = percent * playingMusic.duration;
+        audio.currentTime = percent * playingMusic.duration;
     }
 
     //音频可以播放时触发
-    const handleCanPlay = (e) => {
-        if (playing) {
-            e.target.play();
-        }
-    }
+    const handleCanPlay = useCallback(() => {
+        playing && audio.play();
+    }, [playing]);
 
     //播放位置改变时触发
-    const handleTimeUpdate = (e) => {
-        const progress = e.target.currentTime / playingMusic.duration * 100 + '%';  //播放进度
-        const time = '-' + convertTime(playingMusic.duration - e.target.currentTime);  //剩余时间
+    const handleTimeUpdate = useCallback(() => {
+        if (audio.readyState !== audio.HAVE_ENOUGH_DATA) {
+            return;
+        }
+        const progress = audio.currentTime / audio.duration * 100 + '%';  //播放进度
+        const time = '-' + convertTime(audio.duration - audio.currentTime);  //剩余时间
         progressContainerRef.current.style.setProperty('--time', `'${time}'`);
         progressRef.current.style.setProperty('--progress', progress);
-    }
+    }, [progressContainerRef.current, progressRef.current]);
+
+    useEffect(() => {
+        if (!playingMusic) {
+            return;
+        }
+        audio.src = `https://music.163.com/song/media/outer/url?id=${playingMusic.id}`;
+    }, [playingMusic]);
+
+    useEffect(() => {
+        audio.onended = handleNext;
+        audio.oncanplay = handleCanPlay;
+        audio.ontimeupdate = handleTimeUpdate;
+    }, [handleNext, handleCanPlay]);
 
     if (!playingMusic) {
         return <Loading />;
@@ -157,13 +175,6 @@ export default () => {
                     <div className={style.icon} title='下一首' onClick={handleNext}><StepForwardOutlined /></div>
                 </div>
             </div>
-            <audio
-                ref={audioRef}
-                src={`https://music.163.com/song/media/outer/url?id=${playingMusic.id}`}
-                onEnded={handleNext}
-                onCanPlay={handleCanPlay}
-                onTimeUpdate={handleTimeUpdate}
-            />
         </div>
     );
 }

@@ -14,7 +14,7 @@ import { useInterval } from 'Utils/hooks';
 import { collectSong, downloadMusic } from 'Utils/methods';
 import { getLyric } from 'Apis/song';
 
-const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setPlaying, setPlayingMusic }) => {
+const Playlist = memo(({ id, playlist, playingMusic, audio, setPlaylist, setPlaying, setPlayingMusic }) => {
     const [lyrics, setLyric] = useState(null);
     const contentRef = useRef(null);
     const activeRef = useRef(null);
@@ -68,7 +68,7 @@ const Playlist = memo(({ id, playlist, playingMusic, audioRef, setPlaylist, setP
         if (!toggleList.checked) {  //播放列表处于收起状态，无需滚动歌词
             return;
         }
-        const currentTime = audioRef.current.currentTime;  //当前播放时间
+        const currentTime = audio.currentTime;  //当前播放时间
         const elemList = contentRef.current.getElementsByClassName(style.lyric);  //所有歌词 DOM 元素列表
 
         if (elemList.length === 0) {

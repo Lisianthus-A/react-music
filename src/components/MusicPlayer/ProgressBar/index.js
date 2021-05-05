@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import style from './index.module.scss';
 import { convertTime } from 'Utils';
 
-const ProgressBar = ({ currentTime, duration, audioRef }) => {
+const ProgressBar = ({ currentTime, duration, audio }) => {
 
     const [visible, setVisible] = useState(false);  //文本框是否可见
     const railRef = useRef(null);
@@ -32,7 +32,7 @@ const ProgressBar = ({ currentTime, duration, audioRef }) => {
         setVisible(false);
         const width = window.innerWidth < 1000 ? 1000 : window.innerWidth;
         const percent = e.clientX / width;
-        audioRef.current.currentTime = percent * duration;
+        audio.currentTime = percent * duration;
     }, [duration]);
 
     //鼠标移动
