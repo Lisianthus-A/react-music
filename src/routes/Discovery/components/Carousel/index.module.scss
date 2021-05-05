@@ -15,7 +15,6 @@
         transform: scale(0.8);
         z-index: 998;
         cursor: pointer;
-        user-select: none;
     }
 
     img {
@@ -31,7 +30,7 @@
     }
 
     .rect {
-        height: 2px;
+        height: 3px;
         width: 20px;
         background-color: #ddd;
         margin-right: 8px;
