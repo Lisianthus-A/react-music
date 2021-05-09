@@ -27,7 +27,14 @@ export const downloadMusic = async (fileName, id) => {
     isDownloading = true;
 
     //获取歌曲地址
-    const response = await ajax(`/song/url?id=${id}`);
+    const response = await ajax(`/song/url?id=${id}`).catch((err) => {
+        console.error(err);
+        return false;
+    });
+    if (!response) {
+        isDownloading = false;
+        return;
+    }
     const url = response.data[0].url;
     if (!url) {  //无效地址
         isDownloading = false;
