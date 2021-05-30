@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "Components/*": ["src/components/*"],
+            "Apis/*": ["src/apis/*"],
+            "AppContainer/*": ["src/containers/*"],
+            "Utils/*": ["src/utils/*"],
+            "Images/*": ["/assets/images/*"],
+            "TestData/*": ["apiDataExample/*"]
+        }
+    },
+    "exclude": ["node_modules", "build"]
+}
