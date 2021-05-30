@@ -51,7 +51,6 @@ const Header = memo(() => {
             return;
         }
         const { result } = await searchSuggest(value);
-        debugger;
         //单曲
         if (Array.isArray(result.songs)) {
             result.songs = result.songs.map(item => ({
