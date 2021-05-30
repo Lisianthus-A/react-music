@@ -106,7 +106,7 @@ const Header = memo(() => {
                 onSearch={handleSearch}
                 filterOption={false}
                 onFocus={() => setFocus(true)}
-                onBlur={() => setFocus(false)}
+                onBlur={() => setFocus(false) || setDropdownItem({})}
             >
                 {dropdownItem.songs &&
                     <Select.OptGroup label="单曲">
