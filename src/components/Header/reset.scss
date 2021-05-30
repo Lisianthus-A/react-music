@@ -4,26 +4,22 @@
         cursor: pointer;
     }
 
-    .ant-input {
-        background-color: transparent;
+    .ant-select-selection-search-input {
         color: #fff;
-        border: none;
-        height: 32px;
+        line-height: 32px;
     }
 
-    .ant-input:focus,
-    .ant-input-focused {
-        box-shadow: none;
+    .ant-select-selection-placeholder {
+        line-height: 32px !important;
     }
 
-    .ant-input-search-icon::before {
-        display: none;
+    .ant-select-selector {
+        border: none !important;
+        background-color: rgba(0, 0, 0, 0.3) !important;
     }
 
-    .ant-input-affix-wrapper:hover,
-    .ant-input-affix-wrapper:focus {
-        border: none;
-        box-shadow: none;
+    .ant-select-arrow {
+        top: 48%;
     }
 
     .ant-modal-confirm-btns {
@@ -37,10 +33,6 @@
     .ant-btn:hover,
     .ant-btn:focus,
     .ant-btn:active {
-        background: none;
-    }
-
-    .ant-input-group-addon {
         background: none;
     }
 }
