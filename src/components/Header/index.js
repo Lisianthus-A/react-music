@@ -80,7 +80,7 @@ const Header = memo(() => {
             }));
         }
         setDropdownItem(result);
-    }, 500);
+    }, 800);
 
     const handleSelectChange = (value) => {
         setDropdownItem({});
@@ -98,7 +98,6 @@ const Header = memo(() => {
                 className={style.search}
                 style={{ width: focus ? 320 : 160 }}
                 dropdownMatchSelectWidth={320}
-                notFoundContent={null}
                 placeholder="搜索音乐"
                 value={null}
                 suffixIcon={<SearchOutlined />}
