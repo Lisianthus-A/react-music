@@ -14,7 +14,7 @@ const Detail = ({ data, songs, lyric }) => {
 
     const { isSonglist, isAlbum, isSong, title, cover, creator, labels, description, singers, publishTime, albumId, albumName } = data;
     const category = isSonglist ? '歌单' : isAlbum ? '专辑' : '单曲';  //分类
-    const isFree = songs[0].isFree;  //单曲是否免费
+    const { isFree, name, id } = songs[0];  //单曲是否免费 单曲名称 id
 
     /* 专辑和歌单调用的方法 */
     //播放所有歌曲
@@ -31,7 +31,7 @@ const Detail = ({ data, songs, lyric }) => {
 
     //收藏到歌单
     const handleCollectSong = () => {
-        collectSong(songs[0].id);
+        collectSong(id);
     }
 
     //下载
