@@ -22,7 +22,7 @@ const RecentMusicList = ({ data, onPlay }) => {
                             <div className={style['play-button']} onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
                         </Link>
                         <div className={style.information}>
-                            <div>{name}</div>
+                            <Link className={style['song-title']} to={`/Song?id=${id}`}>{name}</Link>
                             <div className={style.singer}>{singers.map(({ name }) => name).join('/')}</div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@ const RecentMusicList = ({ data, onPlay }) => {
                             <div className={style['play-button']} onClick={(e) => handlePlay(e, id)}><CaretRightOutlined /></div>
                         </Link>
                         <div className={style.information}>
-                            <div>{name}</div>
+                            <Link className={style['song-title']} to={`/Song?id=${id}`}>{name}</Link>
                             <div className={style.singer}>{singers.map(({ name }) => name).join('/')}</div>
                         </div>
                     </div>

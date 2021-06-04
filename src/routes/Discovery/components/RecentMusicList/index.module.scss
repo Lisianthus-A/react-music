@@ -66,8 +66,20 @@
         margin-left: 20px;
     }
 
+    .song-title {
+        color: #222;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     .singer {
         font-size: 12px;
         color: #bbb;
+        white-space: nowrap;
+        max-width: 240px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
