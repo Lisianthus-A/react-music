@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[27],{457:function(c,r,e){"use strict";e.r(r),r.default={carousel:"carousel_zTOnU","card-container":"card-container__xDA8",card:"card_2dcr7",rects:"rects_oMFiE",rect:"rect_2cUuo",active:"active_T3xb1"}}}]);
