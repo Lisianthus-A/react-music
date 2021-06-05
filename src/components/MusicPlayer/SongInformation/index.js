@@ -9,9 +9,7 @@ const SongInformation = ({ id, name, cover, singers, convertedTime, convertedDur
 
     return (
         <div className={style.container}>
-            <div className={style.image}>
-                <img src={`${rp(cover)}?param=50y50`} />
-            </div>
+            <img src={`${rp(cover)}?param=50y50`} />
             <div className={style.information}>
                 <div className={style.song}><Link to={`/Song?id=${id}`}>{name}</Link> - <span className={style.singer} title={singer}>{singer}</span></div>
                 <div className={style.time}>{`${convertedTime} / ${convertedDuration}`}</div>

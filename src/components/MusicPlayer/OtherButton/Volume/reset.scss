@@ -1,11 +1,11 @@
 .volume {
+    .ant-slider-handle {
+        border: 2px solid #c62f2f !important;
+    }
     .ant-slider-rail {
-        background-color: #666 !important;
+        background-color: #bbb !important;
     }
     .ant-slider-track {
         background-color: #c62f2f !important;
-    }
-    .ant-slider-handle {
-        border: none;
     }
 }

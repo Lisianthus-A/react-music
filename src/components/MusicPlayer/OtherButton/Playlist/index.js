@@ -8,7 +8,7 @@ import {
     DeleteOutlined,
     PlusOutlined
 } from '@ant-design/icons';
-import { convertTime } from 'Utils';
+import { convertTime } from 'Utils/index';
 import { resolveLyric } from 'Utils/resolve';
 import { useInterval } from 'Utils/hooks';
 import { collectSong, downloadMusic } from 'Utils/methods';

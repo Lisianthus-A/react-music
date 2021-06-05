@@ -13,13 +13,13 @@
         align-items: center;
     }
     a {
-        color: #fff;
+        color: #333;
         max-width: 400px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         &:hover {
-            color: #fff;
+            color: #333;
             text-decoration: underline;
         }
     }
@@ -29,7 +29,7 @@
     .singer,
     .time {
         font-size: 12px;
-        color: #bbb;
+        color: #666;
     }
 
     .singer {

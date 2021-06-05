@@ -2,13 +2,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #bbb;
+    color: #aaa;
     width: 33.3%;
 
     .prev,
     .play-or-pause,
     .next {
-        border: 2px solid #bbb;
+        border: 2px solid #aaa;
         border-radius: 25px;
         display: flex;
         justify-content: center;
@@ -16,9 +16,8 @@
         cursor: pointer;
 
         &:hover {
-            border-color: #fff;
-            color: #fff;
-            box-shadow: 0 0 4px #fff;
+            border-color: #c62f2f;
+            color: #c62f2f;
         }
     }
 
@@ -34,7 +33,7 @@
         font-size: 25px;
         margin-left: 10px;
         margin-right: 10px;
-        color: #fff;
-        border-color: #fff;
+        color: #c62f2f;
+        border-color: #c62f2f;
     }
 }

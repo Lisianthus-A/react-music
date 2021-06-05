@@ -57,9 +57,7 @@ const Sidebar = memo(() => {
                 </a>
             </div>
             <label htmlFor="toggle">
-                <div className={style.toggle}>
-                    <span className={style.arrow} ></span>
-                </div>
+                <div className={style.toggle} />
             </label>
         </>
     );

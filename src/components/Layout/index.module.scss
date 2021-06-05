@@ -21,6 +21,19 @@
         width: 100%;
         display: flex;
         justify-content: center;
+        scrollbar-width: thin; //FireFox浏览器有效
+
+        //以下对Chrome有效
+        &::-webkit-scrollbar {
+            //滚动条
+            display: block;
+            width: 8px;
+        }
+        &::-webkit-scrollbar-thumb {
+            //滑块
+            background-color: #bbb;
+            border-radius: 3px;
+        }
     }
 
     .bottom {
