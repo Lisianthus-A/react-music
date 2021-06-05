@@ -3,7 +3,7 @@
   width: 200px;
   overflow: hidden;
   white-space: nowrap;
-  background-color: #e6e6e6;
+  background-image: linear-gradient(to top, #e4e4e4, #e7f0fd);
   transition: all 1s;
   .category {
     color: #2d2727;
@@ -20,13 +20,13 @@
     padding: 10px 20px;
 
     &:hover {
-      background-color: #c3c3c3;
+      background-color: #cbd5e6;
       color: #444;
     }
   }
 
   .active {
-    background-color: #c3c3c3;
+    background-color: #cbd5e6;
     color: #444;
     position: relative;
 
@@ -36,7 +36,7 @@
       top: 0;
       width: 4px;
       height: 100%;
-      background-color: #888;
+      background-color: #84baf0;
       content: "";
     }
   }
@@ -64,7 +64,7 @@
   height: 40px;
   width: 24px;
   border-radius: 0 12px 12px 0;
-  background-color: #e6e6e6;
+  background-color: #f0f0f0;
   top: 12px;
   left: 200px;
   cursor: pointer;
