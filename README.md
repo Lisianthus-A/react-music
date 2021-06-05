@@ -55,7 +55,7 @@
 
 ## 安装
 ```
-$ git clone https://github.com/Lisianthus-A/react-music.git
+$ git clone --depth=1 https://github.com/Lisianthus-A/react-music.git
 
 $ npm install
 ```
