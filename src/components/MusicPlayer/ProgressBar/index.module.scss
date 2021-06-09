@@ -7,6 +7,7 @@
     display: flex;
     align-items: center;
     z-index: 1001;
+    user-select: none;
 
     &:hover {
         .track,
