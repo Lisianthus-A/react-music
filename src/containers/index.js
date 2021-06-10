@@ -53,12 +53,12 @@ const AppContainer = () => {
 
     //设置播放状态
     const setPlaying = useCallback(async (isPlaying) => {
+        setState({ isPlaying });
         if (isPlaying) {
-            await audio.play();
+            audio.play();
         } else {
             audio.pause();
         }
-        setState({ isPlaying });
     }, []);
     globalMethods.setPlaying = setPlaying;
 
