@@ -9,8 +9,8 @@ const Introduction = ({ data }) => {
                 <h2>歌手简介</h2>
                 <span>{briefDesc}</span>
             </p>
-            {intro.map(({ ti, txt }) =>
-                <p>
+            {intro.map(({ ti, txt }, idx) =>
+                <p key={idx}>
                     <h2>{ti}</h2>
                     <span>{txt}</span>
                 </p>
