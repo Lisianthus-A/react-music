@@ -48,7 +48,7 @@ const AppContainer = () => {
     globalMethods.setTime = setTime;
 
     if (!routes.includes(pathname)) {  //访问路径不在路由列表中
-        history.replace(routes[0]);
+        history.replace('/Discovery');
     }
 
     //设置播放状态

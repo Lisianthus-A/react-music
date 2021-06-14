@@ -5,10 +5,11 @@
   "description": "基于React + JavaScript的仿网易云音乐播放器",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run front\"",
-    "front": "webpack-dev-server --inline --config ./config/webpack.dev.config.js",
+    "start": "npm run gen && concurrently \"npm run server\" \"npm run front\"",
+    "front": "npm run gen && webpack-dev-server --inline --config ./config/webpack.dev.config.js",
     "server": "node ./server/app.js",
-    "build": "webpack --config ./config/webpack.prod.config.js"
+    "build": "npm run gen && webpack --config ./config/webpack.prod.config.js",
+    "gen": "node scripts/genRoutes"
   },
   "repository": {
     "type": "git",

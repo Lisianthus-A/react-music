@@ -1,13 +1,11 @@
-const routeList = [
-    '/Discovery',
-    '/SongList',
-    '/PersonalFM',
-    '/Video',
-    '/Song',
-    '/Album',
-    '/MySongList',
-    '/User',
-    '/Singer'
+export default [
+    "/Album",
+    "/Discovery",
+    "/MySongList",
+    "/PersonalFM",
+    "/Singer",
+    "/Song",
+    "/SongList",
+    "/User",
+    "/Video"
 ];
-
-export default routeList;
