@@ -5,15 +5,15 @@ const Introduction = ({ data }) => {
     const { briefDesc, intro } = data;
     return (
         <div className={style.intro}>
-            <p>
+            <div className={style.block}>
                 <h2>歌手简介</h2>
                 <span>{briefDesc}</span>
-            </p>
+            </div>
             {intro.map(({ ti, txt }, idx) =>
-                <p key={idx}>
+                <div className={style.block} key={idx}>
                     <h2>{ti}</h2>
                     <span>{txt}</span>
-                </p>
+                </div>
             )}
         </div>
     );
