@@ -4,11 +4,11 @@ import './reset.scss';
 import { Slider } from 'antd';
 import { SoundOutlined } from '@ant-design/icons';
 
-const Volume = memo(({ audio }) => {
+const Volume = memo(({ audioRef }) => {
 
     //设置音量
     const handleChangeVolume = (value) => {
-        audio.volume = value / 100;
+        audioRef.current.volume = value / 100;
     }
 
     return (

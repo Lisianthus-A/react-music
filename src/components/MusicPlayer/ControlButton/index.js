@@ -2,11 +2,12 @@ import React, { memo } from 'react';
 import style from './index.module.scss';
 import { StepBackwardOutlined, CaretRightOutlined, PauseOutlined, StepForwardOutlined } from '@ant-design/icons';
 
-const ControlButton = memo(({ isPlaying, playMode, playlist, playingMusic, setPlaying, setPlayingMusic, audio }) => {
+const ControlButton = memo(({ isPlaying, playMode, playlist, playingMusic, setPlaying, setPlayingMusic, audioRef }) => {
 
     //切换音乐
     const handleChangeMusic = (type = 'next') => {
         const len = playlist.length;
+        const audio = audioRef.current;
         if (len <= 1 || playMode === 'single-cycle') {  //列表只有一首歌 || 单曲循环，设置播放位置为 0
             audio.currentTime = 0;
             return;
