@@ -1,5 +1,6 @@
-import React, { useCallback, useRef, useMemo, useState } from 'react';
+import React, { useCallback, useRef, useMemo, useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router';
+import { replaceHttpToHttps as rp } from 'Utils/index';
 import { useSetState } from 'Utils/hooks';
 import routes from '../routes';
 import Layout from 'Components/Layout';
@@ -126,6 +127,29 @@ const AppContainer = () => {
     }, [state.isPlaying]);
 
     const TargetComponent = useMemo(() => React.lazy(() => import(`../routes${pathname}`)), [pathname]);
+
+    // MediaMetadata
+    useEffect(() => {
+        if (!navigator.mediaSession || !MediaMetadata) {
+            return;
+        }
+
+        const { name, singers, cover, albumName } = state.playingMusic;
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: name,
+            artist: singers.map(item => item.name).join('/'),
+            album: albumName,
+            artwork: [
+                { src: `${rp(cover)}?param=96y96`, sizes: '96x96', type: 'image/jpeg' },
+                { src: `${rp(cover)}?param=128y128`, sizes: '128x128', type: 'image/jpeg' },
+                { src: `${rp(cover)}?param=192y192`, sizes: '192x192', type: 'image/jpeg' },
+                { src: `${rp(cover)}?param=256y256`, sizes: '256x256', type: 'image/jpeg' },
+                { src: `${rp(cover)}?param=384y384`, sizes: '384x384', type: 'image/jpeg' },
+                { src: `${rp(cover)}?param=512y512`, sizes: '512x512', type: 'image/jpeg' },
+            ]
+        });
+
+    }, [state.playingMusic.id]);
 
     return (
         <DataContext.Provider value={state}>
