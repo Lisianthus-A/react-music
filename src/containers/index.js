@@ -128,7 +128,7 @@ const AppContainer = () => {
 
     const TargetComponent = useMemo(() => React.lazy(() => import(`../routes${pathname}`)), [pathname]);
 
-    // MediaMetadata
+    // mediaSession MediaMetadata
     useEffect(() => {
         if (!navigator.mediaSession || !MediaMetadata) {
             return;
@@ -150,6 +150,51 @@ const AppContainer = () => {
         });
 
     }, [state.playingMusic.id]);
+
+    // mediaSession ActionHandler
+    useEffect(() => {
+        if (!navigator.mediaSession || !MediaMetadata) {
+            return;
+        }
+        navigator.mediaSession.setActionHandler('play', () => setPlaying(true));
+        navigator.mediaSession.setActionHandler('pause', () => setPlaying(false));
+        navigator.mediaSession.setActionHandler('stop', () => setPlaying(false));
+        const handleChangeMusic = (type) => {
+            const audio = audioRef.current;
+            if (!audio) {
+                return;
+            }
+            const { playlist, playMode, playingMusic } = state;
+            const len = playlist.length;
+            if (len <= 1 || playMode === 'single-cycle') {  //列表只有一首歌 || 单曲循环，设置播放位置为 0
+                audio.currentTime = 0;
+                return;
+            }
+
+            //当前播放音乐对应的下标
+            const currentIndex = playlist.findIndex(({ id }) => id === playingMusic.id);
+
+            //根据播放模式决定下一首歌曲
+            let nextIndex;
+            switch (playMode) {
+                case 'list-loop': //列表循环
+                    nextIndex = type === 'next'
+                        ? (currentIndex + 1) % len  //下一首
+                        : (len + currentIndex - 1) % len; //上一首
+                    break;
+                case 'random':  //随机
+                    nextIndex = Math.random() * len >> 0;
+                    if (nextIndex === currentIndex) {  //随机的歌曲与当前歌曲相同，则选取下一首歌曲
+                        nextIndex = (currentIndex + 1) % len;
+                    }
+                    break;
+            }
+
+            setPlayingMusic(playlist[nextIndex]);
+        }
+        navigator.mediaSession.setActionHandler('previoustrack', () => handleChangeMusic('prev'));
+        navigator.mediaSession.setActionHandler('nexttrack', () => handleChangeMusic('next'));
+    }, [state]);
 
     return (
         <DataContext.Provider value={state}>
