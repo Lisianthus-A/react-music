@@ -5,7 +5,8 @@
     text-align: center;
 }
 
-.tab {
+.tab,
+.tab-active {
     cursor: pointer;
     width: 120px;
     position: relative;
@@ -22,7 +23,7 @@
     }
 }
 
-.active {
+.tab-active {
     color: #000;
     &::after {
         transform: scale(1);
