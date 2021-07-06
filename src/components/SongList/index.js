@@ -83,7 +83,7 @@ const Songs = ({ data, isCreator }) => {
                         <tr key={idx} className={isFree ? '' : style.fee}>
                             <td><span>{idx + 1}</span><CaretRightOutlined className={style.playButton} onClick={() => handlePlay(id)} /></td>
                             <td>
-                                <Link to={`/Song?id=${id}`}>{name}</Link>
+                                <Link to={`/Song?id=${id}`} title={name}>{name}</Link>
                                 <div className={style.icons}>
                                     {isFree &&
                                         <>
