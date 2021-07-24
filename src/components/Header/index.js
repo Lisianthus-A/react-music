@@ -73,8 +73,8 @@ const Header = memo(() => {
             }));
         }
         //歌单
-        if (Array.isArray(result.playlist)) {
-            result.playlist = result.playlist.map(item => ({
+        if (Array.isArray(result.playlists)) {
+            result.playlists = result.playlists.map(item => ({
                 text: item.name,
                 value: `/SongList?id=${item.id}`
             }));
@@ -128,9 +128,9 @@ const Header = memo(() => {
                         )}
                     </Select.OptGroup>
                 }
-                {dropdownItem.playlist &&
+                {dropdownItem.playlists &&
                     <Select.OptGroup label="歌单">
-                        {dropdownItem.playlist.map(({ value, text }) =>
+                        {dropdownItem.playlists.map(({ value, text }) =>
                             <Select.Option key={value} value={value}>{text}</Select.Option>
                         )}
                     </Select.OptGroup>
