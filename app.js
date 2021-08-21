@@ -6,8 +6,17 @@ const request = require('./util/request')
 const cache = require('./util/apicache').middleware
 const { cookieToJson } = require('./util/index')
 const fileUpload = require('express-fileupload')
+const http = require('http');
 
 const app = express()
+
+const buildResponseHeader = (headers = {}) => ({
+  ...headers,
+  'Access-Control-Allow-Origin': headers.origin || '*',
+  'Access-Control-Allow-Credentials': true,
+  'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+  'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
+});
 
 // CORS & Preflight request
 app.use((req, res, next) => {
@@ -44,6 +53,52 @@ app.use(fileUpload())
 
 // cache
 app.use(cache('2 minutes', (req, res) => res.statusCode === 200))
+app.use('/getMusic', (req, res) => {
+  const { id } = req.query;
+  if (!id) {
+    res.writeHead(403, buildResponseHeader({ 'Content-Type': 'application/json; charset=utf-8', }));
+    res.write(JSON.stringify({ error: 'id is required' }));
+    res.end();
+    return;
+  }
+
+  const options = {
+    method: 'GET',
+    headers: {
+      'accept-encoding': 'gzip, deflate, br',
+      'accept-language': 'zh-CN,zh;q=0.9',
+    },
+    hostname: `music.163.com`,
+    port: 80,
+    path: `/song/media/outer/url?id=${id}`,
+  };
+
+  const httpReq = http.request(options, (httpRes) => {
+    const serverData = [];
+    httpRes.on('data', (chunk) => {
+      serverData.push(chunk);
+    });
+
+    // 服务端数据接收完毕，返回客户端
+    httpRes.on('end', () => {
+      console.log(`[OK] /getMusic?id=${id}`);
+      const serverBuffer = Buffer.concat(serverData);
+      res.writeHead(200, buildResponseHeader(httpRes.headers));
+      res.write(serverBuffer);
+      res.end();
+    });
+  });
+
+  httpReq.on('error', (err) => {
+    console.log(`[ERR] /getMusic?id=${id}`);
+    res.writeHead(500);
+    res.write(JSON.stringify({ error: err }));
+    res.end();
+  });
+
+  httpReq.end();
+});
+
 // router
 const special = {
   'daily_signin.js': '/daily_signin',
