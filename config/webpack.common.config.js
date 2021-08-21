@@ -17,14 +17,20 @@ module.exports = {
           Utils: path.resolve(__dirname, '../src/utils'),
           Images: path.resolve(__dirname, '../assets/images'),
           TestData: path.resolve(__dirname, '../apiDataExample')
-        }
+        },
+        extensions: [".ts", ".tsx", ".js", ".json"]
       },
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.jsx?$/,
                 use: 'babel-loader',
                 exclude: /node_modules/  //不需要转译node_modules文件夹
+            },
+            { 
+                test: /\.tsx?$/, 
+                loader: "ts-loader",
+                exclude: /node_modules/
             },
             {
                 test: /\.(jpg|png|gif)$/,  //图片打包成Base64格式
