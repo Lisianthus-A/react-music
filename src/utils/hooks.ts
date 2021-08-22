@@ -1,5 +1,8 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 
+/**
+ * 定时器 hooks
+ */
 export const useInterval = (callback: Function, delay?: number | null) => {
     const savedCallback = useRef<Function>(() => { });
 
@@ -15,7 +18,9 @@ export const useInterval = (callback: Function, delay?: number | null) => {
     }, [delay]);
 };
 
-// 实现 state 合并
+/**
+ * 实现 state 合并
+ */
 export const useSetState = <T extends object>(
     initialState: T = {} as T
 ): [T, (patch: Partial<T> | ((prevState: T) => Partial<T>)) => void] => {

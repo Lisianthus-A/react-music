@@ -186,7 +186,7 @@ class Music {
 
         const a = document.createElement('a');
         a.href = URL.createObjectURL(wav);
-        a.download = fileName;
+        a.download = `${fileName}.wav`;
         a.click();
 
         return true;
