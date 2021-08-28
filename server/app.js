@@ -83,7 +83,7 @@ app.use('/getMusic', (req, res) => {
     httpRes.on('end', () => {
       console.log(`[OK] /getMusic?id=${id}`);
       const serverBuffer = Buffer.concat(serverData);
-      res.writeHead(200, buildResponseHeader(httpRes.headers));
+      res.writeHead(httpRes.statusCode, buildResponseHeader(httpRes.headers));
       res.write(serverBuffer);
       res.end();
     });
