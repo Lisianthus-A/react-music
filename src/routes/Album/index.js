@@ -19,7 +19,7 @@ export default () => {
     useEffect(() => {
         const getData = async () => {
             const detailRes = await album(id);
-            const songs = resolveSongs(detailRes.songs);  //歌曲列表
+            const songs = resolveSongs(detailRes.songs, 'detail');  //歌曲列表
             const detail = resolveDetail(detailRes);  //专辑详情
             const comment = await commentAlbum(id);  //评论
 

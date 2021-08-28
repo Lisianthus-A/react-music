@@ -1,16 +1,13 @@
+import { replaceHttpToHttps as rp } from 'Utils/index';
+import type { LyricRes } from 'Apis/song';
+import type { MusicItem } from './music';
+
 /**
  * 将形如 03:40.00 的字符串转为秒数
  */
 const convertStringToSeconds = (str: string): number => {
     const [min, s, ms] = str.match(/\d+/g);
     return Number(min) * 60 + Number(s) + Number(ms) * 0.001;
-}
-
-interface LyricRes {
-    uncollected?: boolean;
-    nolyric?: boolean;
-    lrc: { lyric: string; };
-    tlyric: { lyric?: string };
 }
 
 /**
@@ -59,6 +56,8 @@ export const resolveLyric = (lyricRes: LyricRes): [string, string, number][] => 
     return Object.values(obj).sort((a, b) => a[2] - b[2]);
 }
 
+type SongItem = Omit<MusicItem['info'], 'lyric'>;
+type SongsType = 'detail' | 'topSong' | 'simiSong';
 /**
  * 解析歌曲列表，返回歌曲数组
  * 
@@ -66,41 +65,45 @@ export const resolveLyric = (lyricRes: LyricRes): [string, string, number][] => 
  * 
  * 歌曲id 歌曲名 歌手列表 时长 图片 是否免费 专辑id 专辑名
  */
-export const resolveSongs = (songs: any[], type: number = 1): Record<string, any>[] => {
-    const result = [];
+export const resolveSongs = (songs: any[], type: SongsType): SongItem[] => {
+    return songs.map(item => {
+        const { id, name } = item;
+        // 专辑
+        // topSong 接口返回的专辑属性是 album
+        // 其他的是 al
+        const album = type === 'topSong'
+            ? item.album
+            : item.al;
 
-    if (type === 1) {
-        songs.forEach((item) => {
-            const { id, name, al: { id: albumId, name: albumName, picUrl: cover } } = item;
-            const singers = item.ar.map(({ id, name }) => ({ id, name }));
-            const duration = item.dt / 1000;
-            const isFree = item.fee !== 1;
+        // 歌手
+        // detail 接口返回的歌手属性是 ar
+        // 其他的是 artists
+        const singers = type === 'detail'
+            ? item.ar
+            : item.artists;
 
-            result.push({ id, name, singers, duration, cover, isFree, albumId, albumName });
-        });
-    } else if (type === 2) {
-        // hotSong 接口返回的专辑属性是 album 而非 al
-        songs.forEach((item) => {
-            const { id, name, album: { id: albumId, name: albumName, picUrl: cover } } = item;
-            const singers = item.artists.map(({ id, name }) => ({ id, name }));
-            const duration = item.dt / 1000;
-            const isFree = item.fee !== 1;
+        // 时长
+        // simiSong 接口返回的时长属性是 duration
+        // 其他的是 dt
+        const duration = type === 'simiSong'
+            ? item.duration
+            : item.dt;
 
-            result.push({ id, name, singers, duration, cover, isFree, albumId, albumName });
-        });
-    } else if (type === 3) {
-        // simiSong 接口返回的歌曲时长是 duration 而非 dt
-        songs.forEach((item) => {
-            const { id, name, album: { id: albumId, name: albumName, picUrl: cover } } = item;
-            const singers = item.artists.map(({ id, name }) => ({ id, name }));
-            const duration = item.duration / 1000;
-            const isFree = item.fee !== 1;
+        // 是否免费歌曲
+        // 这个其实不准确，以后再修改
+        const isFree = item.fee !== 1;
 
-            result.push({ id, name, singers, duration, cover, isFree, albumId, albumName });
-        });
-    }
-
-    return result;
+        return {
+            id,
+            name,
+            isFree,
+            duration: duration * 0.001,
+            singers: singers.map(({ id, name }) => ({ id, name })),
+            albumId: album.id,
+            albumName: album.name,
+            cover: rp(album.picUrl),
+        };
+    });
 }
 
 /**

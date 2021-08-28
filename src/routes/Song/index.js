@@ -21,7 +21,7 @@ export default () => {
         const getData = async () => {
             const detailRes = await songDetail([id]);
 
-            const songs = resolveSongs(detailRes.songs);  //歌曲
+            const songs = resolveSongs(detailRes.songs, 'detail');  //歌曲
             const detail = resolveDetail(detailRes);  //歌曲详情
             const lyric = await getLyric(id).then(resolveLyric);  //歌词
             const comment = await songComment(id);  //评论

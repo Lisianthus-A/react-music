@@ -22,7 +22,7 @@ export default () => {
                 alias: singerRes.artist.alias,
                 cover: singerRes.artist.picUrl
             };
-            const songs = resolveSongs(singerRes.hotSongs);
+            const songs = resolveSongs(singerRes.hotSongs, 'detail');
             const intro = {
                 intro: descRes.introduction,
                 briefDesc: descRes.briefDesc

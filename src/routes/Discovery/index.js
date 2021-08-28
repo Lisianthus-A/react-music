@@ -13,7 +13,7 @@ export default () => {
     //播放歌曲
     const handleSongPlay = async (id) => {
         const songsRes = await songDetail([id]);
-        setPlaylist(resolveSongs(songsRes.songs));
+        setPlaylist(resolveSongs(songsRes.songs, 'detail'));
     }
 
     //播放歌单内所有歌曲
@@ -24,7 +24,7 @@ export default () => {
         const ids = songlistRes.playlist.trackIds.map(({ id }) => id);
 
         const songsRes = await songDetail(ids);
-        setPlaylist(resolveSongs(songsRes.songs));
+        setPlaylist(resolveSongs(songsRes.songs, 'detail'));
     }
 
     //改变标题
@@ -38,7 +38,7 @@ export default () => {
             const recommendData = await recommendSonglist();  //推荐歌单
             const topSongData = await topSong();  //新歌速递
 
-            setState({ bannerData, recommendData, topSongData: resolveSongs(topSongData.data.slice(0, 10), 2) });
+            setState({ bannerData, recommendData, topSongData: resolveSongs(topSongData.data.slice(0, 10), 'topSong') });
         }
 
         getData();

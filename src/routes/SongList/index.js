@@ -21,7 +21,7 @@ export default () => {
             const ids = detailRes.playlist.trackIds.map(({ id }) => id);  //歌单所有歌曲id
 
             const detail = resolveDetail(detailRes);  //歌单详情
-            const songs = await songDetail(ids).then(res => resolveSongs(res.songs));  //歌曲列表
+            const songs = await songDetail(ids).then(res => resolveSongs(res.songs, 'detail'));  //歌曲列表
             const comment = await songlistComment(id);  //评论
 
             //改变标题
