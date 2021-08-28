@@ -1,19 +1,33 @@
 import ajax from 'Apis/apiBase';
+import cache from './cache';
+import { songDetail, getLyric } from 'Apis/song';
+import { resolveLyric, resolveSongs } from 'Utils/resolve';
 
-const MAX_CACHE_LEN = 30;  // 最大缓存歌曲数量
+export interface MusicItem {
+    buffer: AudioBuffer;
+    info: {
+        id: number;
+        name: string;
+        singers: Array<{ id: number, name: string; }>
+        duration: number;
+        cover: string;
+        isFree: boolean;
+        albumId: number;
+        albumName: string;
+        lyric: [string, string, number][];
+    }
+}
 
 class Music {
-    public cache: Map<string, AudioBuffer>; // 缓存
-    private cacheIds: string[];  // 已缓存歌曲的 id 数组
     private onEnded: (() => void) | null;  // 播放结束的回调
+    private startTime: number;  // 开始时间，用于计算当前播放时长
+    private playingItem: MusicItem;  // 当前播放的歌曲
 
     private audioContext: AudioContext;
     private gainNode: GainNode;
     private currentSource: AudioBufferSourceNode | null;
 
     constructor() {
-        this.cache = new Map();
-        this.cacheIds = [];
         this.audioContext = new AudioContext();
         this.gainNode = this.audioContext.createGain();
         this.gainNode.connect(this.audioContext.destination);
@@ -90,20 +104,21 @@ class Music {
     }
 
     /**
-     * 获取指定 id 歌曲的 buffer
+     * 获取指定 id 歌曲信息
      */
-    private async getMusicBuffer(id: string): Promise<AudioBuffer | null> {
-        const { cache, cacheIds, audioContext } = this;
-        const cachedBuffer = cache.get(id);
+    private async getMusic(id: number): Promise<MusicItem | null> {
+        const { audioContext } = this;
+        const cacheItem = cache().get(id);
 
-        // 已缓存
-        if (cachedBuffer) {
-            return cachedBuffer;
+        // 已缓存，直接返回缓存项
+        if (cacheItem) {
+            return cacheItem;
         }
 
         // 获取歌曲的 Arraybuffer
         const res: ArrayBuffer | null = await ajax(`/getMusic?id=${id}`, {
             responseType: 'arraybuffer',
+            withCredentials: false
         }).catch(_ => null);
 
         if (res === null) {
@@ -114,27 +129,37 @@ class Music {
         // ArrayBuffer 转 AudioBuffer
         const audioBuffer = await audioContext.decodeAudioData(res);
 
-        // 缓存数超过限制，删除最早放入的 buffer
-        if (cache.size >= MAX_CACHE_LEN) {
+        // 歌曲详情
+        const detailRes = await songDetail([id]);
+        const detail = resolveSongs(detailRes.songs, 'detail')[0];
 
-            const firstId = cacheIds.shift();
-            cache.delete(firstId);
-        }
+        // 歌词
+        const lyricRes = await getLyric(id);
+        const lyric = resolveLyric(lyricRes);
 
-        // 放入缓存
-        cache.set(id, audioBuffer);
-        cacheIds.push(id);
+        const item = {
+            buffer: audioBuffer,
+            info: {
+                ...detail,
+                lyric,
+                duration: audioBuffer.duration
+            }
+        };
 
-        return audioBuffer;
+        // 将歌曲信息保存到缓存中
+        cache().save(id, item);
+
+        return item;
     }
 
     /* ============= 暴露方法 =============  */
     /**
-     * 播放指定 id 的歌曲
+     * 播放歌曲
+     * 
      * @param id 歌曲 id
      * @param offset 播放初始位置，默认为 0
      */
-    async play(id: string | number, offset?: number): Promise<void> {
+    async play(id: number, offset?: number): Promise<boolean> {
         const { currentSource, audioContext, gainNode, onEnded } = this;
 
         // 停止当前音频
@@ -146,25 +171,56 @@ class Music {
         this.currentSource = source;
 
         // 获取歌曲的 AudioBuffer
-        const audioBuffer = await this.getMusicBuffer(String(id));
-        source.buffer = audioBuffer;
+        const music = await this.getMusic(id);
+        if (!music) {
+            return false;
+        }
+        source.buffer = music.buffer;
 
         // 播放
+        this.startTime = audioContext.currentTime - (offset || 0);
         source.start(audioContext.currentTime, offset || 0);
+        this.playingItem = music;
 
         // 设置播放结束的回调
         onEnded && (source.onended = onEnded);
+        return true;
     }
 
     /**
-     * 下载指定 id 的歌曲
+     * 暂停播放
+     */
+    async pause(): Promise<boolean> {
+        await this.audioContext.suspend();
+        return true;
+    }
+
+    /**
+     * 恢复播放
+     */
+    async restart(): Promise<boolean> {
+        await this.audioContext.resume();
+        return true;
+    }
+
+    /**
+     * 设置音量
+     * @param value 音量 0 ~ 1 的数字
+     */
+    setVolume(value: number): void {
+        this.gainNode.gain.value = value;
+    }
+
+    /**
+     * 下载歌曲
      * @param id 歌曲 id
      */
-    async download(id: string | number, fileName: string): Promise<boolean> {
-        const audioBuffer = await this.getMusicBuffer(String(id));
-        if (!audioBuffer) {
+    async download(id: number, fileName: string): Promise<boolean> {
+        const music = await this.getMusic(id);
+        if (!music) {
             return false;
         }
+        const audioBuffer = music.buffer;
 
         // Float32Array samples
         const [left, right] = [audioBuffer.getChannelData(0), audioBuffer.getChannelData(1)];
@@ -184,10 +240,13 @@ class Music {
         });
         const wav = new Blob([wavBytes], { type: 'audio/wav' });
 
+        // 使用 a 标签结合 download 属性下载
         const a = document.createElement('a');
-        a.href = URL.createObjectURL(wav);
+        const url = URL.createObjectURL(wav);
+        a.href = url;
         a.download = `${fileName}.wav`;
         a.click();
+        URL.revokeObjectURL(url);
 
         return true;
     }
@@ -198,6 +257,21 @@ class Music {
      */
     setOnEnded(callback: () => void) {
         this.onEnded = callback;
+    }
+
+    /**
+     * 获取当前播放时长
+     */
+    getCurrentTime(): number {
+        const { audioContext, startTime } = this;
+        return audioContext.currentTime - startTime;
+    }
+
+    /**
+     * 获取当前播放的歌曲
+     */
+    getPlayingItem(): MusicItem {
+        return this.playingItem;
     }
 }
 

@@ -15,7 +15,10 @@ const baseParams: AxiosRequestConfig = {
     withCredentials: true
 };
 
-const ajax = async (url: string, params: Omit<AxiosRequestConfig, 'url'> = {}) => {
+const ajax = async <T = any>(
+    url: string,
+    params: Omit<AxiosRequestConfig, 'url'> = {}
+): Promise<T> => {
     const response = await axios({
         url: baseUrl + url,
         ...baseParams,
