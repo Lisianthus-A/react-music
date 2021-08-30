@@ -12,4 +12,4 @@ const routes = fs
 
 // 保存
 const fileContent = `export default ${JSON.stringify(routes, null, 4)};`;
-fs.writeFileSync(path.join(routePath, 'index.js'), fileContent, { encoding: 'utf-8' });
+fs.writeFileSync(path.join(routePath, 'index.ts'), fileContent, { encoding: 'utf-8' });

@@ -33,6 +33,11 @@ class Music {
         this.gainNode.connect(this.audioContext.destination);
         this.currentSource = null;
         this.onEnded = null;
+        this.startTime = 0;
+
+    //    this.getMusic(776039).then(item => {
+    //        this.playingItem = item;
+    //    });
     }
 
     /* ============= 私有方法 ============= */
@@ -183,7 +188,10 @@ class Music {
         this.playingItem = music;
 
         // 设置播放结束的回调
-        onEnded && (source.onended = onEnded);
+        source.onended = () => {
+            this.startTime = 0;
+            onEnded && onEnded();
+        }
         return true;
     }
 
@@ -264,14 +272,16 @@ class Music {
      */
     getCurrentTime(): number {
         const { audioContext, startTime } = this;
-        return audioContext.currentTime - startTime;
+        return startTime 
+        ? audioContext.currentTime - startTime
+        : 0;
     }
 
     /**
      * 获取当前播放的歌曲
      */
-    getPlayingItem(): MusicItem {
-        return this.playingItem;
+    getPlayingItem(): MusicItem['info'] {
+        return this.playingItem.info;
     }
 }
 
