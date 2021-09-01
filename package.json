@@ -26,7 +26,7 @@
   "author": "Lisianthus-A",
   "license": "MIT",
   "dependencies": {
-    "@ant-design/icons": "^4.2.2",
+    "@ant-design/icons": "^4.6.4",
     "@types/react-router-dom": "^5.1.8",
     "antd": "^4.10.2",
     "axios": ">=0.21.1",
