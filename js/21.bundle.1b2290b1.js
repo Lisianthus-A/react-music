@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[21],{299:function(e,a,c){"use strict";c.r(a);c(128),c(291);var n=c(0),r=c.n(n),s=c(22),t=c(26);a.default=function(){var e=Object(s.e)().search,e=Object(t.searchItem)(e,"id");return r.a.createElement("div",{className:"user"},"User Id=",e)}}}]);
