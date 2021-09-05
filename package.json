@@ -28,7 +28,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
     "@types/react-router-dom": "^5.1.8",
-    "antd": "^4.10.2",
+    "antd": "^4.16.13",
     "axios": ">=0.21.1",
     "core-js": "^3.8.1",
     "express": "^4.17.1",
