@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[22],{302:function(e,a,c){"use strict";c.r(a);c(131),c(293);var n=c(0),t=c.n(n),i=c(24),r=c(26);a.default=function(){var e=Object(i.e)().search,e=Object(r.searchItem)(e,"id");return t.a.createElement("div",{className:"video"},"Video Id=",e)}}}]);
