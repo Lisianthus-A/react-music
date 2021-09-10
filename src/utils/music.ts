@@ -5,6 +5,7 @@ import { resolveLyric, resolveSongs } from 'Utils/resolve';
 
 export interface MusicItem {
     buffer: ArrayBuffer;
+    abuffer: AudioBuffer;
     info: {
         id: number;
         name: string;
@@ -52,6 +53,7 @@ class Music {
      * 获取指定 id 歌曲信息
      */
     private async getMusic(id: number): Promise<MusicItem | null> {
+        const { audioContext } = this;
         const cacheItem = cache().get(id);
 
         // 已缓存，直接返回缓存项
@@ -70,6 +72,9 @@ class Music {
             return null;
         }
 
+        // ArrayBuffer
+        const abuffer = await audioContext.decodeAudioData(buffer.slice(0));
+
         // 歌曲详情
         const detailRes = await songDetail([id]);
         const detail = resolveSongs(detailRes.songs, 'detail')[0];
@@ -80,6 +85,7 @@ class Music {
 
         const item = {
             buffer,
+            abuffer,
             info: {
                 ...detail,
                 lyric
@@ -142,8 +148,7 @@ class Music {
             this.lock = false;
             return false;
         }
-        const audioBuffer = await audioContext.decodeAudioData(music.buffer.slice(0));
-        source.buffer = audioBuffer;
+        source.buffer = music.abuffer;
 
         // 播放
         this.startTime = audioContext.currentTime - (offset || 0);
