@@ -3,14 +3,16 @@
     max-width: 1500px;
     padding: 10px 50px 0;
 
-    .banner {
-        height: 220px;
-        overflow: hidden;
-    }
+    :global {
+        .banner {
+            height: 220px;
+            overflow: hidden;
+        }
 
-    .title {
-        font-size: 22px;
-        border-bottom: 2px solid #eee;
-        margin: 10px 0;
+        .title {
+            font-size: 22px;
+            border-bottom: 2px solid #eee;
+            margin: 10px 0;
+        }
     }
 }

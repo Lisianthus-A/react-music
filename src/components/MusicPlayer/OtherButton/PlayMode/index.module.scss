@@ -2,10 +2,12 @@
     margin-left: 15px;
     margin-right: 15px;
 
-    .icon {
-        cursor: pointer;
-        &:hover {
-            color: #666;
+    :global {
+        .icon {
+            cursor: pointer;
+            &:hover {
+                color: #666;
+            }
         }
     }
 }
