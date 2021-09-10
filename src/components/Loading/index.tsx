@@ -1,11 +1,11 @@
 import React from 'react';
-import style from './index.module.scss';
+import './index.css';
 
 const array = new Array(16).fill(0);
 
 function Loading() {
     return (
-        <div className={style.container}>
+        <div className="loading-container">
             <div className="loader">
                 {array.map((_, idx) =>
                     <div className="square" key={idx} />
