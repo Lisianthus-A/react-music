@@ -11,6 +11,7 @@ import { convertTime } from 'Utils/index';
 import { useInterval } from 'Utils/hooks';
 // import { collectSong, downloadMusic } from 'Utils/methods';
 import music from 'Utils/music';
+import cache from 'Utils/cache';
 import { FuncContext } from 'AppContainer/index';
 
 import type { MouseEvent } from 'react';
@@ -33,6 +34,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
 
     // 清空播放列表
     const handleClean = useCallback(() => {
+        cache().delAll();
         setPlaylist([]);
     }, []);
 
@@ -56,8 +58,10 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
         // 正在播放的歌曲的 index
         const playingIndex = newList.findIndex(e => e.id === playingItem.id);
 
-        // 删除
-        newList.splice(index, 1);
+        // 歌曲列表删除对应项
+        const delItem = newList.splice(index, 1);
+        // 缓存删除对应项
+        cache().del(delItem[0].id);
         setPlaylist(newList);
 
         // 删除的是正在播放的歌曲
@@ -65,7 +69,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
             const nextSong = newList[index] || newList[newList.length - 1];
             nextSong && playSong(nextSong);
         }
-    }, [playlist]);
+    }, [playlist, isPlaying]);
 
     // 收藏歌单中的某首歌
     const handleCollectSong = (e: MouseEvent, id: number) => {

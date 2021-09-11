@@ -35,6 +35,27 @@ class MusicCache {
     get(id: number): MusicItem | null {
         return this.cache.get(id) || null;
     }
+
+    /**
+     * 删除指定 id 的歌曲缓存
+     * @param id 歌曲 id
+     */
+    del(id: number): void {
+        const { cache, cacheIds } = this;
+        const index = cacheIds.indexOf(id);
+        if (index !== -1) {
+            cacheIds.splice(index, 1);
+            cache.delete(id);
+        }
+    }
+
+    /**
+     * 删除所有歌曲缓存
+     */
+    delAll() {
+        const { cache } = this;
+        cache.clear();
+    }
 }
 
 // 单例模式

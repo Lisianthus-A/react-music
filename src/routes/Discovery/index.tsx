@@ -29,11 +29,13 @@ function Discovery() {
         const songIds = detailRes.playlist.trackIds.map(item => item.id);
         const songRes = await songDetail(songIds);
         // 解析后的歌曲列表
-        const songlist = resolveSongs(songRes.songs, 'detail');
+        const songList = resolveSongs(songRes.songs, 'detail');
+        // 过滤 VIP 歌曲
+        const freeSongList = songList.filter(item => item.isFree);
 
         // 播放第一首歌曲
-        setPlaylist(songlist);
-        playSong(songlist[0]);
+        setPlaylist(freeSongList);
+        playSong(songList[0]);
     }
 
     // 改变标题
