@@ -15,11 +15,11 @@ function MusicPlayer() {
     const [currentTime, setCurrentTime] = useState(0);
     const { isPlaying, playMode, playlist, playingItem } = state;
 
-    // 每 400 ms 更新一次当前播放时间
+    // 每 300 ms 更新一次当前播放时间
     useInterval(() => {
         const time = music().getCurrentTime();
         setCurrentTime(time);
-    }, 400);
+    }, 300);
 
     return (
         <div className={style['music-player']}>
