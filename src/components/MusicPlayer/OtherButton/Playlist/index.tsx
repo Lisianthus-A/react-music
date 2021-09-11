@@ -69,7 +69,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
             const nextSong = newList[index] || newList[newList.length - 1];
             nextSong && playSong(nextSong);
         }
-    }, [playlist, isPlaying]);
+    }, [playlist, isPlaying, playingItem]);
 
     // 收藏歌单中的某首歌
     const handleCollectSong = (e: MouseEvent, id: number) => {
