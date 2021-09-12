@@ -46,9 +46,9 @@ class Music {
         this.startTime = 0;
         this.playingItem = null;
         this.status = 'pendding';
-        this.rejectFn = () => {};
+        this.rejectFn = () => { };
 
-        //    this.getMusic(776039);
+        this.getMusic(776039);
     }
 
     /* ============= 私有方法 ============= */
