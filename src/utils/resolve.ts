@@ -152,7 +152,7 @@ export const resolveDetail = (res: any): Record<string, any> => {
     } else {  // 单曲
         const { name: title, al: { id: albumId, name: albumName } } = res.songs[0];
         const singers = res.songs[0].ar.map(({ id, name }) => ({ id, name }));
-        const cover = res.songs[0].picUrl;
+        const cover = rp(res.songs[0].al.picUrl);
         return { isPlaylist, isAlbum, isSong, title, cover, singers, albumId, albumName };
     }
 }

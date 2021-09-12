@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useCallback, useContext } from 'react';
+import { FuncContext, StateContext } from 'AppContainer/index';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import { CaretRightOutlined, HeartOutlined, DownloadOutlined } from '@ant-design/icons';
+import music from 'Utils/music';
+
+import type { SongItem } from 'AppContainer/index';
 
 interface Props {
     detailData: {
@@ -11,11 +15,7 @@ interface Props {
         albumId: number;
         albumName: string;
     };
-    songData: {
-        id: number;
-        name: string;
-        isFree: boolean;
-    };
+    songData: SongItem;
     lyric: [string, string, number][];
 }
 
@@ -23,17 +23,36 @@ function SongDetail({ detailData, songData, lyric }: Props) {
     const { title, cover, singers, albumId, albumName } = detailData;
     const { id, name, isFree } = songData;
 
-    const handlePlay = () => {
+    const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
+    const { playingItem, playlist } = useContext(StateContext);
 
-    }
+    // 播放歌曲
+    const handlePlay = useCallback(() => {
+        // 正在播放该歌曲
+        if (playingItem.id === songData.id) {
+            return;
+        }
 
-    const handleCollectSong = () => {
+        // 在播放列表中不包含该歌曲
+        // 追加到当前播放列表
+        if (!playlist.find(item => item.id === songData.id)) {
+            const newList = playlist.slice();
+            newList.push(songData);
+            setPlaylist(newList);
+        }
 
-    }
+        playSong(songData);
+    }, [songData, playlist, playingItem]);
 
-    const handleDownload = () => {
+    // 收藏歌曲
+    const handleCollectSong = useCallback(() => {
+        collectSong(id);
+    }, [id]);
 
-    }
+    // 下载歌曲
+    const handleDownload = useCallback(() => {
+        music().download(id, name);
+    }, [id, name]);
 
     return (
         <>

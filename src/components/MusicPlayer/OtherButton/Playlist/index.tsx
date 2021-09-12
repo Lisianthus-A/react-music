@@ -9,7 +9,6 @@ import {
 } from '@ant-design/icons';
 import { convertTime } from 'Utils/index';
 import { useInterval } from 'Utils/hooks';
-// import { collectSong, downloadMusic } from 'Utils/methods';
 import music from 'Utils/music';
 import cache from 'Utils/cache';
 import { FuncContext } from 'AppContainer/index';
@@ -25,7 +24,7 @@ interface Props {
 }
 
 function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
-    const { playSong, setPlaylist } = useContext(FuncContext);
+    const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
     const [lyric, setLyric] = useState<null | [string, string, number][]>(playingItem.lyric);
 
     const contentRef = useRef<HTMLDivElement>(null);
@@ -72,10 +71,10 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
     }, [playlist, isPlaying, playingItem]);
 
     // 收藏歌单中的某首歌
-    const handleCollectSong = (e: MouseEvent, id: number) => {
-        //     e.stopPropagation();
-        //     collectSong(id);
-    }
+    const handleCollectSong = useCallback((e: MouseEvent, id: number) => {
+        e.stopPropagation();
+        collectSong(id);
+    }, []);
 
     // 不断读取当前播放进度，滚动歌词
     useInterval(() => {

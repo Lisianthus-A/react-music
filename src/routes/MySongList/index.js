@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { userSonglist, deleteSonglist } from 'Apis/songlist';
+import { userPlaylist, deleteSonglist } from 'Apis/playlist';
 import { Modal } from 'antd';
 import MySongListView from './components/View';
 import { hasToken } from 'Utils';
@@ -20,7 +20,7 @@ export default () => {
 
     useEffect(() => {
         const getData = async () => {
-            const listData = await userSonglist(userid);
+            const listData = await userPlaylist(userid);
             const create = listData.playlist.filter(({ subscribed }) => !subscribed);  //创建的歌单
             const subscribe = listData.playlist.filter(({ subscribed }) => subscribed);  //收藏的歌单
             setState({ create, subscribe });

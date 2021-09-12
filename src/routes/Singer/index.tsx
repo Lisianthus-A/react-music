@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { searchItem } from 'Utils';
+import { searchItem } from 'Utils/index';
 import { resolveSongs } from 'Utils/resolve';
 import { singerInfo, singerDesc } from 'Apis/singer';
+import View from './components/View';
 
-import SingerView from './components/View';
+import type { SongItem } from 'AppContainer/index';
 
-export default () => {
+export interface PageState {
+    header: any;
+    songList: SongItem[];
+    intro: any;
+}
+
+function Singer() {
     const { search } = useLocation();
     const id = searchItem(search, 'id');
 
-    const [state, setState] = useState(null);
+    const [pageState, setPageState] = useState<PageState | null>(null);
 
     useEffect(() => {
         const getData = async () => {
@@ -22,23 +29,30 @@ export default () => {
                 alias: singerRes.artist.alias,
                 cover: singerRes.artist.picUrl
             };
-            const songs = resolveSongs(singerRes.hotSongs, 'detail');
+            const songList = resolveSongs(singerRes.hotSongs, 'detail');
             const intro = {
                 intro: descRes.introduction,
                 briefDesc: descRes.briefDesc
             };
 
-            //改变标题
-            document.title = `${header.name}的音乐`;
-
-            setState({ header, songs, intro })
+            setPageState({ header, songList, intro })
         }
 
-        setState(null);
+        setPageState(null);
         getData();
     }, [id]);
 
+    // 改变标题
+    useEffect(() => {
+        const name = pageState?.header?.name;
+        if (name) {
+            document.title = `${name}的音乐`;
+        }
+    }, [pageState]);
+
     return (
-        <SingerView state={state} />
+        <View pageState={pageState} />
     );
 }
+
+export default Singer;

@@ -29,7 +29,7 @@ export const playlistDetail = (id: number) => {
     return ajax<PlaylistDetailRes>(`/playlist/detail?id=${id}`);
 }
 
-type CommentItem = {
+interface CommentItem {
     content: string;
     user: {
         userId: number;
@@ -78,8 +78,20 @@ export const deleteSonglist = async (id) => {
     return result;
 }
 
-//用户歌单
-export const userSonglist = async (id) => {
-    const result = await ajax(`/user/playlist?uid=${id}`);
-    return result;
+interface UserSonglistRes {
+    playlist: {
+        id: number;
+        name: string;
+        subscribed: boolean;
+        coverImgUrl: string;
+        trackCount: number;
+    }[];
+}
+
+/**
+ * 用户歌单
+ * @param id 用户 id
+ */
+export const userPlaylist = (id: number | string) => {
+    return ajax<UserSonglistRes>(`/user/playlist?uid=${id}`);
 }

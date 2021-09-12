@@ -16,7 +16,6 @@ import { convertTime, searchItem } from 'Utils/index';
 import { songDetail } from 'Apis/song';
 import { resolveSongs } from 'Utils/resolve';
 import music from 'Utils/music';
-// import { downloadMusic, collectSong } from 'Utils/methods';
 
 import type { SongItem } from 'AppContainer/index';
 
@@ -28,7 +27,7 @@ interface Props {
 
 function SongList({ songList, songIds, isCreator }: Props) {
     const state = useContext(StateContext);
-    const { playSong, setPlaylist } = useContext(FuncContext);
+    const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
     const { playingItem, playlist } = state;
 
     const [currentList, setCurrentList] = useState<SongItem[]>(songList || []);
@@ -69,9 +68,9 @@ function SongList({ songList, songIds, isCreator }: Props) {
     }, [playlist]);
 
     //收藏歌单中的某首歌
-    const handleCollectSong = (id: number) => {
-        // collectSong(id);
-    }
+    const handleCollectSong = useCallback((id: number) => {
+        collectSong(id);
+    }, []);
 
     //删除歌单中的某首歌
     const handleDelete = useCallback((songItem: SongItem) => {

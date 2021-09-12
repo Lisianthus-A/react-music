@@ -1,8 +1,10 @@
+// @ts-nocheck
 import React, { useMemo, useState } from 'react';
 import style from './index.module.scss';
 
-function Tabs(props) {
-    const { children } = props;
+import type { ReactNode } from 'react';
+
+function Tabs({ children }) {
     const childrenArray = useMemo(() => React.Children.toArray(children), [children]);
     const [activeKey, setActiveKey] = useState(childrenArray[0].key);
 
@@ -24,7 +26,12 @@ function Tabs(props) {
     );
 }
 
-function Pane(props) {
+interface Props {
+    children: ReactNode;
+    text: string;
+}
+
+function Pane(props: Props): JSX.Element {
     return props.children;
 }
 

@@ -1,9 +1,11 @@
 import React, { useEffect, useMemo } from 'react';
 import { useLocation, useHistory } from 'react-router';
 import { useSetState } from 'Utils/hooks';
+import { Modal } from 'antd';
 import music from 'Utils/music';
 import routes from '../routes';
 import Layout from 'Components/Layout';
+import CollectSong from 'Components/CollectSong';
 // 全局引入 antd css
 import 'antd/dist/antd.min.css';
 
@@ -54,6 +56,7 @@ interface FuncCtx {
     pauseSong: () => void;
     setPlaylist: (list: SongItem[]) => void;
     setPlayMode: (mode: State['playMode']) => void;
+    collectSong: (id: number) => void;
 }
 
 // 是否播放中、播放列表、播放模式、当前播放音乐
@@ -131,6 +134,16 @@ function AppContainer() {
             });
         }
 
+        const collectSong = (id: number) => {
+            Modal.info({
+                title: '收藏歌曲',
+                maskClosable: true,
+                okButtonProps: { style: { display: 'none' } },
+                width: 500,
+                content: <CollectSong id={id} />
+            });
+        }
+
         // 暂停歌曲
         const pauseSong = () => {
             music().pause();
@@ -150,6 +163,7 @@ function AppContainer() {
         return {
             getSong,
             playSong,
+            collectSong,
             pauseSong,
             setPlaylist,
             setPlayMode

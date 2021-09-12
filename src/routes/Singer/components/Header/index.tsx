@@ -1,8 +1,12 @@
 import React from 'react';
 import style from './index.module.scss';
-import { replaceHttpToHttps as rp } from 'Utils';
+import { replaceHttpToHttps as rp } from 'Utils/index';
 
-const Header = ({ data }) => {
+interface Props {
+    data: any;
+}
+
+function Header ({ data }: Props) {
 
     const { name, alias, cover } = data;
 

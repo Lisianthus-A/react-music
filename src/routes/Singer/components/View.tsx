@@ -7,24 +7,32 @@ import Header from './Header';
 import Tabs from 'Components/Tabs';
 import Introduction from './Introduction';
 
-const Singer = ({ state }) => {
-    if (!state) {
+import type { PageState } from '../index';
+
+interface Props {
+    pageState: PageState | null;
+}
+
+function View({ pageState }: Props) {
+    if (!pageState) {
         return <Loading />;
     }
 
+    const { header, songList, intro } = pageState;
+
     return (
         <div className={style.singer}>
-            <Header data={state.header} />
+            <Header data={header} />
             <Tabs>
                 <Tabs.Pane key="0" text="热门作品">
-                    <SongList songList={state.songs} />
+                    <SongList songList={songList} />
                 </Tabs.Pane>
                 <Tabs.Pane key="1" text="歌手介绍">
-                    <Introduction data={state.intro} />
+                    <Introduction data={intro} />
                 </Tabs.Pane>
             </Tabs>
         </div>
     );
 }
 
-export default Singer;
+export default View;
