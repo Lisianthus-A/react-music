@@ -1,4 +1,5 @@
 import ajax from 'Apis/apiBase';
+import axios from 'axios';
 import cache from './cache';
 import { songDetail, getLyric } from 'Apis/song';
 import { resolveLyric, resolveSongs } from 'Utils/resolve';
@@ -73,38 +74,46 @@ class Music {
                 return;
             }
 
-            const pBuffer = ajax(`/getMusic?id=${id}`, {
-                responseType: 'arraybuffer',
-                withCredentials: false,
-            }).catch(_ => null);
-
-            Promise.all([
-                pBuffer,
-                songDetail([id]),
-                getLyric(id)
-            ]).then(([buffer, detailRes, lyricRes]) => {
-                if (buffer === null) {
-                    console.log('get music fail, id:', id);
+            ajax<{error?: any, url: string}>(`/getMusicUrl?id=${id}`).then(res => {
+                if (res.error || res.url?.includes('music.163.com/404')) {
                     resolve(null);
                     return;
                 }
-                // 歌曲详情
-                const detail = resolveSongs(detailRes.songs, 'detail')[0];
-                // 歌词
-                const lyric = resolveLyric(lyricRes);
 
-                const item = {
-                    buffer,
-                    info: {
-                        ...detail,
-                        lyric
+                const { url } = res;
+                const pBuffer = axios({
+                    url,
+                    responseType: 'arraybuffer'
+                }).then(res => res.data).catch(_ => null);
+
+                Promise.all([
+                    pBuffer,
+                    songDetail([id]),
+                    getLyric(id)
+                ]).then(([buffer, detailRes, lyricRes]) => {
+                    if (buffer === null) {
+                        console.log('get music fail, id:', id);
+                        resolve(null);
+                        return;
                     }
-                };
-
-                // 将歌曲信息保存到缓存中
-                cache().save(id, item);
-                resolve(item);
-            });
+                    // 歌曲详情
+                    const detail = resolveSongs(detailRes.songs, 'detail')[0];
+                    // 歌词
+                    const lyric = resolveLyric(lyricRes);
+    
+                    const item = {
+                        buffer,
+                        info: {
+                            ...detail,
+                            lyric
+                        }
+                    };
+    
+                    // 将歌曲信息保存到缓存中
+                    cache().save(id, item);
+                    resolve(item);
+                });
+            })
         });
     }
 
