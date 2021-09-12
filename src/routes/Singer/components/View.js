@@ -17,7 +17,7 @@ const Singer = ({ state }) => {
             <Header data={state.header} />
             <Tabs>
                 <Tabs.Pane key="0" text="热门作品">
-                    <SongList data={state.songs} />
+                    <SongList songList={state.songs} />
                 </Tabs.Pane>
                 <Tabs.Pane key="1" text="歌手介绍">
                     <Introduction data={state.intro} />

@@ -36,7 +36,9 @@ type CommentItem = {
         nickname: string;
         avatarUrl: string;
     };
-    beReplied: Omit<CommentItem, 'beReplied'>[];
+    time: number;
+    likedCount: number;
+    beReplied: Omit<CommentItem, 'beReplied' | 'time' | 'likedCount'>[];
 }
 
 export interface PlaylistCommentRes {
@@ -53,11 +55,15 @@ export const playlistComment = (id: number) => {
     return ajax<PlaylistCommentRes>(`/comment/playlist?id=${id}`);
 }
 
-//对歌单添加或删除歌曲  opt-> add 或 del  tracks -> 需要操作的歌曲id数组
-export const songlistTracks = async (opt, id, tracks) => {
-    const ids = tracks.join();  //歌曲 id 数组
-    const result = await ajax(`/playlist/tracks?op=${opt}&pid=${id}&tracks=${ids}`);
-    return result;
+/**
+ * 对歌单添加或删除歌曲
+ * @param opt 操作
+ * @param playlistId 歌单 id
+ * @param songId 歌曲 id
+ * @returns 
+ */
+export const songlistTracks = (opt: 'add' | 'del', playlistId: number, songId: number) => {
+    return ajax(`/playlist/tracks?op=${opt}&pid=${playlistId}&tracks=${songId}`);
 }
 
 //收藏 / 取消收藏歌单  type --> 1 收藏 2 取消收藏  id --> 歌单id

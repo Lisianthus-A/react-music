@@ -10,7 +10,7 @@ import { StateContext, FuncContext } from 'AppContainer/index';
 
 function ControlButton() {
     const { getSong, playSong, pauseSong } = useContext(FuncContext);
-    const { state } = useContext(StateContext);
+    const state = useContext(StateContext);
     const { isPlaying, playingItem } = state;
 
     // 切换歌曲

@@ -11,7 +11,7 @@ import ProgressBar from './ProgressBar';
 
 function MusicPlayer() {
 
-    const { state } = useContext(StateContext);
+    const state = useContext(StateContext);
     const [currentTime, setCurrentTime] = useState(0);
     const { isPlaying, playMode, playlist, playingItem } = state;
 

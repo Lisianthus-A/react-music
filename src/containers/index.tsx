@@ -26,8 +26,6 @@ export interface State {
     playingItem: PlayingItem;
 }
 
-export type SetState = (patch: Partial<State> | ((prevState: State) => Partial<State>)) => void;
-
 // 初始歌曲
 const initSong = {
     id: 776039,
@@ -50,11 +48,6 @@ const initialState: State = {
     }
 }
 
-interface StateCtx {
-    state: State;
-    setState: SetState;
-}
-
 interface FuncCtx {
     getSong: (type: 'prev' | 'next', state: State) => SongItem | PlayingItem;
     playSong: (item: SongItem | PlayingItem, offset?: number) => void;
@@ -64,7 +57,7 @@ interface FuncCtx {
 }
 
 // 是否播放中、播放列表、播放模式、当前播放音乐
-export const StateContext = React.createContext<StateCtx>(null);
+export const StateContext = React.createContext<State>(null);
 // 封装好的一些用于改变 state 的函数
 export const FuncContext = React.createContext<FuncCtx>(null);
 
@@ -242,7 +235,7 @@ function AppContainer() {
 
     return (
         <FuncContext.Provider value={globalFunc}>
-            <StateContext.Provider value={{ state, setState }}>
+            <StateContext.Provider value={state}>
                 <Layout TargetComponent={TargetComponent} />
             </StateContext.Provider>
         </FuncContext.Provider>

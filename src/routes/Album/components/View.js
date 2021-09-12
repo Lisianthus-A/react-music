@@ -14,7 +14,7 @@ const Album = ({ state }) => {
     return (
         <div className={style.album}>
             <Detail data={state.detail} songs={state.songs} />
-            <SongList data={state.songs} />
+            <SongList songList={state.songs} />
             <CommentList data={state.comment} songs={state.songs} />
         </div>
     );

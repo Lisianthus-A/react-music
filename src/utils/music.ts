@@ -145,6 +145,7 @@ class Music {
         if (currentSource) {
             currentSource.disconnect();
             currentSource.onended = null;
+            this.currentSource = null;
         }
 
         // 创建 Source
@@ -165,6 +166,7 @@ class Music {
             source.buffer = abuffer;
             this.playingItem = {
                 ...music,
+                duration: abuffer.duration,
                 abuffer
             };
         }

@@ -31,8 +31,6 @@ export interface SongDetailRes {
  * @param ids 歌曲 id 数组
  */
 export const songDetail = (ids: number[]) => {
-    // 限制最大长度为 200
-    ids.length = ids.length > 200 ? 200 : ids.length;
     return ajax<SongDetailRes>(`/song/detail?ids=${ids.join()}`);
 }
 

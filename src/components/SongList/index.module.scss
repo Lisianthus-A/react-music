@@ -1,137 +1,169 @@
-.songs {
-  .title {
-    font-size: 22px;
-    border-bottom: 2px solid #c62f2f;
-    margin: 10px 0;
-    & > span {
-      font-size: 12px;
-      color: #666;
-      margin-left: 30px;
-    }
-  }
-
-  table {
-    border-collapse: collapse;
-    letter-spacing: 1px;
-    width: 100%;
-    table-layout: fixed;
-  }
-
-  thead {
-    background-color: #f7f7f7;
-    border-top: 1px solid #bbb;
-  }
-
-  th {
-    border-right: 1px solid #bbb;
-    &:nth-last-of-type(1) {
-      border-right: none;
-    }
-    &:nth-of-type(1),
-    &:nth-of-type(3) {
-      width: 90px;
-    }
-    &:nth-of-type(4) {
-      width: 20%;
-    }
-    &:nth-of-type(5) {
-      width: 25%;
-    }
-  }
-
-  tbody {
-    & > tr {
-      border: 1px solid #bebebe;
-      border-left: none;
-      border-right: none;
-      &:nth-of-type(2n + 1) {
-        background-color: #eaf0f0;
+.songlist {
+  :global {
+    .title {
+      font-size: 22px;
+      border-bottom: 2px solid #c62f2f;
+      margin: 10px 0;
+      & > span {
+        font-size: 12px;
+        color: #666;
+        margin-left: 30px;
       }
-      &:hover {
-        background-color: #bfcedd;
-        .icons {
-          opacity: 1;
+    }
+
+    table {
+      border-collapse: collapse;
+      letter-spacing: 1px;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    thead {
+      background-color: #f7f7f7;
+      border-top: 1px solid #bbb;
+    }
+
+    th {
+      border-right: 1px solid #bbb;
+      &:nth-last-of-type(1) {
+        border-right: none;
+      }
+      &:nth-of-type(1),
+      &:nth-of-type(3) {
+        width: 90px;
+      }
+      &:nth-of-type(4) {
+        width: 20%;
+      }
+      &:nth-of-type(5) {
+        width: 25%;
+      }
+    }
+
+    tbody {
+      & > tr {
+        border: 1px solid #bebebe;
+        border-left: none;
+        border-right: none;
+        &:nth-of-type(2n + 1) {
+          background-color: #eaf0f0;
+        }
+        &:hover {
+          background-color: #bfcedd;
+          .icons {
+            opacity: 1;
+          }
         }
       }
     }
-  }
-  tr > td:nth-of-type(1) {
-    display: flex;
-    justify-content: space-around;
-    span {
-      display: inline-block;
-      width: 20px;
-    }
-  }
-
-  tr > td:nth-of-type(2) {
-    position: relative;
-  }
-
-  th,
-  td {
-    padding: 5px 10px;
-  }
-
-  td {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-
-    a {
-      color: #000;
-      &:hover {
-        text-decoration: underline;
+    tr > td:nth-of-type(1) {
+      display: flex;
+      justify-content: space-around;
+      span {
+        display: inline-block;
+        width: 20px;
       }
     }
-  }
 
-  .singer + span {
-    color: #999;
-    &:nth-last-of-type(1) {
-      display: none;
+    tr > td:nth-of-type(2) {
+      position: relative;
     }
-  }
 
-  .playButton {
-    border: 2px solid #bbb;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    line-height: 22px;
-    font-size: 16px;
-    color: #bbb;
-    cursor: pointer;
-    &:hover {
-      color: #ddd;
-      border-color: #ddd;
+    th,
+    td {
+      padding: 5px 10px;
     }
-  }
 
-  .fee {
-    .playButton {
-      pointer-events: none;
-    }
-    a {
-      color: #888;
-    }
-  }
+    td {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
 
-  .icons {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 80px;
-    display: flex;
-    justify-content: space-around;
-    height: 100%;
-    align-items: center;
-    color: #666;
-    opacity: 0;
-    & > span {
+      a {
+        color: #000;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .singer + span {
+      color: #999;
+      &:nth-last-of-type(1) {
+        display: none;
+      }
+    }
+
+    .play-btn,
+    .play-btn-playing {
+      border: 2px solid #bbb;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      line-height: 22px;
+      font-size: 16px;
+      color: #bbb;
       cursor: pointer;
       &:hover {
-        color: #fff;
+        color: #ddd;
+        border-color: #ddd;
+      }
+    }
+
+    .play-btn-playing {
+      color: #c62f2f;
+      &:hover {
+        color: red;
+      }
+    }
+
+    .fee {
+      .playButton {
+        pointer-events: none;
+      }
+      a {
+        color: #888;
+      }
+    }
+
+    .icons {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 80px;
+      display: flex;
+      justify-content: space-around;
+      height: 100%;
+      align-items: center;
+      color: #666;
+      opacity: 0;
+      & > span {
+        cursor: pointer;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .page {
+      margin: 0 8px;
+    }
+
+    .page-btn {
+      cursor: pointer;
+      border: 1px solid #e6e6e6;
+      border-radius: 8px;
+      padding: 4px 16px;
+      background-color: #f5f5f5;
+
+      &:hover {
+        background-color: #eee;
       }
     }
   }

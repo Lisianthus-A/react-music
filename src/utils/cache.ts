@@ -2,13 +2,17 @@ import type { MusicItem } from './music';
 
 const MAX_CACHE_LEN = 30;  // 最大缓存数量
 
+interface MapKey {
+    id: number;
+}
+
 class MusicCache {
-    private cacheIds: number[];  // 已缓存歌曲的 id 数组
-    private cache: Map<number, MusicItem>;  // 缓存
+    private cacheIds: MapKey[];  // 已缓存歌曲的 id 数组
+    private cache: WeakMap<MapKey, MusicItem>;  // 缓存
 
     constructor() {
         this.cacheIds = [];
-        this.cache = new Map();
+        this.cache = new WeakMap();
     }
 
     /**
@@ -18,14 +22,15 @@ class MusicCache {
     save(id: number, item: MusicItem): void {
         const { cache, cacheIds } = this;
         // 缓存数超过限制，删除最早放入的缓存项
-        if (cache.size >= MAX_CACHE_LEN) {
-            const firstId = cacheIds.shift();
-            cache.delete(firstId);
+        if (cacheIds.length >= MAX_CACHE_LEN) {
+            const firstKey = cacheIds.shift();
+            cache.delete(firstKey);
         }
 
         // 放入缓存
-        cache.set(id, item);
-        cacheIds.push(id);
+        const key = { id };
+        cache.set(key, item);
+        cacheIds.push(key);
     }
 
     /**
@@ -33,7 +38,13 @@ class MusicCache {
      * @param id 歌曲 id
      */
     get(id: number): MusicItem | null {
-        return this.cache.get(id) || null;
+        const { cacheIds } = this;
+        const key = cacheIds.find(item => item.id === id);
+        if (!key) {
+            return null;
+        }
+
+        return this.cache.get(key);
     }
 
     /**
@@ -42,10 +53,10 @@ class MusicCache {
      */
     del(id: number): void {
         const { cache, cacheIds } = this;
-        const index = cacheIds.indexOf(id);
+        const index = cacheIds.findIndex(item => item.id === id);
         if (index !== -1) {
-            cacheIds.splice(index, 1);
-            cache.delete(id);
+            const key = cacheIds.splice(index, 1)[0];
+            cache.delete(key);
         }
     }
 
@@ -53,8 +64,11 @@ class MusicCache {
      * 删除所有歌曲缓存
      */
     delAll() {
-        const { cache } = this;
-        cache.clear();
+        const { cache, cacheIds } = this;
+        for (const key of cacheIds) {
+            cache.delete(key);
+        }
+        this.cacheIds = [];
     }
 }
 
