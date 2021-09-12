@@ -7,7 +7,7 @@ import Loading from 'Components/Loading';
 import { globalMethods } from 'AppContainer';
 import { getFMList, unlike } from 'Apis/personalFM';
 import { hasToken, convertTime, replaceHttpToHttps as rp } from 'Utils/index';
-import { collectSong } from 'Utils/methods';
+// import { collectSong } from 'Utils/methods';
 
 export default () => {
 
@@ -101,7 +101,7 @@ export default () => {
     //喜欢
     const handleLike = () => {
         setLike(true);
-        collectSong(playingMusic.id);
+        // collectSong(playingMusic.id);
     }
 
     //不喜欢

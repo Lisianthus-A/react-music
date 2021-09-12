@@ -5,35 +5,37 @@
     color: #aaa;
     width: 33.3%;
 
-    .prev,
-    .play-or-pause,
-    .next {
-        border: 2px solid #aaa;
-        border-radius: 25px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
+    :global {
+        .prev,
+        .play-or-pause,
+        .next {
+            border: 2px solid #aaa;
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
 
-        &:hover {
-            border-color: #c62f2f;
-            color: #c62f2f;
+            &:hover {
+                border-color: #c62f2f;
+                color: #c62f2f;
+            }
         }
-    }
 
-    .prev,
-    .next {
-        height: 30px;
-        width: 30px;
-    }
+        .prev,
+        .next {
+            height: 30px;
+            width: 30px;
+        }
 
-    .play-or-pause {
-        height: 40px;
-        width: 40px;
-        font-size: 25px;
-        margin-left: 10px;
-        margin-right: 10px;
-        color: #c62f2f;
-        border-color: #c62f2f;
+        .play-or-pause {
+            height: 40px;
+            width: 40px;
+            font-size: 25px;
+            margin-left: 10px;
+            margin-right: 10px;
+            color: #c62f2f;
+            border-color: #c62f2f;
+        }
     }
 }

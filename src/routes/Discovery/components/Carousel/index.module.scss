@@ -1,43 +1,46 @@
 .carousel {
     height: calc(100% - 20px);
 
-    .card-container {
-        height: 100%;
-        position: relative;
-    }
+    :global {
+        .card-container {
+            height: 100%;
+            position: relative;
+        }
 
-    .card {
-        height: 100%;
-        width: 33.3%;
-        transition: all 1s;
-        position: absolute;
-        opacity: 0.8;
-        transform: scale(0.8);
-        z-index: 998;
-        cursor: pointer;
-    }
+        .card {
+            height: 100%;
+            width: 33.3%;
+            transition: all 1s;
+            position: absolute;
+            opacity: 0.8;
+            transform: scale(0.8);
+            z-index: 998;
+            cursor: pointer;
+        }
 
-    img {
-        height: 100%;
-        width: 100%;
-    }
+        img {
+            height: 100%;
+            width: 100%;
+        }
 
-    .rects {
-        height: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        .rects {
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .rect {
-        height: 3px;
-        width: 20px;
-        background-color: #ddd;
-        margin-right: 8px;
-        cursor: pointer;
-    }
+        .rect,
+        .rect-active {
+            height: 3px;
+            width: 20px;
+            background-color: #ddd;
+            margin-right: 8px;
+            cursor: pointer;
+        }
 
-    .active {
-        background-color: #c62f2f;
+        .rect-active {
+            background-color: #c62f2f;
+        }
     }
 }

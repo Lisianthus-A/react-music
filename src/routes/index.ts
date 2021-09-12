@@ -3,9 +3,9 @@ export default [
     "/Discovery",
     "/MySongList",
     "/PersonalFM",
+    "/Playlist",
     "/Singer",
     "/Song",
-    "/SongList",
     "/User",
     "/Video"
 ];

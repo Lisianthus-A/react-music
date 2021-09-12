@@ -4,29 +4,69 @@
     display: flex;
     align-items: center;
 
-    img {
-        cursor: default;
-    }
-
-    .username {
-        color: #fff;
-        margin-left: 15px;
-    }
-
-    .logout {
-        color: #2f4050;
-        margin-left: 20px;
-        font-size: 12px;
-        cursor: pointer;
-        &:hover {
-            text-decoration: underline;
+    :global {
+        img {
+            cursor: default;
         }
-    }
 
-    .search {
-        margin-left: 50px;
-        border-radius: 16px;
-        transition: width 0.3s;
-        overflow: hidden;
+        .username {
+            color: #fff;
+            margin-left: 15px;
+        }
+
+        .logout {
+            color: #2f4050;
+            margin-left: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .search {
+            margin-left: 50px;
+            border-radius: 16px;
+            transition: width 0.3s;
+            overflow: hidden;
+        }
+
+        .ant-avatar {
+            margin-left: 40px;
+            cursor: pointer;
+        }
+
+        .ant-select-selection-search-input {
+            color: #fff;
+            line-height: 32px;
+        }
+
+        .ant-select-selection-placeholder {
+            line-height: 32px !important;
+        }
+
+        .ant-select-selector {
+            border: none !important;
+            background-color: rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .ant-select-arrow {
+            top: 48%;
+        }
+
+        .ant-modal-confirm-btns {
+            display: none;
+        }
+
+        .ant-btn {
+            border: none;
+            background: none;
+        }
+
+        .ant-btn:hover,
+        .ant-btn:focus,
+        .ant-btn:active {
+            background: none;
+        }
     }
 }
