@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSetState } from 'Utils/hooks';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import music from 'Utils/music';
 import routes from '../routes';
 import Layout from 'Components/Layout';
@@ -128,9 +128,13 @@ function AppContainer() {
                 }
             });
             music().play(id, offset).then(isDone => {
-                isDone && setState({
-                    playingItem: music().getPlayingItem()
-                });
+                if (isDone) {
+                    setState({
+                        playingItem: music().getPlayingItem()
+                    });
+                } else {
+                    message.error(`加载歌曲失败，id:${id}`);
+                }
             });
         }
 
