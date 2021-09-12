@@ -3,6 +3,7 @@ import axios from 'axios';
 import cache from './cache';
 import { songDetail, getLyric } from 'Apis/song';
 import { resolveLyric, resolveSongs } from 'Utils/resolve';
+import { replaceHttpToHttps as rp } from 'Utils/index';
 
 export interface MusicItem {
     buffer: ArrayBuffer;
@@ -74,7 +75,7 @@ class Music {
                 return;
             }
 
-            ajax<{error?: any, url: string}>(`/getMusicUrl?id=${id}`).then(res => {
+            ajax<{ error?: any, url: string }>(`/getMusicUrl?id=${id}`).then(res => {
                 if (res.error || res.url?.includes('music.163.com/404')) {
                     resolve(null);
                     return;
@@ -82,7 +83,7 @@ class Music {
 
                 const { url } = res;
                 const pBuffer = axios({
-                    url,
+                    url: rp(url),
                     responseType: 'arraybuffer'
                 }).then(res => res.data).catch(_ => null);
 
@@ -100,7 +101,7 @@ class Music {
                     const detail = resolveSongs(detailRes.songs, 'detail')[0];
                     // 歌词
                     const lyric = resolveLyric(lyricRes);
-    
+
                     const item = {
                         buffer,
                         info: {
@@ -108,7 +109,7 @@ class Music {
                             lyric
                         }
                     };
-    
+
                     // 将歌曲信息保存到缓存中
                     cache().save(id, item);
                     resolve(item);
