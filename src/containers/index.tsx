@@ -65,10 +65,7 @@ export const StateContext = React.createContext<State>(null);
 export const FuncContext = React.createContext<FuncCtx>(null);
 
 function AppContainer() {
-    const l = useLocation();
-    console.info('lo', l);
-    const { pathname } = l;
-    // const { pathname } = useLocation();
+    const { pathname } = useLocation();
     const history = useHistory();
     const [state, setState] = useSetState<State>(initialState);
 
