@@ -42,7 +42,7 @@ function RecommentPlaylist({ data, onPlayAll }: Props) {
                             <CaretRightOutlined />
                         </div>
                     </Link>
-                    <Link className="description" to={`/SongList?id=${id}`}>{name}</Link>
+                    <Link className="description" to={`/Playlist?id=${id}`}>{name}</Link>
                 </div>
             )}
         </div>

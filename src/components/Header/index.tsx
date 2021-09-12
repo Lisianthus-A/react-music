@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import style from './index.module.scss';
 import { Avatar, Select } from 'antd';
 import { UserOutlined, SearchOutlined } from '@ant-design/icons';
@@ -77,7 +77,7 @@ function Header() {
         if (Array.isArray(result.playlists)) {
             result.playlists = result.playlists.map(item => ({
                 text: item.name,
-                value: `/SongList?id=${item.id}`
+                value: `/Playlist?id=${item.id}`
             }));
         }
         setDropdownItem(result);

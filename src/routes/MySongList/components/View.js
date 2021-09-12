@@ -21,7 +21,7 @@ const MySongList = ({ state, onDelete }) => {
         <div className={style['my-songlist']}>
             <div className={style.title}>我创建的歌单</div>
             {state.create.map(({ name, coverImgUrl, trackCount, id }, idx) =>
-                <Link className={style['list-item']} key={idx} to={`/SongList?id=${id}`}>
+                <Link className={style['list-item']} key={idx} to={`/Playlist?id=${id}`}>
                     <div className={style.image}>
                         <img src={`${rp(coverImgUrl)}?param=100y100`} loading='lazy' />
                     </div>
@@ -34,7 +34,7 @@ const MySongList = ({ state, onDelete }) => {
             )}
             <div className={style.title}>我收藏的歌单</div>
             {state.subscribe.map(({ name, coverImgUrl, trackCount, id }, idx) =>
-                <Link className={style['list-item']} key={idx} to={`/SongList?id=${id}`}>
+                <Link className={style['list-item']} key={idx} to={`/Playlist?id=${id}`}>
                     <div className={style.image}>
                         <img src={`${rp(coverImgUrl)}?param=100y100`} loading='lazy' />
                     </div>

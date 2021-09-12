@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useLocation, useHistory } from 'react-router';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useSetState } from 'Utils/hooks';
 import { Modal } from 'antd';
 import music from 'Utils/music';
@@ -65,7 +65,10 @@ export const StateContext = React.createContext<State>(null);
 export const FuncContext = React.createContext<FuncCtx>(null);
 
 function AppContainer() {
-    const { pathname } = useLocation();
+    const l = useLocation();
+    console.info('lo', l);
+    const { pathname } = l;
+    // const { pathname } = useLocation();
     const history = useHistory();
     const [state, setState] = useSetState<State>(initialState);
 
