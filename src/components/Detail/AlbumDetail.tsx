@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useCallback, useContext } from 'react';
+import { FuncContext } from 'AppContainer/index';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
+
+import type { SongItem } from 'AppContainer/index';
 
 interface Props {
     detailData: {
@@ -10,15 +13,20 @@ interface Props {
         singers: { id: number; name: string; }[];
         publishTime: number;
         description: string;
-    }
+    };
+    songList: SongItem[];
 }
 
-function AlbumDetail({ detailData }: Props) {
+function AlbumDetail({ detailData, songList }: Props) {
+    const { playSong, setPlaylist } = useContext(FuncContext);
     const { title, cover, singers, publishTime, description } = detailData;
 
-    const handlePlayAll = () => {
-
-    }
+    // 播放全部
+    const handlePlayAll = useCallback(() => {
+        const firstSong = songList[0];
+        playSong(firstSong);
+        setPlaylist(songList);
+    }, [songList]);
 
     return (
         <>
@@ -28,7 +36,7 @@ function AlbumDetail({ detailData }: Props) {
                 </div>
             </div>
             <div className="list-right">
-                <div className="title-alnum">{title}</div>
+                <div className="title-album">{title}</div>
                 <div className="singer">
                     歌手：
                     {singers.map(({ id, name }, idx) =>

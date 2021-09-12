@@ -24,7 +24,7 @@ function Detail({ data }: Props) {
                 <PlaylistDetail detailData={detail} songList={songList} />
             }
             {isAlbum &&
-                <AlbumDetail detailData={detail} />
+                <AlbumDetail detailData={detail} songList={songList} />
             }
             {isSong &&
                 <SongDetail detailData={detail} songData={songList[0]} lyric={lyric} />
