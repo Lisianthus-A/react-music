@@ -21,7 +21,7 @@ export interface MusicItem {
 }
 
 interface PlayingItem extends MusicItem {
-    abuffer?: AudioBuffer;
+    abuffer: AudioBuffer;
 }
 
 class Music {
@@ -60,6 +60,7 @@ class Music {
      */
     private getMusic(id: number): Promise<PlayingItem | null> {
         return new Promise((resolve, reject) => {
+            const { audioContext } = this;
             this.rejectFn = reject;
             // id 为当前播放的歌曲
             if (id === this.playingItem?.info?.id) {
@@ -69,9 +70,14 @@ class Music {
 
             const cacheItem = cache().get(id);
 
-            // 已缓存，直接返回缓存项
+            // 已缓存，使用缓存项生成 AudioBuffer 再返回
             if (cacheItem) {
-                resolve(cacheItem);
+                audioContext.decodeAudioData(cacheItem.buffer.slice(0)).then((abuffer => {
+                    resolve({
+                        ...cacheItem,
+                        abuffer
+                    });
+                }));
                 return;
             }
 
@@ -109,12 +115,18 @@ class Music {
                             lyric
                         }
                     };
-
                     // 将歌曲信息保存到缓存中
                     cache().save(id, item);
-                    resolve(item);
+
+                    audioContext.decodeAudioData(buffer.slice(0)).then(abuffer => {
+                        item.info.duration = abuffer.duration;
+                        resolve({
+                            ...item,
+                            abuffer
+                        });
+                    });
                 });
-            })
+            });
         });
     }
 
@@ -137,14 +149,14 @@ class Music {
     async play(id: number, offset?: number): Promise<boolean> {
         const { currentSource, audioContext, gainNode, playingItem, status, rejectFn } = this;
 
-        // 调用 play 时，上一次的 play 可能还没有 fulfilled
+        // 调用 play 时，上一次的 getMusic 可能还没有 fulfilled
         // 直接 reject 掉上一次的调用
         rejectFn();
 
         // 需要播放的歌曲与当前歌曲相同并且当前状态为暂停
         // 恢复 Context 为播放状态
         if (id === playingItem?.info?.id && status === "pause") {
-            await this.restart();
+            this.restart();
             if (offset === 0) {
                 return true;
             }
@@ -153,38 +165,29 @@ class Music {
         // 停止当前音频
         this.startTime = 0;
         if (currentSource) {
-            currentSource.disconnect();
             currentSource.onended = null;
+            currentSource.stop(0);
+            currentSource.disconnect();
             this.currentSource = null;
         }
 
-        // 创建 Source
-        const source = audioContext.createBufferSource();
-        source.connect(gainNode);
-        this.currentSource = source;
-
-        // 获取歌曲的 ArrayBuffer
+        // 获取歌曲的 AudioBuffer
         const music = await this.getMusic(id).catch(_ => null);
         if (!music) {
             return false;
         }
 
-        if (music.abuffer) {
-            source.buffer = music.abuffer;
-        } else {
-            const abuffer = await audioContext.decodeAudioData(music.buffer.slice(0));
-            source.buffer = abuffer;
-            this.playingItem = {
-                ...music,
-                duration: abuffer.duration,
-                abuffer
-            };
-        }
+        // 创建 Source
+        const source = audioContext.createBufferSource();
+        source.buffer = music.abuffer;
+        source.connect(gainNode);
+        this.currentSource = source;
 
         // 播放
         this.startTime = audioContext.currentTime - (offset || 0);
         source.start(audioContext.currentTime, offset || 0);
         this.status = 'playing';
+        this.playingItem = music;
 
         // 设置播放结束的回调
         source.onended = () => {
