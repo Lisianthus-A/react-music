@@ -67,7 +67,7 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
         }
 
         return { width: `${currentTime / duration * 100}%` };
-    }, [currentTime, playingItem]);
+    }, [currentTime, duration]);
 
     return (
         <div className={style.progressbar}>

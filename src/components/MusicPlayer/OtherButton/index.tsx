@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import style from './index.module.scss';
 import Playlist from './Playlist';
 import PlayMode from './PlayMode';
@@ -29,4 +29,4 @@ function OtherButton({ isPlaying, playingItem, playlist, playMode, currentTime }
     );
 }
 
-export default memo(OtherButton);
+export default OtherButton;

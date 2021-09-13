@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import { FuncContext, StateContext } from 'AppContainer/index';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
@@ -27,7 +27,7 @@ function SongDetail({ detailData, songData, lyric }: Props) {
     const { playingItem, playlist } = useContext(StateContext);
 
     // 播放歌曲
-    const handlePlay = useCallback(() => {
+    const handlePlay = () => {
         // 正在播放该歌曲
         if (playingItem.id === songData.id) {
             return;
@@ -42,17 +42,17 @@ function SongDetail({ detailData, songData, lyric }: Props) {
         }
 
         playSong(songData);
-    }, [songData, playlist, playingItem]);
+    }
 
     // 收藏歌曲
-    const handleCollectSong = useCallback(() => {
+    const handleCollectSong = () => {
         collectSong(id);
-    }, [id]);
+    }
 
     // 下载歌曲
-    const handleDownload = useCallback(() => {
+    const handleDownload = () => {
         music().download(id, name);
-    }, [id, name]);
+    }
 
     return (
         <>

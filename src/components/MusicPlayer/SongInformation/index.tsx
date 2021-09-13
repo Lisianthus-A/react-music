@@ -20,11 +20,7 @@ function SongInformation({ playingItem, currentTime }: Props) {
     );
 
     // 转换后的当前时间和总时长
-    const time = useMemo(() => {
-        const convertedTime = convertTime(currentTime);
-        const convertedDuration = convertTime(duration);
-        return `${convertedTime} / ${convertedDuration}`;
-    }, [currentTime, duration]);
+    const time = `${convertTime(currentTime)} / ${convertTime(duration)}`;
 
     return (
         <div className={style.container}>

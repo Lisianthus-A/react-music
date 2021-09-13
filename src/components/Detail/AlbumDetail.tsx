@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import { FuncContext } from 'AppContainer/index';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
@@ -22,11 +22,11 @@ function AlbumDetail({ detailData, songList }: Props) {
     const { title, cover, singers, publishTime, description } = detailData;
 
     // 播放全部
-    const handlePlayAll = useCallback(() => {
+    const handlePlayAll = () => {
         const firstSong = songList[0];
         playSong(firstSong);
         setPlaylist(songList);
-    }, [songList]);
+    }
 
     return (
         <>
