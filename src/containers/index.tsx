@@ -118,7 +118,7 @@ function AppContainer() {
         };
 
         // 播放歌曲
-        const playSong = (item: SongItem | PlayingItem, offset: number = 0) => {
+        const playSong = (item: SongItem | PlayingItem, offset?: number) => {
             const { id } = item;
             setState({
                 isPlaying: true,

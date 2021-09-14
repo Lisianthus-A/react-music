@@ -157,7 +157,7 @@ class Music {
         // 恢复 Context 为播放状态
         if (id === playingItem?.info?.id && status === "pause") {
             this.restart();
-            if (offset === 0) {
+            if (offset === undefined) {
                 return true;
             }
         }
