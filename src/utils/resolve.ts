@@ -1,6 +1,7 @@
 import { replaceHttpToHttps as rp } from 'Utils/index';
+
+import type { SongItem } from 'AppContainer/index';
 import type { LyricRes } from 'Apis/song';
-import type { MusicItem } from './music';
 
 /**
  * 将形如 03:40.00 的字符串转为秒数
@@ -56,7 +57,6 @@ export const resolveLyric = (lyricRes: LyricRes): [string, string, number][] => 
     return Object.values(obj).sort((a, b) => a[2] - b[2]);
 }
 
-type SongItem = Omit<MusicItem['info'], 'lyric'>;
 type SongsType = 'detail' | 'topSong' | 'simiSong';
 /**
  * 解析歌曲列表，返回歌曲数组
@@ -85,6 +85,7 @@ export const resolveSongs = (songs: any[], type: SongsType): SongItem[] => {
         // 时长
         // simiSong 接口返回的时长属性是 duration
         // 其他的是 dt
+        // 目前还没使用 simiSong 接口
         const duration = type === 'simiSong'
             ? item.duration
             : item.dt;
@@ -109,42 +110,49 @@ export const resolveSongs = (songs: any[], type: SongsType): SongItem[] => {
 /**
  * 解析歌单、专辑、歌曲的 detail
  * 
- * 歌单返回 { isSonglist, isAlbum, isSong, title, cover, creator, isCreator, labels, description }
+ * 歌单返回 { isPlaylist, isAlbum, isSong, title, cover, creator, isCreator, tags, description }
  * 
- * 专辑返回 { isSonglist, isAlbum, isSong, title, cover, singers, publishTime, description }
+ * 专辑返回 { isPlaylist, isAlbum, isSong, title, cover, singers, publishTime, description }
  * 
- * 歌曲返回 { isSonglist, isAlbum, isSong, title, cover, singers, albumId, albumName }
+ * 歌曲返回 { isPlaylist, isAlbum, isSong, title, cover, singers, albumId, albumName }
  */
 export const resolveDetail = (res: any): Record<string, any> => {
     // 是否为歌单
-    const isSonglist = res.hasOwnProperty('playlist');
+    const isPlaylist = res.hasOwnProperty('playlist');
     // 是否为专辑
     const isAlbum = res.hasOwnProperty('album');
     // 是否为单曲
-    const isSong = !isSonglist && !isAlbum;
+    const isSong = !isPlaylist && !isAlbum;
 
-    if (isSonglist) {  // 歌单
-        const { name: title, coverImgUrl: cover, tags: labels, description } = res.playlist;
+    if (isPlaylist) {  // 歌单
+        const { name: title, tags, description, createTime } = res.playlist;
+        const cover = rp(res.playlist.coverImgUrl);
 
         // 歌单创建者
         const creator = {
-            id: res.playlist.creator.userId,  // 用户 id
-            name: res.playlist.creator.nickname,  // 用户昵称
-            avatar: res.playlist.creator.avatarUrl,  // 用户头像 url
-            createTime: res.playlist.createTime  // 创建时间
+            // 用户 id
+            id: res.playlist.creator.userId,
+            // 用户昵称
+            name: res.playlist.creator.nickname,
+            // 用户头像 url
+            avatar: rp(res.playlist.creator.avatarUrl),
+            // 创建时间
+            createTime
         };
 
         // 当前登录的用户是否创建者
         const isCreator = Number(localStorage.getItem('userid')) === creator.id;
 
-        return { isSonglist, isAlbum, isSong, title, cover, creator, isCreator, labels, description };
+        return { isPlaylist, isAlbum, isSong, title, cover, creator, isCreator, tags, description };
     } else if (isAlbum) {  // 专辑
-        const { name: title, picUrl: cover, publishTime, description } = res.album;
+        const { name: title, publishTime, description } = res.album;
         const singers = res.album.artists.map(({ id, name }) => ({ id, name }));
-        return { isSonglist, isAlbum, isSong, title, cover, singers, publishTime, description };
+        const cover = rp(res.album.picUrl);
+        return { isPlaylist, isAlbum, isSong, title, cover, singers, publishTime, description };
     } else {  // 单曲
-        const { name: title, al: { id: albumId, name: albumName, picUrl: cover } } = res.songs[0];
+        const { name: title, al: { id: albumId, name: albumName } } = res.songs[0];
         const singers = res.songs[0].ar.map(({ id, name }) => ({ id, name }));
-        return { isSonglist, isAlbum, isSong, title, cover, singers, albumId, albumName };
+        const cover = rp(res.songs[0].al.picUrl);
+        return { isPlaylist, isAlbum, isSong, title, cover, singers, albumId, albumName };
     }
 }

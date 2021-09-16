@@ -10,60 +10,64 @@
     user-select: none;
 
     &:hover {
-        .track,
-        .handle {
-            opacity: 1;
+        :global {
+            .track,
+            .handle {
+                opacity: 1;
+            }
         }
     }
 
-    .track,
-    .rail {
-        position: absolute;
-        height: 4px;
-        border-radius: 2px;
-        cursor: pointer;
-    }
+    :global {
+        .track,
+        .rail {
+            position: absolute;
+            height: 4px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
 
-    .track,
-    .handle {
-        transition: opacity 0.5s;
-        opacity: 0;
-    }
+        .track,
+        .handle {
+            transition: opacity 0.5s;
+            opacity: 0;
+        }
 
-    //轨道
-    .track {
-        width: 100%;
-        background-color: #aaa;
-    }
+        //轨道
+        .track {
+            width: 100%;
+            background-color: #aaa;
+        }
 
-    //已走的轨道
-    .rail {
-        background-color: #c62f2f;
-        display: flex;
-        align-items: center;
-    }
+        //已走的轨道
+        .rail {
+            background-color: #c62f2f;
+            display: flex;
+            align-items: center;
+        }
 
-    //小球
-    .handle {
-        position: absolute;
-        right: -7px;
-        height: 14px;
-        width: 14px;
-        border: 2px solid #c62f2f;
-        border-radius: 7px;;
-        background-color: #fff;
-    }
+        //小球
+        .handle {
+            position: absolute;
+            right: -7px;
+            height: 14px;
+            width: 14px;
+            border: 2px solid #c62f2f;
+            border-radius: 7px;
+            background-color: #fff;
+        }
 
-    //文本框
-    .tooltip {
-        position: absolute;
-        right: -30px;
-        top: -40px;
-        width: 60px;
-        padding: 5px 10px;
-        text-align: center;
-        background-color: rgba(0, 0, 0, 0.5);
-        border-radius: 5px;
-        color: #fff;
+        //文本框
+        .tooltip {
+            position: absolute;
+            right: -30px;
+            top: -40px;
+            width: 60px;
+            padding: 5px 10px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            color: #fff;
+        }
     }
 }

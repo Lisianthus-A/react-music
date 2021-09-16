@@ -1,11 +1,12 @@
 import ajax from 'Apis/apiBase';
+import axios from 'axios';
 import cache from './cache';
 import { songDetail, getLyric } from 'Apis/song';
 import { resolveLyric, resolveSongs } from 'Utils/resolve';
-import toBlob from './abToBlob';
+import { replaceHttpToHttps as rp } from 'Utils/index';
 
 export interface MusicItem {
-    buffer: AudioBuffer;
+    buffer: ArrayBuffer;
     info: {
         id: number;
         name: string;
@@ -19,16 +20,20 @@ export interface MusicItem {
     }
 }
 
+interface PlayingItem extends MusicItem {
+    abuffer: AudioBuffer;
+}
+
 class Music {
     // 播放结束的回调
     private onEnded: (() => void) | null;
     // 开始时间，用于计算当前播放时长
     private startTime: number;
     // 当前播放的歌曲
-    private playingItem: MusicItem | null;
+    private playingItem: PlayingItem | null;
     // 当前状态
     private status: 'playing' | 'pause' | 'pendding';
-    private lock: boolean;
+    private rejectFn: () => void;
 
     private audioContext: AudioContext;
     private gainNode: GainNode;
@@ -43,8 +48,9 @@ class Music {
         this.startTime = 0;
         this.playingItem = null;
         this.status = 'pendding';
+        this.rejectFn = () => { };
 
-        //    this.getMusic(776039);
+        this.getMusic(776039);
     }
 
     /* ============= 私有方法 ============= */
@@ -52,50 +58,76 @@ class Music {
     /**
      * 获取指定 id 歌曲信息
      */
-    private async getMusic(id: number): Promise<MusicItem | null> {
-        const { audioContext } = this;
-        const cacheItem = cache().get(id);
-
-        // 已缓存，直接返回缓存项
-        if (cacheItem) {
-            return cacheItem;
-        }
-
-        // 获取歌曲的 Arraybuffer
-        const res: ArrayBuffer | null = await ajax(`/getMusic?id=${id}`, {
-            responseType: 'arraybuffer',
-            withCredentials: false
-        }).catch(_ => null);
-
-        if (res === null) {
-            console.log('get music fail');
-            return null;
-        }
-
-        // ArrayBuffer 转 AudioBuffer
-        const audioBuffer = await audioContext.decodeAudioData(res);
-
-        // 歌曲详情
-        const detailRes = await songDetail([id]);
-        const detail = resolveSongs(detailRes.songs, 'detail')[0];
-
-        // 歌词
-        const lyricRes = await getLyric(id);
-        const lyric = resolveLyric(lyricRes);
-
-        const item = {
-            buffer: audioBuffer,
-            info: {
-                ...detail,
-                lyric,
-                duration: audioBuffer.duration
+    private getMusic(id: number): Promise<PlayingItem | null> {
+        return new Promise((resolve, reject) => {
+            const { audioContext } = this;
+            this.rejectFn = reject;
+            // id 为当前播放的歌曲
+            if (id === this.playingItem?.info?.id) {
+                resolve(this.playingItem);
+                return;
             }
-        };
 
-        // 将歌曲信息保存到缓存中
-        cache().save(id, item);
+            const cacheItem = cache().get(id);
 
-        return item;
+            // 已缓存，使用缓存项生成 AudioBuffer 再返回
+            if (cacheItem) {
+                audioContext.decodeAudioData(cacheItem.buffer.slice(0)).then((abuffer => {
+                    resolve({
+                        ...cacheItem,
+                        abuffer
+                    });
+                }));
+                return;
+            }
+
+            ajax<{ error?: any, url: string }>(`/getMusicUrl?id=${id}`).then(res => {
+                if (res.error || res.url?.includes('music.163.com/404')) {
+                    resolve(null);
+                    return;
+                }
+
+                const { url } = res;
+                const pBuffer = axios({
+                    url: rp(url),
+                    responseType: 'arraybuffer'
+                }).then(res => res.data).catch(_ => null);
+
+                Promise.all([
+                    pBuffer,
+                    songDetail([id]),
+                    getLyric(id)
+                ]).then(([buffer, detailRes, lyricRes]) => {
+                    if (buffer === null) {
+                        console.log('get music fail, id:', id);
+                        resolve(null);
+                        return;
+                    }
+                    // 歌曲详情
+                    const detail = resolveSongs(detailRes.songs, 'detail')[0];
+                    // 歌词
+                    const lyric = resolveLyric(lyricRes);
+
+                    const item = {
+                        buffer,
+                        info: {
+                            ...detail,
+                            lyric
+                        }
+                    };
+                    // 将歌曲信息保存到缓存中
+                    cache().save(id, item);
+
+                    audioContext.decodeAudioData(buffer.slice(0)).then(abuffer => {
+                        item.info.duration = abuffer.duration;
+                        resolve({
+                            ...item,
+                            abuffer
+                        });
+                    });
+                });
+            });
+        });
     }
 
     /**
@@ -115,42 +147,47 @@ class Music {
      * @param offset 播放初始位置，默认为 0
      */
     async play(id: number, offset?: number): Promise<boolean> {
-        const { currentSource, audioContext, gainNode, playingItem, status, lock } = this;
-        if (lock) {
-            return false;
-        }
-        this.lock = true;
+        const { currentSource, audioContext, gainNode, playingItem, status, rejectFn } = this;
+
+        // 调用 play 时，上一次的 getMusic 可能还没有 fulfilled
+        // 直接 reject 掉上一次的调用
+        rejectFn();
+
         // 需要播放的歌曲与当前歌曲相同并且当前状态为暂停
-        // 恢复播放
+        // 恢复 Context 为播放状态
         if (id === playingItem?.info?.id && status === "pause") {
-            this.lock = false;
-            return this.restart();
+            this.restart();
+            if (offset === undefined) {
+                return true;
+            }
         }
 
         // 停止当前音频
+        this.startTime = 0;
         if (currentSource) {
-            currentSource.disconnect();
             currentSource.onended = null;
+            currentSource.stop(0);
+            currentSource.disconnect();
+            this.currentSource = null;
+        }
+
+        // 获取歌曲的 AudioBuffer
+        const music = await this.getMusic(id).catch(_ => null);
+        if (!music) {
+            return false;
         }
 
         // 创建 Source
         const source = audioContext.createBufferSource();
+        source.buffer = music.abuffer;
         source.connect(gainNode);
         this.currentSource = source;
-
-        // 获取歌曲的 AudioBuffer
-        const music = await this.getMusic(id);
-        if (!music) {
-            this.lock = false;
-            return false;
-        }
-        source.buffer = music.buffer;
 
         // 播放
         this.startTime = audioContext.currentTime - (offset || 0);
         source.start(audioContext.currentTime, offset || 0);
-        this.playingItem = music;
         this.status = 'playing';
+        this.playingItem = music;
 
         // 设置播放结束的回调
         source.onended = () => {
@@ -158,7 +195,6 @@ class Music {
             this.status = 'pendding';
             this.onEnded && this.onEnded();
         }
-        this.lock = false;
         return true;
     }
 
@@ -188,16 +224,15 @@ class Music {
         if (!music) {
             return false;
         }
-        const audioBuffer = music.buffer;
-        const wav = toBlob(audioBuffer, audioBuffer.length);
+        const blob = new Blob([music.buffer]);
+        const blobUrl = URL.createObjectURL(blob);
 
         // 使用 a 标签结合 download 属性下载
         const a = document.createElement('a');
-        const url = URL.createObjectURL(wav);
-        a.href = url;
-        a.download = `${songName}.wav`;
+        a.href = blobUrl;
+        a.download = `${songName}.mp3`;
         a.click();
-        URL.revokeObjectURL(url);
+        URL.revokeObjectURL(blobUrl);
 
         return true;
     }

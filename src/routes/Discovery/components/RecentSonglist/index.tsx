@@ -1,0 +1,56 @@
+import React, { useContext } from 'react';
+import style from './index.module.scss';
+import { FuncContext } from 'AppContainer/index';
+import { Link } from 'react-router-dom';
+import { CaretRightOutlined } from '@ant-design/icons';
+
+import type { MouseEvent } from 'react';
+import type { PageState } from '../../index';
+
+interface Props {
+    data: PageState['recentSong'];
+}
+
+function RecentSonglist({ data }: Props) {
+
+    const { playSong } = useContext(FuncContext);
+
+    // 播放点击的歌曲
+    const handlePlay = (e: MouseEvent, index: number) => {
+        e.preventDefault();
+        playSong(data[index]);
+    }
+
+    const renderList = (list: Props['data'], offset: number) => list.map(({ id, name, cover, singers }, idx) =>
+        <div className="item" key={id}>
+            <div className="order">{(idx + 1 + offset).toString().padStart(2, "0")}</div>
+            <Link className="image" to={`/Song?id=${id}`}>
+                <img src={`${cover}?param=50y50`} loading='lazy' />
+                <div className="play-button" onClick={(e) => handlePlay(e, idx + offset)}>
+                    <CaretRightOutlined />
+                </div>
+            </Link>
+            <div className="information">
+                <Link className="song-title" to={`/Song?id=${id}`}>
+                    {name}
+                </Link>
+                <div className="singer">
+                    {singers.map(({ name }) => name).join('/')}
+                </div>
+            </div>
+        </div>
+    );
+
+    return (
+        <div className={style['recent-songlist']}>
+            <div className={style.left}>
+                {renderList(data.slice(0, 5), 0)}
+            </div>
+            <div className={style.right}>
+                {renderList(data.slice(5, 10), 5)}
+            </div>
+        </div>
+    );
+}
+
+export default RecentSonglist;
