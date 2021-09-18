@@ -24,6 +24,11 @@ interface PlayingItem extends MusicItem {
     abuffer: AudioBuffer;
 }
 
+const FFT_SIZE = 512;
+// canvas width / height
+const W = 900;
+const H = 310;
+
 class Music {
     // 播放结束的回调
     private onEnded: (() => void) | null;
@@ -37,12 +42,22 @@ class Music {
 
     private audioContext: AudioContext;
     private gainNode: GainNode;
+    private analyser: AnalyserNode;
+    private freqs: Float32Array;
+    private reqId: number;
+    private canvasContext: CanvasRenderingContext2D | null;
     private currentSource: AudioBufferSourceNode | null;
 
     constructor() {
         this.audioContext = new AudioContext();
         this.gainNode = this.audioContext.createGain();
+        this.analyser = this.audioContext.createAnalyser();
+        this.analyser.fftSize = FFT_SIZE;
+        this.analyser.smoothingTimeConstant = 0.8;
         this.gainNode.connect(this.audioContext.destination);
+        this.analyser.connect(this.gainNode);
+        this.freqs = new Float32Array(this.analyser.frequencyBinCount);
+        this.canvasContext = null;
         this.currentSource = null;
         this.onEnded = null;
         this.startTime = 0;
@@ -50,10 +65,36 @@ class Music {
         this.status = 'pendding';
         this.rejectFn = () => { };
 
+        this.drawCanvas = this.drawCanvas.bind(this);
+
         this.getMusic(776039);
     }
 
     /* ============= 私有方法 ============= */
+
+    /**
+     * 绘制音乐频谱图
+     */
+    private drawCanvas() {
+        // 请求下一次绘制
+        this.reqId = requestAnimationFrame(this.drawCanvas);
+
+        const { analyser, freqs, canvasContext } = this;
+        analyser.getFloatFrequencyData(freqs);
+
+        // 0 ~ 1 的数组
+        const data = freqs.map(value => value / 140 + 1);
+
+        // 绘制
+        canvasContext.clearRect(0, 0, W, H);
+        const barWidth = W / data.length;
+        for (let i = 0; i < data.length; ++i) {
+            const barHeight = data[i] * H;
+            const x = i * barWidth;
+            const y = H - barHeight;
+            canvasContext.fillRect(x, y, barWidth, barHeight);
+        }
+    }
 
     /**
      * 获取指定 id 歌曲信息
@@ -147,7 +188,15 @@ class Music {
      * @param offset 播放初始位置，默认为 0
      */
     async play(id: number, offset?: number): Promise<boolean> {
-        const { currentSource, audioContext, gainNode, playingItem, status, rejectFn } = this;
+        const {
+            currentSource,
+            audioContext,
+            analyser,
+            playingItem,
+            status,
+            reqId,
+            rejectFn
+        } = this;
 
         // 调用 play 时，上一次的 getMusic 可能还没有 fulfilled
         // 直接 reject 掉上一次的调用
@@ -170,6 +219,7 @@ class Music {
             currentSource.disconnect();
             this.currentSource = null;
         }
+        reqId && cancelAnimationFrame(reqId);
 
         // 获取歌曲的 AudioBuffer
         const music = await this.getMusic(id).catch(_ => null);
@@ -180,7 +230,7 @@ class Music {
         // 创建 Source
         const source = audioContext.createBufferSource();
         source.buffer = music.abuffer;
-        source.connect(gainNode);
+        source.connect(analyser);
         this.currentSource = source;
 
         // 播放
@@ -188,6 +238,7 @@ class Music {
         source.start(audioContext.currentTime, offset || 0);
         this.status = 'playing';
         this.playingItem = music;
+        this.reqId = requestAnimationFrame(this.drawCanvas);
 
         // 设置播放结束的回调
         source.onended = () => {
@@ -213,6 +264,14 @@ class Music {
      */
     setVolume(value: number): void {
         this.gainNode.gain.value = value;
+    }
+
+    /**
+     * 设置 canvas context
+     */
+    setCanvasContext(ctx: CanvasRenderingContext2D): void {
+        ctx.fillStyle = '#6dccff';
+        this.canvasContext = ctx;
     }
 
     /**

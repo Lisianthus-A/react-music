@@ -27,6 +27,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
     const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
     const [lyric, setLyric] = useState<null | [string, string, number][]>(playingItem.lyric);
 
+    const canvasRef = useRef<HTMLCanvasElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const activeRef = useRef<Element>(null);
     const preIdRef = useRef<number>(playingItem.id);
@@ -156,6 +157,13 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
         }
     }, [playingItem]);
 
+    useEffect(() => {
+        if (canvasRef.current) {
+            const ctx = canvasRef.current.getContext('2d');
+            music().setCanvasContext(ctx);
+        }
+    }, [canvasRef])
+
     return (
         <div className={style.playlist}>
             <div className="icon" title='播放列表'>
@@ -166,6 +174,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
             </div>
             <input type='checkbox' id='toggleList' className="toggle" />
             <div className="list">
+                <canvas ref={canvasRef} height="310" width="900" />
                 <div className="list-left">
                     <div className="title">
                         <span>播放列表 ({playlist.length})</span>

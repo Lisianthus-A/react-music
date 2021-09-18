@@ -1,5 +1,14 @@
 .playlist {
     :global {
+        canvas {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.4;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+        }
+
         label {
             cursor: pointer;
         }
@@ -172,7 +181,7 @@
 
         .active {
             color: #111;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .close {
