@@ -26,19 +26,19 @@ interface Props {
 function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
     const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
     const [lyric, setLyric] = useState<null | [string, string, number][]>(playingItem.lyric);
-    const [enableDraw, setEnableDraw] = useState<boolean>(true);
+    // const [enableDraw, setEnableDraw] = useState<boolean>(true);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const activeRef = useRef<Element>(null);
     const preIdRef = useRef<number>(playingItem.id);
 
-    const handleDrawChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
-        const isEnable = evt.target.checked;
-        isEnable && music().drawStart();
-        !isEnable && music().drawStop();
-        setEnableDraw(isEnable);
-    }, []);
+    // const handleDrawChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
+    //     const isEnable = evt.target.checked;
+    //     isEnable && music().drawStart();
+    //     !isEnable && music().drawStop();
+    //     setEnableDraw(isEnable);
+    // }, []);
 
     // 清空播放列表
     const handleClean = useCallback(() => {
@@ -188,7 +188,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
                 <div className="list-left">
                     <div className="title">
                         <span>播放列表 ({playlist.length})</span>
-                        <label className="ml16">
+                        {/* <label className="ml16">
                             音乐可视化
                             <input
                                 className="ml4"
@@ -196,7 +196,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
                                 checked={enableDraw}
                                 onChange={handleDrawChange}
                             />
-                        </label>
+                        </label> */}
                         <span className="clean" onClick={handleClean}>
                             <DeleteOutlined /> 清空
                         </span>
