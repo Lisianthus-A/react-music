@@ -1,5 +1,13 @@
 .playlist {
     :global {
+        .ml4 {
+            margin-left: 4px;
+        }
+
+        .ml16 {
+            margin-left: 16px;
+        }
+
         canvas {
             position: absolute;
             pointer-events: none;
@@ -69,6 +77,8 @@
         }
 
         .clean {
+            position: absolute;
+            right: 32px;
             cursor: pointer;
             font-size: 14px;
             color: #777;
@@ -78,9 +88,9 @@
         }
 
         .list-left > .title {
+            position: relative;
             border-right: 1px solid #d6dfeb;
-            padding: 0 30px;
-            justify-content: space-between;
+            padding-left: 32px;
         }
 
         .list-right > .title {

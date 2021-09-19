@@ -13,7 +13,7 @@ import music from 'Utils/music';
 import cache from 'Utils/cache';
 import { FuncContext } from 'AppContainer/index';
 
-import type { MouseEvent } from 'react';
+import type { MouseEvent, ChangeEvent } from 'react';
 import type { State } from 'AppContainer/index';
 
 interface Props {
@@ -26,11 +26,19 @@ interface Props {
 function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
     const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
     const [lyric, setLyric] = useState<null | [string, string, number][]>(playingItem.lyric);
+    const [enableDraw, setEnableDraw] = useState<boolean>(true);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const activeRef = useRef<Element>(null);
     const preIdRef = useRef<number>(playingItem.id);
+
+    const handleDrawChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
+        const isEnable = evt.target.checked;
+        isEnable && music().drawStart();
+        !isEnable && music().drawStop();
+        setEnableDraw(isEnable);
+    }, []);
 
     // 清空播放列表
     const handleClean = useCallback(() => {
@@ -157,10 +165,12 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
         }
     }, [playingItem]);
 
+    // 开始绘制音乐频谱图
     useEffect(() => {
         if (canvasRef.current) {
             const ctx = canvasRef.current.getContext('2d');
             music().setCanvasContext(ctx);
+            music().drawStart();
         }
     }, [canvasRef])
 
@@ -178,6 +188,15 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
                 <div className="list-left">
                     <div className="title">
                         <span>播放列表 ({playlist.length})</span>
+                        <label className="ml16">
+                            音乐可视化
+                            <input
+                                className="ml4"
+                                type="checkbox"
+                                checked={enableDraw}
+                                onChange={handleDrawChange}
+                            />
+                        </label>
                         <span className="clean" onClick={handleClean}>
                             <DeleteOutlined /> 清空
                         </span>

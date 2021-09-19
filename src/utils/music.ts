@@ -219,7 +219,6 @@ class Music {
             currentSource.disconnect();
             this.currentSource = null;
         }
-        reqId && cancelAnimationFrame(reqId);
 
         // 获取歌曲的 AudioBuffer
         const music = await this.getMusic(id).catch(_ => null);
@@ -238,7 +237,6 @@ class Music {
         source.start(audioContext.currentTime, offset || 0);
         this.status = 'playing';
         this.playingItem = music;
-        this.reqId = requestAnimationFrame(this.drawCanvas);
 
         // 设置播放结束的回调
         source.onended = () => {
@@ -264,6 +262,22 @@ class Music {
      */
     setVolume(value: number): void {
         this.gainNode.gain.value = value;
+    }
+
+    /**
+     * 开始绘制音乐频谱图
+     */
+    drawStart() {
+        cancelAnimationFrame(this.reqId);
+        this.reqId = requestAnimationFrame(this.drawCanvas);
+    }
+
+    /**
+     * 停止绘制音乐频谱图
+     */
+    drawStop() {
+        this.canvasContext.clearRect(0, 0, W, H);
+        cancelAnimationFrame(this.reqId);
     }
 
     /**
