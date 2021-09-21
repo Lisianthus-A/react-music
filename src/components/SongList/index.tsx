@@ -54,6 +54,9 @@ function SongList({ songList, songIds, isCreator }: Props) {
 
     // 播放指定歌曲
     const handlePlay = useCallback((songItem: SongItem) => {
+        // 播放
+        playSong(songItem);
+
         // 播放列表中已有该歌曲
         if (playlist.find(item => item.id === songItem.id)) {
             return;
@@ -63,8 +66,6 @@ function SongList({ songList, songIds, isCreator }: Props) {
         const newList = playlist.slice();
         newList.push(songItem);
         setPlaylist(newList);
-        // 播放
-        playSong(songItem);
     }, [playlist]);
 
     //收藏歌单中的某首歌

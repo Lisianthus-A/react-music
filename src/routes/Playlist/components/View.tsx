@@ -22,7 +22,7 @@ function View({ pageState }: Props) {
 
     return (
         <div className={style.playlist}>
-            <Detail data={{ detail }} />
+            <Detail data={{ detail, songIds }} />
             <SongList songIds={songIds} isCreator={isCreator} />
             <CommentList data={comment} />
         </div>

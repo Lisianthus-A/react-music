@@ -9,19 +9,20 @@ import type { SongItem } from 'AppContainer/index';
 interface Props {
     data: {
         detail: any;
+        songIds?: number[];
         songList?: SongItem[];
         lyric?: any;
     }
 }
 
 function Detail({ data }: Props) {
-    const { detail, songList, lyric } = data;
+    const { detail, songList, songIds, lyric } = data;
     const { isPlaylist, isAlbum, isSong } = detail;
 
     return (
         <div className={style.detail}>
             {isPlaylist &&
-                <PlaylistDetail detailData={detail} songList={songList} />
+                <PlaylistDetail detailData={detail} songList={songList} songIds={songIds} />
             }
             {isAlbum &&
                 <AlbumDetail detailData={detail} songList={songList} />

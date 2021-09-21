@@ -3,8 +3,11 @@ import { FuncContext } from 'AppContainer/index';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
+import { songDetail } from 'Apis/song';
 
 import type { SongItem } from 'AppContainer/index';
+import { resolveSongs } from 'Utils/resolve';
+import cache from 'Utils/cache';
 
 interface Props {
     detailData: {
@@ -20,17 +23,33 @@ interface Props {
         isCreator: boolean;
         description: string;
     };
-    songList: SongItem[];
+    songList?: SongItem[];
+    songIds?: number[];
 }
 
-function PlaylistDetail({ detailData, songList }: Props) {
+function PlaylistDetail({ detailData, songList, songIds }: Props) {
     const { setPlaylist, playSong } = useContext(FuncContext);
 
     const { title, cover, creator, tags, description } = detailData;
 
-    const handlePlayAll = () => {
-        // 过滤所有 VIP 歌曲
-        const freeSongList = songList.filter(item => item.isFree);
+    const handlePlayAll = async () => {
+        // 免费歌曲列表
+        let freeSongList: SongItem[] = [];
+        // 已有歌曲数据
+        if (songList) {
+            freeSongList = songList.filter(item => item.isFree);
+        } else if (songIds) {  // 没有歌曲数据
+            const count = Math.ceil(songIds.length * 0.02);
+            // 分割 id， 每 50 个 id 请求一次
+            for (let i = 0; i < count; ++i) {
+                const startIndex = i * 50;
+                const sliceIds = songIds.slice(startIndex, startIndex + 50);
+                const res = await songDetail(sliceIds);
+                const freeList = resolveSongs(res.songs, 'detail').filter(item => item.isFree);
+                freeSongList = [...freeSongList, ...freeList];
+            }
+        }
+        cache().delAll();
         setPlaylist(freeSongList);
         playSong(freeSongList[0]);
     }
