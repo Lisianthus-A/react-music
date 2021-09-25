@@ -21,7 +21,8 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        scrollbar-width: thin; //FireFox浏览器有效
+        scrollbar-width: thin; // FireFox浏览器有效
+        scroll-behavior: smooth;
 
         //以下对Chrome有效
         &::-webkit-scrollbar {

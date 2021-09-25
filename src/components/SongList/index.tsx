@@ -1,5 +1,6 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useContext, useEffect, useCallback, useMemo } from 'react';
 import style from './index.module.scss';
+import layoutStyle from 'Components/Layout/index.module.scss';
 import Loading from 'Components/Loading';
 import { Link } from 'react-router-dom';
 import { FuncContext, StateContext } from 'AppContainer/index';
@@ -95,9 +96,15 @@ function SongList({ songList, songIds, isCreator }: Props) {
         })
     }, [currentList]);
 
+    const maxPage = useMemo(() => {
+        if (songIds) {
+            return Math.ceil(songIds.length * 0.02);
+        }
+        return 1;
+    }, [songIds]);
+
     // 翻页
     const handleSetPage = useCallback((type: 'prev' | 'next') => {
-        const maxPage = Math.ceil(songIds.length * 0.02);
         let nextPage: number;
         if (type === 'prev') {
             nextPage = page - 1 || 1;
@@ -106,11 +113,15 @@ function SongList({ songList, songIds, isCreator }: Props) {
         }
 
         setPage(nextPage);
-    }, [songIds, page]);
+    }, [songIds, page, maxPage]);
 
     useEffect(() => {
         // 根据分页加载数据
         const getData = async () => {
+            // 页面滚动到顶部
+            const el = document.getElementsByClassName(layoutStyle.right)[0];
+            el.scrollTop = 0;
+
             setCurrentList([]);
             const start = (page - 1) * 50;
             const ids = songIds.slice(start, start + 50);
@@ -188,7 +199,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
                     })}
                 </tbody>
             </table>
-            {songIds &&
+            {maxPage > 1 &&
                 <div className="pagination">
                     <div className='page-btn' onClick={() => handleSetPage('prev')}>&lt;</div>
                     <div className="page">{page}</div>
