@@ -4,6 +4,7 @@ import cache from './cache';
 import { songDetail, getLyric } from 'Apis/song';
 import { resolveLyric, resolveSongs } from 'Utils/resolve';
 import { replaceHttpToHttps as rp } from 'Utils/index';
+import getFreqData from './getFreqData';
 
 export interface MusicItem {
     buffer: ArrayBuffer;
@@ -24,7 +25,6 @@ interface PlayingItem extends MusicItem {
     abuffer: AudioBuffer;
 }
 
-const FFT_SIZE = 512;
 // canvas width / height
 const W = 900;
 const H = 310;
@@ -42,8 +42,6 @@ class Music {
 
     private audioContext: AudioContext;
     private gainNode: GainNode;
-    private analyser: AnalyserNode;
-    private freqs: Float32Array;
     private reqId: number;
     private canvasContext: CanvasRenderingContext2D | null;
     private currentSource: AudioBufferSourceNode | null;
@@ -51,12 +49,7 @@ class Music {
     constructor() {
         this.audioContext = new AudioContext();
         this.gainNode = this.audioContext.createGain();
-        this.analyser = this.audioContext.createAnalyser();
-        this.analyser.fftSize = FFT_SIZE;
-        this.analyser.smoothingTimeConstant = 0.8;
         this.gainNode.connect(this.audioContext.destination);
-        this.analyser.connect(this.gainNode);
-        this.freqs = new Float32Array(this.analyser.frequencyBinCount);
         this.canvasContext = null;
         this.currentSource = null;
         this.onEnded = null;
@@ -67,7 +60,7 @@ class Music {
 
         this.drawCanvas = this.drawCanvas.bind(this);
 
-        this.getMusic(776039);
+        // this.getMusic(776039);
     }
 
     /* ============= 私有方法 ============= */
@@ -79,11 +72,13 @@ class Music {
         // 请求下一次绘制
         this.reqId = requestAnimationFrame(this.drawCanvas);
 
-        const { analyser, freqs, canvasContext } = this;
-        analyser.getFloatFrequencyData(freqs);
+        const { canvasContext, playingItem } = this;
+        if (!playingItem) {
+            return;
+        }
 
         // 0 ~ 1 的数组
-        const data = freqs.map(value => value / 140 + 1);
+        const data = getFreqData(playingItem.abuffer);
 
         // 绘制
         canvasContext.clearRect(0, 0, W, H);
@@ -188,15 +183,7 @@ class Music {
      * @param offset 播放初始位置，默认为 0
      */
     async play(id: number, offset?: number): Promise<boolean> {
-        const {
-            currentSource,
-            audioContext,
-            analyser,
-            playingItem,
-            status,
-            reqId,
-            rejectFn
-        } = this;
+        const { currentSource, audioContext, gainNode, playingItem, status, rejectFn } = this;
 
         // 调用 play 时，上一次的 getMusic 可能还没有 fulfilled
         // 直接 reject 掉上一次的调用
@@ -217,7 +204,6 @@ class Music {
             currentSource.onended = null;
             currentSource.stop(0);
             currentSource.disconnect();
-            this.currentSource = null;
         }
 
         // 获取歌曲的 AudioBuffer
@@ -229,7 +215,7 @@ class Music {
         // 创建 Source
         const source = audioContext.createBufferSource();
         source.buffer = music.abuffer;
-        source.connect(analyser);
+        source.connect(gainNode)
         this.currentSource = source;
 
         // 播放
