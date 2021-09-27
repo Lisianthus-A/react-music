@@ -324,6 +324,6 @@ class Music {
 
 // 单例模式
 export default (() => {
-    let instance: Music | null;
+    let instance: Music;
     return () => instance || (instance = new Music());
 })();

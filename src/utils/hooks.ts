@@ -8,11 +8,11 @@ export const useInterval = (callback: Function, delay?: number | null) => {
 
     useEffect(() => {
         savedCallback.current = callback;
-    });
+    }, [callback]);
 
     useEffect(() => {
         if (delay !== null) {
-            const interval = setInterval(() => savedCallback.current(), delay || 0);
+            const interval = setInterval(savedCallback.current, delay);
             return () => clearInterval(interval);
         }
     }, [delay]);

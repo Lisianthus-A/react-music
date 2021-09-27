@@ -74,6 +74,6 @@ class MusicCache {
 
 // 单例模式
 export default (() => {
-    let instance: MusicCache | null;
+    let instance: MusicCache;
     return () => instance || (instance = new MusicCache());
 })();
