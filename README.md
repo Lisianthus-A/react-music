@@ -1,10 +1,11 @@
 # React Music
-基于 React + JavaScript 的仿网易云音乐播放器，使用一行 npm 命令即可在本地运行前后端。
+基于 React + TypeScript 的仿网易云音乐播放器，使用一行 npm 命令即可在本地运行前后端。
 
 技术栈: React(hooks) + axios + antd + Sass
 
 ## 预览
-<a href="https://lisianthus-a.github.io/react-music/#/Discovery" target="_blank">在线预览</a>（服务器部署在 heroku，国内网络可能会比较慢，可在 `src\apis\apiBase.js` 中修改地址为本地）
+<a href="https://lisianthus-a.github.io/react-music/#/Discovery" target="_blank">在线预览</a>
+（服务器部署在 heroku，国内网络可能会比较慢。本地环境下可在 `src\apis\apiBase.js` 中修改地址为本地）
 
 ![preview](./.github/preview.png)
 
@@ -42,7 +43,7 @@
     - [x] 歌曲信息
     - [x] 歌曲评论
 - [ ] 私人FM页面 (重构中)
-    - [] 简化版播放器
+    - [ ] 简化版播放器
 - [x] 专辑页面
     - [x] 专辑信息
     - [x] 歌曲列表
