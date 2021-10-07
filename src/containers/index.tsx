@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSetState } from 'Utils/hooks';
 import { Modal, message } from 'antd';
@@ -68,6 +68,7 @@ function AppContainer() {
     const { pathname } = useLocation();
     const history = useHistory();
     const [state, setState] = useSetState<State>(initialState);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
     // 访问路径不在路由列表中，跳转到发现页面
     if (!routes.includes(pathname)) {
@@ -129,6 +130,7 @@ function AppContainer() {
             });
             music().play(id, offset).then(isDone => {
                 if (isDone) {
+                    audioRef.current.play();
                     setState({
                         playingItem: music().getPlayingItem()
                     });
@@ -150,6 +152,7 @@ function AppContainer() {
 
         // 暂停歌曲
         const pauseSong = () => {
+            audioRef.current.pause();
             music().pause();
             setState({ isPlaying: false });
         }
@@ -175,71 +178,60 @@ function AppContainer() {
     }, []);
 
     // mediaSession MediaMetadata
-    // useEffect(() => {
-    //     if (!navigator.mediaSession || !MediaMetadata) {
-    //         return;
-    //     }
+    // 目前 AudioContext 不支持 mediaSession
+    // 现在通过一个无声的 audio 拿到 Audio Focus
+    // AudioContext 可能要等很久以后的 Audio Focus API
+    useEffect(() => {
+        if (!navigator.mediaSession || !MediaMetadata) {
+            return;
+        }
 
-    //     if (!state.playingItem) {
-    //         return;
-    //     }
+        if (!state.playingItem) {
+            return;
+        }
 
-    //     const { name, singers, cover, albumName } = state.playingItem;
-    //     navigator.mediaSession.metadata = new MediaMetadata({
-    //         title: name,
-    //         artist: singers.map(item => item.name).join('/'),
-    //         album: albumName,
-    //         artwork: [
-    //             { src: `${cover}?param=96y96`, sizes: '96x96', type: 'image/jpeg' },
-    //             { src: `${cover}?param=128y128`, sizes: '128x128', type: 'image/jpeg' },
-    //             { src: `${cover}?param=192y192`, sizes: '192x192', type: 'image/jpeg' },
-    //             { src: `${cover}?param=256y256`, sizes: '256x256', type: 'image/jpeg' },
-    //             { src: `${cover}?param=384y384`, sizes: '384x384', type: 'image/jpeg' },
-    //             { src: `${cover}?param=512y512`, sizes: '512x512', type: 'image/jpeg' },
-    //         ]
-    //     });
-
-    // }, [state]);
+        const { name, singers, cover, albumName } = state.playingItem;
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: name,
+            artist: singers.map(item => item.name).join('/'),
+            album: albumName,
+            artwork: [
+                { src: `${cover}?param=96y96`, sizes: '96x96', type: 'image/jpeg' },
+                { src: `${cover}?param=128y128`, sizes: '128x128', type: 'image/jpeg' },
+                { src: `${cover}?param=192y192`, sizes: '192x192', type: 'image/jpeg' },
+                { src: `${cover}?param=256y256`, sizes: '256x256', type: 'image/jpeg' },
+                { src: `${cover}?param=384y384`, sizes: '384x384', type: 'image/jpeg' },
+                { src: `${cover}?param=512y512`, sizes: '512x512', type: 'image/jpeg' },
+            ]
+        });
+    }, [state]);
 
     // mediaSession ActionHandler
-    // useEffect(() => {
-    //     if (!navigator.mediaSession || !MediaMetadata) {
-    //         return;
-    //     }
-    //     navigator.mediaSession.setActionHandler('play', () => setPlaying(true));
-    //     navigator.mediaSession.setActionHandler('pause', () => setPlaying(false));
-    //     navigator.mediaSession.setActionHandler('stop', () => setPlaying(false));
-    //     const handleChangeMusic = (type) => {
-    //         const { playlist, playMode, playingItem } = state;
-    //         const len = playlist.length;
-    //         if (len <= 1 || playMode === 'single-cycle') {  //列表只有一首歌 || 单曲循环，设置播放位置为 0
-
-    //             return;
-    //         }
-
-    //         //当前播放音乐对应的下标
-    //         const currentIndex = playlist.findIndex(({ id }) => id === playingItem.id);
-
-    //         //根据播放模式决定下一首歌曲
-    //         let nextIndex;
-    //         switch (playMode) {
-    //             case 'list-loop': //列表循环
-    //                 nextIndex = type === 'next'
-    //                     ? (currentIndex + 1) % len  //下一首
-    //                     : (len + currentIndex - 1) % len; //上一首
-    //                 break;
-    //             case 'random':  //随机
-    //                 nextIndex = Math.random() * len >> 0;
-    //                 if (nextIndex === currentIndex) {  //随机的歌曲与当前歌曲相同，则选取下一首歌曲
-    //                     nextIndex = (currentIndex + 1) % len;
-    //                 }
-    //                 break;
-    //         }
-
-    //     }
-    //     navigator.mediaSession.setActionHandler('previoustrack', () => handleChangeMusic('prev'));
-    //     navigator.mediaSession.setActionHandler('nexttrack', () => handleChangeMusic('next'));
-    // }, [state]);
+    // 目前 AudioContext 不支持 mediaSession
+    // 现在通过一个无声的 audio 拿到 Audio Focus
+    // AudioContext 可能要等很久以后的 Audio Focus API
+    useEffect(() => {
+        if (!navigator.mediaSession || !MediaMetadata) {
+            return;
+        }
+        // 播放
+        navigator.mediaSession.setActionHandler('play', () => {
+            const { playingItem } = state;
+            globalFunc.playSong(playingItem);
+        });
+        // 暂停
+        navigator.mediaSession.setActionHandler('pause', () => {
+            globalFunc.pauseSong();
+        });
+        navigator.mediaSession.setActionHandler('previoustrack', () => {
+            const prevSong = globalFunc.getSong('prev', state);
+            globalFunc.playSong(prevSong);
+        });
+        navigator.mediaSession.setActionHandler('nexttrack', () => {
+            const nextSong = globalFunc.getSong('prev', state);
+            globalFunc.playSong(nextSong);
+        });
+    }, [state]);
 
     // 设置播放结束触发的回调函数
     useEffect(() => {
@@ -255,6 +247,8 @@ function AppContainer() {
         <FuncContext.Provider value={globalFunc}>
             <StateContext.Provider value={state}>
                 <Layout TargetComponent={TargetComponent} />
+                {/* 无声 audio ，用于获得 Audio Focus */}
+                <audio ref={audioRef} src="./silence.mp3" loop />
             </StateContext.Provider>
         </FuncContext.Provider>
     );
