@@ -9,19 +9,19 @@ module.exports = merge(common, {
     mode: 'development',
     devtool: 'source-map',
     output: {
-        filename: 'js/[name].bundle.[hash:8].js'  //输出js文件使用hash
+        filename: 'js/[name].bundle.[hash:8].js'
     },
     devServer: {
         contentBase: path.resolve(__dirname, '../build'),
-        open: true,  //自动打开浏览器
-        port: 4000,  //端口
-        compress: true,  //gzip压缩
-        hot: true
+        open: true,  // 自动打开浏览器
+        port: 4000,  // 端口
+        compress: true,  // gzip压缩
+        hot: false
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'public/index.html',  //模板
-            inject: 'body',  //在body最底部引入js文件
+            template: 'public/index.html',  // html 模板
+            inject: 'body',  // 在 body 最底部引入 js 文件
             hash: false
         }),
         new webpack.HotModuleReplacementPlugin()
@@ -29,7 +29,7 @@ module.exports = merge(common, {
     module: {
         rules: [
           {
-            test: /(?<!module)\.css$/,  //匹配前面不是 module 的 .css 文件
+            test: /(?<!module)\.css$/,  // .css
             use: [ 
               'style-loader',
               'css-loader',
@@ -37,7 +37,7 @@ module.exports = merge(common, {
             ]
           },
           {
-            test: /(?<!module)\.(scss|sass)$/,  //匹配前面不是 module 的 .scss|.sass 文件
+            test: /(?<!module)\.scss$/,  // .scss
             use: [
               'style-loader',
               'css-loader',
@@ -46,7 +46,7 @@ module.exports = merge(common, {
             ]
           },
           {
-            test: /\.module\.css?$/,  //对于 .module.css 文件，启用CSS模块化
+            test: /\.module\.css?$/,  // .module.css，启用 CSS 模块化
             use: [
               'style-loader',
               {
@@ -57,7 +57,7 @@ module.exports = merge(common, {
             ]
           },
           {
-            test: /\.module\.(scss|sass)$/,  //对于 .module.scss|.module.sass 文件，启用CSS模块化
+            test: /\.module\.(scss|sass)$/,  // .module.scss，启用 CSS 模块化
             use: [
               'style-loader',
               {

@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -11,48 +12,55 @@ module.exports = {
     },
     resolve: {
         alias: {
-          Components: path.resolve(__dirname, '../src/components'),
-          Apis: path.resolve(__dirname, '../src/apis'),
-          AppContainer: path.resolve(__dirname, '../src/containers'),
-          Utils: path.resolve(__dirname, '../src/utils'),
-          Images: path.resolve(__dirname, '../assets/images'),
-          TestData: path.resolve(__dirname, '../apiDataExample')
+            Components: path.resolve(__dirname, '../src/components'),
+            Apis: path.resolve(__dirname, '../src/apis'),
+            AppContainer: path.resolve(__dirname, '../src/containers'),
+            Utils: path.resolve(__dirname, '../src/utils'),
         },
         extensions: [".ts", ".tsx", ".js", ".json"]
-      },
+    },
+    plugins: [
+        // 静态目录
+        new CopyWebpackPlugin({
+            patterns: [{
+                from: path.resolve(__dirname, '../audio'),
+                to: './'
+            }]
+        })
+    ],
     module: {
         rules: [
             {
                 test: /\.jsx?$/,
                 use: 'babel-loader',
-                exclude: /node_modules/  //不需要转译node_modules文件夹
-            },
-            { 
-                test: /\.tsx?$/, 
-                loader: "ts-loader",
                 exclude: /node_modules/
             },
             {
-                test: /\.(jpg|png|gif)$/,  //图片打包成Base64格式
-                use: {
-                    loader: 'url-loader',
-                    options: {
-                        name: '[name].[ext]',   //文件名.后缀
-                        outputPath: 'images/',
-                        limit: 8192  //大于8kb则不使用url-loader
-                    }
-                }
+                test: /\.tsx?$/,
+                loader: "ts-loader",
+                exclude: /node_modules/
             },
-            {
-                test: /\.(eot|ttf|svg|woff|woff2)$/,  //字体文件
-                use: {
-                    loader: 'file-loader',
-                    options: {
-                        name: '[name].[hash].[ext]',
-                        outputPath: 'font/'
-                    }
-                }
-            }
+            // {
+            //     test: /\.(jpg|png|gif)$/,  
+            //     use: {
+            //         loader: 'url-loader',
+            //         options: {
+            //             name: '[name].[ext]',   
+            //             outputPath: 'images/',
+            //             limit: 8192
+            //         }
+            //     }
+            // },
+            // {
+            //     test: /\.(eot|ttf|svg|woff|woff2)$/,
+            //     use: {
+            //         loader: 'file-loader',
+            //         options: {
+            //             name: '[name].[hash].[ext]',
+            //             outputPath: 'font/'
+            //         }
+            //     }
+            // }
         ]
     }
 };

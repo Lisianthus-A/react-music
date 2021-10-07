@@ -6,7 +6,7 @@
 ## 预览
 <a href="https://lisianthus-a.github.io/react-music/#/Discovery" target="_blank">在线预览</a>（服务器部署在 heroku，国内网络可能会比较慢，可在 `src\apis\apiBase.js` 中修改地址为本地）
 
-![preview](./assets/images/preview.png)
+![preview](./.github/preview.png)
 
 ## Todo
 - [x] 脚手架搭建
@@ -41,7 +41,7 @@
 - [x] 歌曲详情页面
     - [x] 歌曲信息
     - [x] 歌曲评论
-- [] 私人FM页面 (重构中)
+- [ ] 私人FM页面 (重构中)
     - [] 简化版播放器
 - [x] 专辑页面
     - [x] 专辑信息
