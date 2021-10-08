@@ -228,7 +228,7 @@ function AppContainer() {
             globalFunc.playSong(prevSong);
         });
         navigator.mediaSession.setActionHandler('nexttrack', () => {
-            const nextSong = globalFunc.getSong('prev', state);
+            const nextSong = globalFunc.getSong('next', state);
             globalFunc.playSong(nextSong);
         });
     }, [state]);
