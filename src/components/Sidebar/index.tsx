@@ -25,7 +25,7 @@ function Sidebar() {
                 <div className="category">推荐</div>
                 {[
                     { text: '发现音乐', Icon: SearchOutlined, key: 'Discovery' },
-                    // { text: '私人FM', Icon: CustomerServiceOutlined, key: 'PersonalFM' },
+                    { text: '私人FM', Icon: CustomerServiceOutlined, key: 'PersonalFM' },
                     // { text: '视频', Icon: VideoCameraOutlined, key: 'Video' }
                 ].map(({ key, text, Icon }) =>
                     <Link
