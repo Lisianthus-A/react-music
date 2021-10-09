@@ -33,7 +33,7 @@ class Music {
     // 播放结束的回调
     private onEnded: (() => void) | null;
     // 开始时间，用于计算当前播放时长
-    private startTime: number;
+    private startTime: number | false;
     // 当前播放的歌曲
     private playingItem: PlayingItem | null;
     // 当前状态
@@ -53,7 +53,7 @@ class Music {
         this.canvasContext = null;
         this.currentSource = null;
         this.onEnded = null;
-        this.startTime = 0;
+        this.startTime = false;
         this.playingItem = null;
         this.status = 'pendding';
         this.rejectFn = () => { };
@@ -199,7 +199,7 @@ class Music {
         }
 
         // 停止当前音频
-        this.startTime = 0;
+        this.startTime = false;
         if (currentSource) {
             currentSource.onended = null;
             currentSource.stop(0);
@@ -226,7 +226,7 @@ class Music {
 
         // 设置播放结束的回调
         source.onended = () => {
-            this.startTime = 0;
+            this.startTime = false;
             this.status = 'pendding';
             this.onEnded && this.onEnded();
         }
@@ -309,7 +309,7 @@ class Music {
      */
     getCurrentTime(): number {
         const { audioContext, startTime } = this;
-        return startTime
+        return startTime !== false
             ? audioContext.currentTime - startTime
             : 0;
     }
