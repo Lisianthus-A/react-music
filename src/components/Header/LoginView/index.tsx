@@ -22,13 +22,13 @@ function ModalView({ visible, onClose: handleClose, onSetName, onSetImg }: Props
     const [submiting, setSubmiting] = useState(false);  //登录中
 
     //提交
-    const onFinish = async (values: Record<string, any>) => {
+    const onFinish = async (values: Record<string, string>) => {
         const { username, password } = values;
         if (!username || !password) {  //无效输入
             return;
         }
 
-        let loginType;  //登录类型
+        let loginType: 'email' | 'phone';  //登录类型
         if (/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(username)) {  //输入的账号是邮箱
             loginType = 'email';
         } else if (/^1[3-9]\d{9}$/.test(username)) {  //手机号
