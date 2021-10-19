@@ -23,7 +23,7 @@ module.exports = {
         // 静态目录
         new CopyWebpackPlugin({
             patterns: [{
-                from: path.resolve(__dirname, '../audio'),
+                from: path.resolve(__dirname, '../static'),
                 to: './'
             }]
         })
