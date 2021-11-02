@@ -3,7 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
-        index: './src/index.js',
+        index: './src/index.tsx',
         framework: ['react', 'react-dom']
     },
     output: {

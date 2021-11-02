@@ -3,7 +3,7 @@ import { HashRouter } from 'react-router-dom';
 import AppContainer from './containers';
 import './app.scss';
 
-const App = () => {
+function App() {
 
     return (
         <HashRouter>
