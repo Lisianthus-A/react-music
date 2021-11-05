@@ -124,6 +124,9 @@
                 background-color: #aaa;
                 border-radius: 2px;
             }
+            &::-webkit-scrollbar-thumb:hover {
+                background-color: #666;
+            }
         }
 
         .list-right > .content {
