@@ -2,7 +2,7 @@
   "name": "react-music",
   "version": "1.0.0",
   "private": true,
-  "description": "基于React + JavaScript的仿网易云音乐播放器",
+  "description": "基于 React + TypeScript 的仿网易云音乐播放器",
   "main": "index.js",
   "scripts": {
     "start": "npm run gen && concurrently \"npm run server\" \"npm run front\"",
