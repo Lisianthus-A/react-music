@@ -36,8 +36,6 @@ class Music {
     private startTime: number | false;
     // 当前播放的歌曲
     private playingItem: PlayingItem | null;
-    // 当前状态
-    private status: 'playing' | 'pause' | 'pendding';
     private rejectFn: () => void;
 
     private audioContext: AudioContext;
@@ -55,7 +53,6 @@ class Music {
         this.onEnded = null;
         this.startTime = false;
         this.playingItem = null;
-        this.status = 'pendding';
         this.rejectFn = () => { };
 
         this.drawCanvas = this.drawCanvas.bind(this);
@@ -172,7 +169,6 @@ class Music {
      */
     private async restart(): Promise<boolean> {
         await this.audioContext.resume();
-        this.status = 'playing';
         return true;
     }
 
@@ -184,7 +180,7 @@ class Music {
      * @param offset 播放初始位置，默认为 0
      */
     async play(id: number, offset?: number): Promise<boolean> {
-        const { currentSource, audioContext, gainNode, playingItem, status, rejectFn } = this;
+        const { currentSource, audioContext, gainNode, playingItem, rejectFn } = this;
 
         // 调用 play 时，上一次的 getMusic 可能还没有 fulfilled
         // 直接 reject 掉上一次的调用
@@ -192,13 +188,12 @@ class Music {
 
         // 当前状态为暂停
         // 恢复 Context 为播放状态
-        if (status === 'pause') {
+        if (audioContext.state === 'suspended') {
             this.restart();
-        }
-
-        // 需要播放的歌曲与当前歌曲相同
-        if (playingItem && playingItem.info.id === id && offset === undefined) {
-            return true;
+            // 需要播放的歌曲与当前歌曲相同
+            if (playingItem && playingItem.info.id === id && offset === undefined) {
+                return true;
+            }
         }
 
         // 停止当前音频
@@ -224,13 +219,11 @@ class Music {
         // 播放
         this.startTime = audioContext.currentTime - (offset || 0);
         source.start(audioContext.currentTime, offset || 0);
-        this.status = 'playing';
         this.playingItem = music;
 
         // 设置播放结束的回调
         source.onended = () => {
             this.startTime = false;
-            this.status = 'pendding';
             this.onEnded && this.onEnded();
         }
         return true;
@@ -241,7 +234,6 @@ class Music {
      */
     async pause(): Promise<boolean> {
         await this.audioContext.suspend();
-        this.status = 'pause';
         return true;
     }
 
