@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useContext, useState } from 'react';
 import style from './index.module.scss';
 import {
     UnorderedListOutlined,
@@ -26,40 +26,32 @@ interface Props {
 function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
     const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
     const [lyric, setLyric] = useState<null | [string, string, number][]>(playingItem.lyric);
-    // const [enableDraw, setEnableDraw] = useState<boolean>(true);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const activeRef = useRef<Element>(null);
     const preIdRef = useRef<number>(playingItem.id);
 
-    // const handleDrawChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
-    //     const isEnable = evt.target.checked;
-    //     isEnable && music().drawStart();
-    //     !isEnable && music().drawStop();
-    //     setEnableDraw(isEnable);
-    // }, []);
-
     // 清空播放列表
-    const handleClean = useCallback(() => {
+    const handleClean = () => {
         cache().delAll();
         setPlaylist([]);
-    }, []);
+    }
 
     // 播放点击的歌曲
-    const handlePlaySong = useCallback(async (index: number) => {
+    const handlePlaySong = async (index: number) => {
         const clickSong = playlist[index];
         playSong(clickSong);
-    }, [playlist]);
+    }
 
     // 下载歌曲
-    const handleDownload = useCallback((e: MouseEvent, id: number, name: string) => {
+    const handleDownload = (e: MouseEvent, id: number, name: string) => {
         e.stopPropagation();
         music().download(id, name);
-    }, []);
+    }
 
     // 删除指定歌曲
-    const handleDelete = useCallback(async (e: MouseEvent, index: number) => {
+    const handleDelete = async (e: MouseEvent, index: number) => {
         e.stopPropagation();
         const newList = playlist.slice();
 
@@ -77,13 +69,13 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
             const nextSong = newList[index] || newList[newList.length - 1];
             nextSong && playSong(nextSong);
         }
-    }, [playlist, isPlaying, playingItem]);
+    }
 
     // 收藏歌单中的某首歌
-    const handleCollectSong = useCallback((e: MouseEvent, id: number) => {
+    const handleCollectSong = (e: MouseEvent, id: number) => {
         e.stopPropagation();
         collectSong(id);
-    }, []);
+    }
 
     // 不断读取当前播放进度，滚动歌词
     useInterval(() => {
@@ -188,15 +180,6 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
                 <div className="list-left">
                     <div className="title">
                         <span>播放列表 ({playlist.length})</span>
-                        {/* <label className="ml16">
-                            音乐可视化
-                            <input
-                                className="ml4"
-                                type="checkbox"
-                                checked={enableDraw}
-                                onChange={handleDrawChange}
-                            />
-                        </label> */}
                         <span className="clean" onClick={handleClean}>
                             <DeleteOutlined /> 清空
                         </span>

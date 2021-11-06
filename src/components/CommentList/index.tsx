@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { memo } from 'react';
 import style from './index.module.scss';
 import { Link } from 'react-router-dom';
 import { LikeOutlined } from '@ant-design/icons';
@@ -13,7 +13,7 @@ interface Props {
 function CommentList({ data }: Props) {
     const { hotComments, comments, total } = data;
 
-    const renderList = useCallback((title: string, list: PlaylistCommentRes['comments']) => {
+    const renderList = (title: string, list: PlaylistCommentRes['comments']) => {
         return (
             <>
                 <div className="sub-title">{title}</div>
@@ -48,8 +48,7 @@ function CommentList({ data }: Props) {
                 )}
             </>
         )
-    }, []);
-
+    }
 
     return (
         <div className={style['comment-list']}>
@@ -69,4 +68,4 @@ function CommentList({ data }: Props) {
     )
 }
 
-export default CommentList;
+export default memo(CommentList);

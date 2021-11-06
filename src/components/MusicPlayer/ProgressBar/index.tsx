@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useContext, useMemo, memo } from 'react';
+import React, { useState, useRef, useContext, useMemo, memo } from 'react';
 import style from './index.module.scss';
 import { convertTime } from 'Utils/index';
 import { FuncContext } from 'AppContainer/index';
@@ -22,7 +22,7 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
     const { playSong } = useContext(FuncContext);
 
     // 鼠标按下
-    const handleMouseDown = useCallback((e) => {
+    const handleMouseDown = (e: any) => {
         // 按下的不是鼠标左键
         if (e.button !== 0) {
             return;
@@ -36,10 +36,10 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
         const percent = e.clientX / width;
         railRef.current.style.width = `${percent * 100}%`;
         tipRef.current.textContent = convertTime(percent * duration);
-    }, [playingItem]);
+    }
 
     // 鼠标抬起
-    const handleMouseUp = useCallback((e) => {
+    const handleMouseUp = (e: any) => {
         window.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('mouseup', handleMouseUp);
 
@@ -56,10 +56,10 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
         }
         setCurrentTime(offset);
         playSong(playingItem, offset);
-    }, [playingItem]);
+    }
 
     // 鼠标移动
-    const handleMouseMove = useCallback((e) => {
+    const handleMouseMove = (e: any) => {
         const width = window.innerWidth < 1000 ? 1000 : window.innerWidth;
         let percent = e.clientX / width;
         // 越界处理
@@ -70,7 +70,7 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
         }
         railRef.current.style.width = `${percent * 100}%`;
         tipRef.current.textContent = convertTime(percent * duration);
-    }, [playingItem]);
+    }
 
     const railStyle = useMemo(() => {
         // 文本框可见，说明正在拖动

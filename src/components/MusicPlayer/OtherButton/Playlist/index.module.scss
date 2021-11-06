@@ -1,13 +1,5 @@
 .playlist {
     :global {
-        .ml4 {
-            margin-left: 4px;
-        }
-
-        .ml16 {
-            margin-left: 16px;
-        }
-
         canvas {
             position: absolute;
             pointer-events: none;

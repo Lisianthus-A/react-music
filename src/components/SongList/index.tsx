@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useContext, useEffect, useMemo, memo } from 'react';
 import style from './index.module.scss';
 import layoutStyle from 'Components/Layout/index.module.scss';
 import Loading from 'Components/Loading';
@@ -35,7 +35,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
     const [page, setPage] = useState<number>(1);
 
     //添加到播放列表
-    const handleAddToPlaylist = useCallback((songItem: SongItem) => {
+    const handleAddToPlaylist = (songItem: SongItem) => {
         // 播放列表中已有该歌曲
         if (playlist.find(item => item.id === songItem.id)) {
             return;
@@ -45,16 +45,16 @@ function SongList({ songList, songIds, isCreator }: Props) {
         const newList = playlist.slice();
         newList.push(songItem);
         setPlaylist(newList);
-    }, [playlist]);
+    }
 
     //下载
-    const handleDownload = useCallback((songItem: SongItem) => {
+    const handleDownload = (songItem: SongItem) => {
         const { id, name } = songItem;
         music().download(id, name);
-    }, []);
+    }
 
     // 播放指定歌曲
-    const handlePlay = useCallback((songItem: SongItem) => {
+    const handlePlay = (songItem: SongItem) => {
         // 播放
         playSong(songItem);
 
@@ -67,15 +67,15 @@ function SongList({ songList, songIds, isCreator }: Props) {
         const newList = playlist.slice();
         newList.push(songItem);
         setPlaylist(newList);
-    }, [playlist]);
+    }
 
     //收藏歌单中的某首歌
-    const handleCollectSong = useCallback((id: number) => {
+    const handleCollectSong = (id: number) => {
         collectSong(id);
-    }, []);
+    }
 
     //删除歌单中的某首歌
-    const handleDelete = useCallback((songItem: SongItem) => {
+    const handleDelete = (songItem: SongItem) => {
         Modal.confirm({
             title: '删除歌曲',
             content: `是否要删除歌曲 ${songItem.name} ？`,
@@ -94,7 +94,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
                 setCurrentList(newList);
             }
         })
-    }, [currentList]);
+    }
 
     const maxPage = useMemo(() => {
         if (songIds) {
@@ -104,7 +104,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
     }, [songIds]);
 
     // 翻页
-    const handleSetPage = useCallback((type: 'prev' | 'next') => {
+    const handleSetPage = (type: 'prev' | 'next') => {
         let nextPage: number;
         if (type === 'prev') {
             nextPage = page - 1 || 1;
@@ -113,7 +113,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
         }
 
         setPage(nextPage);
-    }, [songIds, page, maxPage]);
+    }
 
     useEffect(() => {
         // 根据分页加载数据
@@ -210,4 +210,4 @@ function SongList({ songList, songIds, isCreator }: Props) {
     )
 }
 
-export default SongList;
+export default memo(SongList);
