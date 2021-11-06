@@ -60,6 +60,7 @@ class Music {
 
         this.drawCanvas = this.drawCanvas.bind(this);
 
+        console.info('musicInstance', this);
         // this.getMusic(776039);
     }
 
@@ -189,13 +190,15 @@ class Music {
         // 直接 reject 掉上一次的调用
         rejectFn();
 
-        // 需要播放的歌曲与当前歌曲相同并且当前状态为暂停
+        // 当前状态为暂停
         // 恢复 Context 为播放状态
-        if (id === playingItem?.info?.id && status === "pause") {
+        if (status === 'pause') {
             this.restart();
-            if (offset === undefined) {
-                return true;
-            }
+        }
+
+        // 需要播放的歌曲与当前歌曲相同
+        if (playingItem && playingItem.info.id === id && offset === undefined) {
+            return true;
         }
 
         // 停止当前音频
