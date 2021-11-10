@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { searchItem } from 'Utils/index';
+import { searchQuery } from 'Utils/index';
 import { resolveDetail } from 'Utils/resolve';
 import { playlistDetail, playlistComment  } from 'Apis/playlist';
 import SongListView from './components/View';
@@ -17,8 +16,7 @@ export interface PageState {
 }
 
 function Playlist() {
-    const { search } = useLocation();
-    const id = Number(searchItem(search, 'id'));
+    const id = Number(searchQuery('id'));
     if (!id || isNaN(id)) {
         return <div>id 错误</div>;
     }

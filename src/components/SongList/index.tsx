@@ -13,7 +13,7 @@ import {
     DeleteOutlined
 } from '@ant-design/icons';
 import { songlistTracks } from 'Apis/playlist';
-import { convertTime, searchItem } from 'Utils/index';
+import { convertTime, searchQuery } from 'Utils/index';
 import { songDetail } from 'Apis/song';
 import { resolveSongs } from 'Utils/resolve';
 import music from 'Utils/music';
@@ -83,7 +83,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
             cancelText: '否',
             async onOk() {
                 // 歌单 id
-                const playlistId = Number(searchItem(window.location.hash, 'id'));
+                const playlistId = Number(searchQuery('id'));
                 await songlistTracks('del', playlistId, songItem.id);
                 message.success('已删除');
 

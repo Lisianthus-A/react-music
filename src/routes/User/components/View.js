@@ -1,10 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { searchItem } from 'Utils';
+import { searchQuery } from 'Utils/index';
 
 const User = () => {
-    const { search } = useLocation();
-    const id = searchItem(search, 'id');
+    const id = searchQuery('id');
 
     return (
         <div className='user'>

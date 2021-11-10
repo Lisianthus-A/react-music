@@ -28,9 +28,10 @@ export const convertTime = (time: number): string => {
 /**
  * 搜索字符串中指定参数的值
  */
-export const searchItem = (search: string, item: string): string | null => {
-    const match = search.match(new RegExp(`[?&]${item}=\\w+`));
-    return match?.[0]?.split('=')?.[1] || null;
+export const searchQuery = (field: string): string | null => {
+    const reg = new RegExp(`[?&]${field}=(\\w+)`);
+    const match = location.href.match(reg);
+    return match ? match[1] : null;
 }
 
 /**

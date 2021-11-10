@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { searchItem } from 'Utils/index';
+import { searchQuery } from 'Utils/index';
 import { resolveSongs } from 'Utils/resolve';
 import { singerInfo, singerDesc } from 'Apis/singer';
 import View from './components/View';
@@ -14,8 +13,7 @@ export interface PageState {
 }
 
 function Singer() {
-    const { search } = useLocation();
-    const id = searchItem(search, 'id');
+    const id = searchQuery('id');
 
     const [pageState, setPageState] = useState<PageState | null>(null);
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { songComment, songDetail, getLyric } from 'Apis/song';
-import { searchItem } from 'Utils/index';
+import { searchQuery } from 'Utils/index';
 import { resolveLyric, resolveDetail, resolveSongs } from 'Utils/resolve';
 import View from './components/View';
 
@@ -20,8 +19,7 @@ export interface PageState {
 }
 
 function Song() {
-    const { search } = useLocation();
-    const id = searchItem(search, 'id');
+    const id = searchQuery('id');
 
     if (!id) {
         return <div>歌曲id错误</div>;

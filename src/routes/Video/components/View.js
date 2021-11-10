@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { searchItem } from 'Utils';
+import { searchQuery } from 'Utils/index';
 
 const Video = () => {
-    const { search } = useLocation();
-    const id = searchItem(search, 'id');
+    const id = searchQuery('id');
 
     return (
         <div className='video'>

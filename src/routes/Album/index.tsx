@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { album, albumComment } from 'Apis/album';
-import { searchItem } from 'Utils/index';
+import { searchQuery } from 'Utils/index';
 import { resolveSongs, resolveDetail } from 'Utils/resolve';
 import View from './components/View';
 
@@ -18,8 +17,7 @@ export interface PageState {
 }
 
 function Album() {
-    const { search } = useLocation();
-    const id = searchItem(search, 'id');
+    const id = searchQuery('id');
     if (!id) {
         return (
             <div>id错误</div>
