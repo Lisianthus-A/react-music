@@ -4,6 +4,7 @@ export default [
     "/MySongList",
     "/PersonalFM",
     "/Playlist",
+    "/Search",
     "/Singer",
     "/Song",
     "/User",

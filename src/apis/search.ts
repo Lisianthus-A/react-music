@@ -3,6 +3,6 @@
 import ajax from './apiBase';
 
 // 搜索关键词
-export const searchSuggest = (keywords) => {
+export const searchSuggest = (keywords: string) => {
     return ajax(`/search/suggest?keywords=${keywords}`);
 }
