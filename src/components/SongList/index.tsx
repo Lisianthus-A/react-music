@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, useMemo, memo } from 'react';
 import style from './index.module.scss';
 import layoutStyle from 'Components/Layout/index.module.scss';
 import Loading from 'Components/Loading';
+import Pagination from 'Components/Pagination';
 import { Link } from 'react-router-dom';
 import { FuncContext, StateContext } from 'AppContainer/index';
 import { message, Modal } from 'antd';
@@ -32,7 +33,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
     const { playingItem, playlist } = state;
 
     const [currentList, setCurrentList] = useState<SongItem[]>(songList || []);
-    const [page, setPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     //添加到播放列表
     const handleAddToPlaylist = (songItem: SongItem) => {
@@ -96,25 +97,6 @@ function SongList({ songList, songIds, isCreator }: Props) {
         })
     }
 
-    const maxPage = useMemo(() => {
-        if (songIds) {
-            return Math.ceil(songIds.length * 0.02);
-        }
-        return 1;
-    }, [songIds]);
-
-    // 翻页
-    const handleSetPage = (type: 'prev' | 'next') => {
-        let nextPage: number;
-        if (type === 'prev') {
-            nextPage = page - 1 || 1;
-        } else {
-            nextPage = page + 1 < maxPage ? page + 1 : maxPage;
-        }
-
-        setPage(nextPage);
-    }
-
     useEffect(() => {
         // 根据分页加载数据
         const getData = async () => {
@@ -123,7 +105,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
             el.scrollTop = 0;
 
             setCurrentList([]);
-            const start = (page - 1) * 50;
+            const start = (currentPage - 1) * 50;
             const ids = songIds.slice(start, start + 50);
             const songRes = await songDetail(ids);
             setCurrentList(resolveSongs(songRes.songs, 'detail'));
@@ -132,7 +114,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
         if (songIds) {
             getData();
         }
-    }, [songIds, page]);
+    }, [songIds, currentPage]);
 
     if (currentList.length === 0) {
         return <Loading />;
@@ -161,7 +143,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
                         return (
                             <tr key={id} className={isFree ? '' : "fee"}>
                                 <td>
-                                    <span>{(page - 1) * 50 + index + 1}</span>
+                                    <span>{(currentPage - 1) * 50 + index + 1}</span>
                                     <CaretRightOutlined
                                         className={playingItem.id === id ? 'play-btn-playing' : 'play-btn'}
                                         onClick={() => handlePlay(item)}
@@ -199,13 +181,12 @@ function SongList({ songList, songIds, isCreator }: Props) {
                     })}
                 </tbody>
             </table>
-            {maxPage > 1 &&
-                <div className="pagination">
-                    <div className='page-btn' onClick={() => handleSetPage('prev')}>&lt;</div>
-                    <div className="page">{page}</div>
-                    <div className="page-btn" onClick={() => handleSetPage('next')}>&gt;</div>
-                </div>
-            }
+            <Pagination
+                currentPage={currentPage}
+                total={songIds?.length || 0}
+                pageSize={50}
+                onChange={setCurrentPage}
+            />
         </div>
     )
 }
