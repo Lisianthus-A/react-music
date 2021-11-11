@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { album, albumComment } from 'Apis/album';
-import { searchQuery } from 'Utils/index';
+import { useQuery } from 'Utils/hooks';
 import { resolveSongs, resolveDetail } from 'Utils/resolve';
 import View from './components/View';
 
@@ -17,7 +17,7 @@ export interface PageState {
 }
 
 function Album() {
-    const id = searchQuery('id');
+    const id = useQuery('id');
     if (!id) {
         return (
             <div>id错误</div>

@@ -14,7 +14,8 @@ import {
     DeleteOutlined
 } from '@ant-design/icons';
 import { songlistTracks } from 'Apis/playlist';
-import { convertTime, searchQuery } from 'Utils/index';
+import { convertTime } from 'Utils/index';
+import { useQuery } from 'Utils/hooks';
 import { songDetail } from 'Apis/song';
 import { resolveSongs } from 'Utils/resolve';
 import music from 'Utils/music';
@@ -30,6 +31,7 @@ interface Props {
 function SongList({ songList, songIds, isCreator }: Props) {
     const state = useContext(StateContext);
     const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
+    const playlistId = useQuery('id');
     const { playingItem, playlist } = state;
 
     const [currentList, setCurrentList] = useState<SongItem[]>(songList || []);
@@ -84,7 +86,6 @@ function SongList({ songList, songIds, isCreator }: Props) {
             cancelText: '否',
             async onOk() {
                 // 歌单 id
-                const playlistId = Number(searchQuery('id'));
                 await songlistTracks('del', playlistId, songItem.id);
                 message.success('已删除');
 

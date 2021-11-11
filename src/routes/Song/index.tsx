@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { songComment, songDetail, getLyric } from 'Apis/song';
-import { searchQuery } from 'Utils/index';
+import { useQuery } from 'Utils/hooks';
 import { resolveLyric, resolveDetail, resolveSongs } from 'Utils/resolve';
 import View from './components/View';
 
@@ -19,7 +19,7 @@ export interface PageState {
 }
 
 function Song() {
-    const id = searchQuery('id');
+    const id = useQuery('id');
 
     if (!id) {
         return <div>歌曲id错误</div>;

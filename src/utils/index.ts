@@ -26,15 +26,6 @@ export const convertTime = (time: number): string => {
 }
 
 /**
- * 搜索字符串中指定参数的值
- */
-export const searchQuery = (field: string): string | null => {
-    const reg = new RegExp(`[?&]${field}=(\\w+)`);
-    const match = location.href.match(reg);
-    return match ? match[1] : null;
-}
-
-/**
  * 将时间戳转换成形如
  * 刚刚、x 分钟前、x 小时前、x 天前、x 月前、x 年前的字符串
  */
