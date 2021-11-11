@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { searchQuery } from 'Utils/index';
+import { useQuery } from 'Utils/hooks';
 import { resolveDetail } from 'Utils/resolve';
 import { playlistDetail, playlistComment  } from 'Apis/playlist';
 import SongListView from './components/View';
@@ -16,8 +16,8 @@ export interface PageState {
 }
 
 function Playlist() {
-    const id = Number(searchQuery('id'));
-    if (!id || isNaN(id)) {
+    const id = useQuery('id');
+    if (!/\d+/.test(id)) {
         return <div>id 错误</div>;
     }
 

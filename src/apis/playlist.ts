@@ -25,7 +25,7 @@ export interface PlaylistDetailRes {
  * 歌单详情
  * @param id 歌单 id
  */
-export const playlistDetail = (id: number) => {
+export const playlistDetail = (id: number | string) => {
     return ajax<PlaylistDetailRes>(`/playlist/detail?id=${id}`);
 }
 
@@ -51,7 +51,7 @@ export interface PlaylistCommentRes {
  * 歌单评论
  * @param id 歌单 id
  */
-export const playlistComment = (id: number) => {
+export const playlistComment = (id: number | string) => {
     return ajax<PlaylistCommentRes>(`/comment/playlist?id=${id}`);
 }
 
@@ -62,7 +62,7 @@ export const playlistComment = (id: number) => {
  * @param songId 歌曲 id
  * @returns 
  */
-export const songlistTracks = (opt: 'add' | 'del', playlistId: number, songId: number) => {
+export const songlistTracks = (opt: 'add' | 'del', playlistId: number | string, songId: number) => {
     return ajax(`/playlist/tracks?op=${opt}&pid=${playlistId}&tracks=${songId}`);
 }
 

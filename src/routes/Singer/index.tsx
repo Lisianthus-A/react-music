@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { searchQuery } from 'Utils/index';
+import { useQuery } from 'Utils/hooks';
 import { resolveSongs } from 'Utils/resolve';
 import { singerInfo, singerDesc } from 'Apis/singer';
 import View from './components/View';
@@ -13,7 +13,7 @@ export interface PageState {
 }
 
 function Singer() {
-    const id = searchQuery('id');
+    const id = useQuery('id');
 
     const [pageState, setPageState] = useState<PageState | null>(null);
 

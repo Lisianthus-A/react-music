@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 /**
  * 定时器 hooks
@@ -33,3 +34,13 @@ export const useSetState = <T extends object>(
 
     return [state, setState];
 };
+
+/**
+ * 查询页面 Query 参数
+ */
+export const useQuery = (field: string): string | null => {
+    const { search } = useLocation();
+    const reg = new RegExp(`[?&]${field}=(\\w+)`);
+    const match = search.match(reg);
+    return match ? match[1] : null;
+}
