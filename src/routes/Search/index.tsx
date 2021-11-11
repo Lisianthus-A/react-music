@@ -5,8 +5,8 @@ import View from './components/View';
 type Type = 'song' | 'album' | 'singer' | 'playlist';
 
 function Search() {
-  const keywords = useQuery('keywords');
-  if (!keywords) {
+  const keyword = useQuery('keyword');
+  if (!keyword) {
     return <div>请输入搜索内容</div>;
   }
 
@@ -17,7 +17,8 @@ function Search() {
   }, []);
 
   return (
-    <View />
+    // <View />
+  <div>{keyword}</div>
   );
 }
 

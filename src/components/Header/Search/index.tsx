@@ -1,119 +1,154 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Select } from 'antd';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useHistory, Link } from 'react-router-dom';
+import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { debounce } from 'Utils/index';
 import { searchSuggest } from 'Apis/search';
 
-type DropdownItems = Record<string, {
+type DropdownItemsMap = Record<string, {
     path: string;
     text: string;
 }[]>;
 
 function Search() {
     const history = useHistory();
+    // 当前搜索内容
+    const [searchValue, setSearchValue] = useState<string>('');
     // 搜索框是否 focus
     const [focus, setFocus] = useState(false);
+    const inputRef = useRef(null);
     // 下拉列表
-    const [dropdownItems, setDropdownItems] = useState<DropdownItems>({});
+    const [dropdownItemsMap, setDropdownItemsMap] = useState<DropdownItemsMap>({});
 
-    // 搜索
-    const handleSearch = debounce(async (value: string) => {
-        console.info('handleSearch', value);
-        if (value === '' || value === undefined) {
-            return;
-        }
+    // 获取搜索建议
+    const getSuggest = useCallback(debounce(async (value: string) => {
         const { result } = await searchSuggest(value);
-        const items: DropdownItems = {};
+        const map: DropdownItemsMap = {};
         // 单曲
         if (Array.isArray(result.songs)) {
-            items.songs = result.songs.map(item => ({
+            map.songs = result.songs.map(item => ({
                 path: `/Song?id=${item.id}`,
                 text: `${item.name} - ${item.artists.map(ar => ar.name).join('/')}`
             }));
         }
         // 专辑
         if (Array.isArray(result.albums)) {
-            items.albums = result.albums.map(item => ({
+            map.albums = result.albums.map(item => ({
                 path: `/Album?id=${item.id}`,
                 text: `${item.name} - ${item.artist.name}`
             }));
         }
         // 歌手
         if (Array.isArray(result.artists)) {
-            items.singers = result.artists.map(item => ({
+            map.singers = result.artists.map(item => ({
                 path: `/Singer?id=${item.id}`,
                 text: item.name
             }));
         }
         // 歌单
         if (Array.isArray(result.playlists)) {
-            items.playlists = result.playlists.map(item => ({
+            map.playlists = result.playlists.map(item => ({
                 path: `/Playlist?id=${item.id}`,
                 text: item.name,
             }));
         }
-        setDropdownItems(items);
-    }, 800);
+        setDropdownItemsMap(map);
+    }, 800), []);
 
-    const handleSelectChange = (value: string) => {
-        setDropdownItems({});
-        history.push(value);
-    }
+    // 搜索内容变化，获取搜索建议
+    useEffect(() => {
+        if (searchValue) {
+            getSuggest(searchValue);
+        }
+    }, [searchValue]);
 
     return (
-        <Select
-            showSearch
-            className="search"
-            style={{ width: focus ? 320 : 160 }}
-            dropdownMatchSelectWidth={320}
-            placeholder="搜索音乐"
-            value={null}
-            suffixIcon={<SearchOutlined />}
-            onChange={handleSelectChange}
-            onSearch={handleSearch}
-            onKeyDown={(evt) => {
-                if (evt.key === 'Enter') {
-
-                }
-                console.info('onKeyDown', evt.key);
-            }}
-            filterOption={false}
-            onFocus={() => setFocus(true)}
-            onBlur={() => {
-                setFocus(false);
-                setDropdownItems({});
-            }}
-        >
-            {dropdownItems.songs &&
-                <Select.OptGroup label="单曲">
-                    {dropdownItems.songs.map(({ path, text }) =>
-                        <Select.Option key={path} value={path}>{text}</Select.Option>
-                    )}
-                </Select.OptGroup>
+        <div className="search-container">
+            <Input
+                className="search-input"
+                placeholder="搜索音乐"
+                suffix={<SearchOutlined />}
+                ref={inputRef}
+                onFocus={() => setFocus(true)}
+                onBlur={() => setTimeout(setFocus, 100, false)}
+                value={searchValue}
+                onChange={(evt) => setSearchValue(evt.target.value)}
+                onPressEnter={() => {
+                    inputRef.current && inputRef.current.blur();
+                    history.push(`/Search?keyword=${searchValue}`);
+                    setSearchValue('');
+                }}
+                style={{ width: focus ? 320 : 160 }}
+            />
+            {focus &&
+                <div className="search-suggest">
+                    {dropdownItemsMap.songs &&
+                        <div>
+                            <div className="search-suggest-title">单曲</div>
+                            <div className="search-suggest-list">
+                                {dropdownItemsMap.songs.map(item => (
+                                    <Link
+                                        className="search-suggest-item"
+                                        to={item.path}
+                                        key={item.path}
+                                    >
+                                        {item.text}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    }
+                    {dropdownItemsMap.albums &&
+                        <div>
+                            <div className="search-suggest-title">专辑</div>
+                            <div className="search-suggest-list">
+                                {dropdownItemsMap.albums.map(item => (
+                                    <Link
+                                        className="search-suggest-item"
+                                        to={item.path}
+                                        key={item.path}
+                                    >
+                                        {item.text}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    }
+                    {dropdownItemsMap.singers &&
+                        <div>
+                            <div className="search-suggest-title">歌手</div>
+                            <div className="search-suggest-list">
+                                {dropdownItemsMap.singers.map(item => (
+                                    <Link
+                                        className="search-suggest-item"
+                                        to={item.path}
+                                        key={item.path}
+                                    >
+                                        {item.text}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    }
+                    {dropdownItemsMap.playlists &&
+                        <div>
+                            <div className="search-suggest-title">歌单</div>
+                            <div className="search-suggest-list">
+                                {dropdownItemsMap.playlists.map(item => (
+                                    <Link
+                                        className="search-suggest-item"
+                                        to={item.path}
+                                        key={item.path}
+                                    >
+                                        {item.text}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    }
+                </div>
             }
-            {dropdownItems.albums &&
-                <Select.OptGroup label="专辑">
-                    {dropdownItems.albums.map(({ path, text }) =>
-                        <Select.Option key={path} value={path}>{text}</Select.Option>
-                    )}
-                </Select.OptGroup>
-            }
-            {dropdownItems.singers &&
-                <Select.OptGroup label="歌手">
-                    {dropdownItems.singers.map(({ path, text }) =>
-                        <Select.Option key={path} value={path}>{text}</Select.Option>
-                    )}
-                </Select.OptGroup>
-            }
-            {dropdownItems.playlists &&
-                <Select.OptGroup label="歌单">
-                    {dropdownItems.playlists.map(({ path, text }) =>
-                        <Select.Option key={path} value={path}>{text}</Select.Option>
-                    )}
-                </Select.OptGroup>
-            }
-        </Select>
+        </div>
     );
 }
 
