@@ -74,6 +74,7 @@ function Search() {
                 value={searchValue}
                 onChange={(evt) => setSearchValue(evt.target.value)}
                 onPressEnter={() => {
+                    // 按下回车键，跳转到搜索结果页
                     inputRef.current && inputRef.current.blur();
                     history.push(`/Search?keyword=${searchValue}`);
                     setSearchValue('');

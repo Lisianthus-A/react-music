@@ -22,10 +22,87 @@ interface SearchSuggestRes {
             id: number;
             name: string;
         }[];
-    }
+    };
 }
 
-// 搜索关键词
+/**
+ * 搜索关键词
+ * @param keywords 关键词
+ */
 export const searchSuggest = (keywords: string) => {
     return ajax<SearchSuggestRes>(`/search/suggest?keywords=${keywords}`);
+}
+
+// 搜索单曲
+export interface SearchSongRes {
+    result: {
+        songCount: number;
+        songs: {
+            id: number;
+            name: string;
+            fee: number;
+            duration: number;
+            artists: {
+                id: number;
+                name: string;
+            }[];
+            album: {
+                id: number;
+                name: string;
+            };
+        }[];
+    };
+}
+
+// 搜索专辑
+export interface SearchAlbumRes {
+    result: {
+        albumCount: number;
+        albums: {
+            id: number;
+            name: string;
+            picUrl: string;
+            publishTime: number;
+            description: string;
+            artists: {
+                id: number;
+                name: string;
+            }[];
+        }[];
+    };
+}
+
+// 搜索歌手
+export interface SearchSingerRes {
+    result: {
+        artistCount: number;
+        artists: {
+            id: number;
+            name: string;
+            picUrl: string;
+        }[];
+    };
+}
+
+// 搜索歌单
+export interface SearchPlaylistRes {
+    result: {
+        playlistCount: number;
+        playlists: {
+            id: number;
+            name: string;
+            coverImgUrl: string;
+            description: string;
+        }[];
+    };
+}
+
+type SearchRes = SearchSongRes | SearchAlbumRes | SearchSingerRes | SearchPlaylistRes;
+/**
+ * 搜索
+ * @param keywords 关键词
+ * @param type 类型 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单
+ */
+export const search = (keywords: string, type: string) => {
+    return ajax<SearchRes>(`/search?keywords=${keywords}&type=${type}`);
 }
