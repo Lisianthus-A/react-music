@@ -102,7 +102,8 @@ type SearchRes = SearchSongRes | SearchAlbumRes | SearchSingerRes | SearchPlayli
  * 搜索
  * @param keywords 关键词
  * @param type 类型 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单
+ * @param offset 偏移
  */
-export const search = (keywords: string, type: string) => {
-    return ajax<SearchRes>(`/search?keywords=${keywords}&type=${type}`);
+export const search = (keywords: string, type: string, offset: number) => {
+    return ajax<SearchRes>(`/search?keywords=${keywords}&type=${type}&offset=${offset}`);
 }

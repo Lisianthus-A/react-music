@@ -4,7 +4,12 @@ import style from './index.module.scss';
 
 import type { ReactNode } from 'react';
 
-function Tabs({ children }) {
+interface TabsProps {
+    children: ReactNode;
+    onChange?: (activeKey: string) => void;
+}
+
+function Tabs({ children, onChange }: TabsProps) {
     const childrenArray = useMemo(() => React.Children.toArray(children), [children]);
     const [activeKey, setActiveKey] = useState(childrenArray[0].key);
 
@@ -15,7 +20,10 @@ function Tabs({ children }) {
                     <div
                         key={index}
                         className={activeKey === item.key ? style['tab-active'] : style.tab}
-                        onClick={() => setActiveKey(item.key)}
+                        onClick={() => {
+                            setActiveKey(item.key);
+                            onChange && onChange(item.key);
+                        }}
                     >
                         {item.props.text}
                     </div>
