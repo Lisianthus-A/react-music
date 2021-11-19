@@ -19,9 +19,9 @@ function View({ pageState, setPageState }: Props) {
     return (
         <div className={style.view}>
             <Tabs
-                onChange={() => {
+                onChange={(tab) => {
                     // @ts-ignore
-                    setPageState({ type: tab });
+                    setPageState({ type: tab, loading: true, currentPage: 1 });
                 }}
             >
                 <Tabs.Pane key="song" text="单曲">
