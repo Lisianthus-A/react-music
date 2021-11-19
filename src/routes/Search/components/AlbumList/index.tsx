@@ -1,6 +1,5 @@
 import React from 'react';
-import style from './index.module.scss';
-import { Link } from 'react-router-dom';
+import LinkImageList from 'Components/LinkImageList';
 
 interface Props {
     data: {
@@ -13,19 +12,25 @@ interface Props {
 
 function AlbumList({ data }: Props) {
     return (
-        <div className={style.album}>
-            {data.map(({ id, name, singer, picUrl }) => (
-                <div className="album-item" key={id}>
-                    <Link to={`/Album?id=${id}`} className="album-item-image">
-                        <img src={`${picUrl}?param=240y240`} alt={name} loading="lazy" />
-                    </Link>
-                    <Link to={`/Album?id=${id}`} className="album-item-info">
+        <LinkImageList>
+            {data.map(({ id, name, singer, picUrl }) => {
+                const textNode = (
+                    <>
                         <div>{name}</div>
                         <div>{singer.map(({ name }) => name).join(' / ')}</div>
-                    </Link>
-                </div>
-            ))}
-        </div>
+                    </>
+                );
+
+                return (
+                    <LinkImageList.Item
+                        key={id}
+                        linkTo={`/Album?id=${id}`}
+                        src={picUrl}
+                        text={textNode}
+                    />
+                );
+            })}
+        </LinkImageList>
     );
 }
 

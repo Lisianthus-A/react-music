@@ -1,19 +1,23 @@
-.album {
+.link-image-list {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 
     :global {
-        .album-item {
+        .item {
             width: 20%;
             max-width: 240px;
             padding: 8px;
         }
 
-        .album-item-image {
+        .item-image {
             display: block;
             position: relative;
             padding-bottom: 100%;
+        }
+
+        .item-info {
+            color: #000;
         }
 
         img {

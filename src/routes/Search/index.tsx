@@ -54,7 +54,6 @@ function Search() {
         const getData = async () => {
             const offset = (currentPage - 1) * 30;
             const res = await search(keyword, typeMap[type], offset);
-            console.log('res', res);
             let data: any[];
             let total: number;
             if (type === 'song') {

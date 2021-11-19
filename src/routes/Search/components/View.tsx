@@ -5,6 +5,8 @@ import Pagination from 'Components/Pagination';
 import Loading from 'Components/Loading';
 import SongList from 'Components/SongList';
 import AlbumList from './AlbumList';
+import SingerList from './SingerList';
+import PlaylistList from './PlaylistList';
 
 import type { PageState } from '../index';
 
@@ -37,10 +39,16 @@ function View({ pageState, setPageState }: Props) {
                     }
                 </Tabs.Pane>
                 <Tabs.Pane key="singer" text="歌手">
-                    singer
+                    {loading
+                        ? <Loading />
+                        : <SingerList data={data} />
+                    }
                 </Tabs.Pane>
                 <Tabs.Pane key="playlist" text="歌单">
-                    playlist
+                    {loading
+                        ? <Loading />
+                        : <PlaylistList data={data} />
+                    }
                 </Tabs.Pane>
             </Tabs>
             <Pagination
