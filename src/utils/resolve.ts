@@ -57,7 +57,7 @@ export const resolveLyric = (lyricRes: LyricRes): [string, string, number][] => 
     return Object.values(obj).sort((a, b) => a[2] - b[2]);
 }
 
-type SongsType = 'detail' | 'topSong' | 'simiSong' | 'fm';
+type SongsType = 'detail' | 'topSong' | 'simiSong' | 'fm' | 'search';
 /**
  * 解析歌曲列表，返回歌曲数组
  * 
@@ -69,9 +69,9 @@ export const resolveSongs = (songs: any[], type: SongsType): SongItem[] => {
     return songs.map(item => {
         const { id, name } = item;
         // 专辑
-        // topSong 和 fm 接口返回的专辑属性是 album
+        // topSong、fm、search 接口返回的专辑属性是 album
         // 其他的是 al
-        const album = ['topSong', 'fm'].includes(type)
+        const album = ['topSong', 'fm', 'search'].includes(type)
             ? item.album
             : item.al;
 
@@ -83,10 +83,10 @@ export const resolveSongs = (songs: any[], type: SongsType): SongItem[] => {
             : item.artists;
 
         // 时长
-        // simiSong 和 fm 接口返回的时长属性是 duration
+        // simiSong、fm、search 接口返回的时长属性是 duration
         // 其他的是 dt
         // 目前还没使用 simiSong 接口
-        const duration = ['simiSong', 'fm'].includes(type)
+        const duration = ['simiSong', 'fm', 'search'].includes(type)
             ? item.duration
             : item.dt;
 
@@ -102,7 +102,7 @@ export const resolveSongs = (songs: any[], type: SongsType): SongItem[] => {
             singers: singers.map(({ id, name }) => ({ id, name })),
             albumId: album.id,
             albumName: album.name,
-            cover: rp(album.picUrl),
+            cover: rp(album.picUrl || ''),
         };
     });
 }

@@ -1,0 +1,29 @@
+.link-image-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    :global {
+        .item {
+            width: 20%;
+            max-width: 240px;
+            padding: 8px;
+        }
+
+        .item-image {
+            display: block;
+            position: relative;
+            padding-bottom: 100%;
+        }
+
+        .item-info {
+            color: #000;
+        }
+
+        img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}

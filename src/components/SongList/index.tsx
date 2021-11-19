@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect, useMemo, memo } from 'react';
 import style from './index.module.scss';
-import layoutStyle from 'Components/Layout/index.module.scss';
 import Loading from 'Components/Loading';
 import Pagination from 'Components/Pagination';
 import { Link } from 'react-router-dom';
@@ -101,10 +100,6 @@ function SongList({ songList, songIds, isCreator }: Props) {
     useEffect(() => {
         // 根据分页加载数据
         const getData = async () => {
-            // 页面滚动到顶部
-            const el = document.getElementsByClassName(layoutStyle.right)[0];
-            el.scrollTop = 0;
-
             setCurrentList([]);
             const start = (currentPage - 1) * 50;
             const ids = songIds.slice(start, start + 50);

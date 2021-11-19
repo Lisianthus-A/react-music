@@ -4,24 +4,44 @@ import style from './index.module.scss';
 
 import type { ReactNode } from 'react';
 
-function Tabs({ children }) {
-    const childrenArray = useMemo(() => React.Children.toArray(children), [children]);
-    const [activeKey, setActiveKey] = useState(childrenArray[0].key);
+interface TabsProps {
+    children: ReactNode;
+    onChange?: (activeKey: string) => void;
+}
 
+function Tabs({ children, onChange }: TabsProps) {
+    const childrenArray = useMemo(() => {
+        const array: any[] = [];
+        React.Children.forEach(children, (child) => {
+            if (React.isValidElement(child)) {
+                array.push({
+                    key: child.key,
+                    text: child.props.text,
+                    element: child
+                });
+            }
+        });
+        return array;
+    }, [children]);
+
+    const [activeKey, setActiveKey] = useState(childrenArray[0].key);
     return (
         <>
             <div className={style.tabs}>
-                {childrenArray.map((item, index) =>
+                {childrenArray.map(({ key, text }) =>
                     <div
-                        key={index}
-                        className={activeKey === item.key ? style['tab-active'] : style.tab}
-                        onClick={() => setActiveKey(item.key)}
+                        key={key}
+                        className={activeKey === key ? style['tab-active'] : style.tab}
+                        onClick={() => {
+                            setActiveKey(key);
+                            onChange && onChange(key);
+                        }}
                     >
-                        {item.props.text}
+                        {text}
                     </div>
                 )}
             </div>
-            {childrenArray.filter(item => item.key === activeKey)}
+            {childrenArray.filter(item => item.key === activeKey)[0].element}
         </>
     );
 }
