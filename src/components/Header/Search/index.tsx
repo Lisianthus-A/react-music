@@ -78,6 +78,7 @@ function Search() {
                     inputRef.current && inputRef.current.blur();
                     history.push(`/Search?keyword=${searchValue}`);
                     setSearchValue('');
+                    setDropdownItemsMap({});
                 }}
                 style={{ width: focus ? 320 : 160 }}
             />
