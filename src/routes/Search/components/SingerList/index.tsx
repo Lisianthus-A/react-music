@@ -15,7 +15,7 @@ function SingerList({ data }: Props) {
             {data.map(({ id, name, picUrl }) =>
                 <LinkImageList.Item
                     key={id}
-                    linkTo={`/Singer/${id}`}
+                    linkTo={`/Singer?id=${id}`}
                     src={picUrl}
                     text={name}
                 />
