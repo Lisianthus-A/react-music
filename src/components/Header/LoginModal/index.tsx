@@ -23,7 +23,6 @@ function ModalView({ onCancel, setUserInfo }: Props) {
 
     // 登录
     const onFinish = async (values: Record<string, string>) => {
-        console.info('values', values);
         const { username, password } = values;
         // 无效输入
         if (!username || !password) {
