@@ -137,7 +137,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
                         const { id, name, singers, duration, isFree, albumId, albumName } = item;
 
                         return (
-                            <tr key={id} className={isFree ? '' : "fee"}>
+                            <tr key={id} className={isFree ? undefined : "fee"}>
                                 <td>
                                     <span>{(currentPage - 1) * 50 + index + 1}</span>
                                     <CaretRightOutlined
