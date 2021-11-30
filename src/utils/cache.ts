@@ -2,17 +2,13 @@ import type { MusicItem } from './music';
 
 const MAX_CACHE_LEN = 30;  // 最大缓存数量
 
-interface MapKey {
-    id: number;
-}
-
 class MusicCache {
-    private cacheIds: MapKey[];  // 已缓存歌曲的 id 数组
-    private cache: WeakMap<MapKey, MusicItem>;  // 缓存
+    private cacheIds: number[];  // 已缓存歌曲的 id 数组
+    private cache: Map<number, MusicItem>;  // 缓存
 
     constructor() {
         this.cacheIds = [];
-        this.cache = new WeakMap();
+        this.cache = new Map();
     }
 
     /**
@@ -28,9 +24,7 @@ class MusicCache {
         }
 
         // 放入缓存
-        const key = { id };
-        cache.set(key, item);
-        cacheIds.push(key);
+        cache.set(id, item);
     }
 
     /**
@@ -38,13 +32,7 @@ class MusicCache {
      * @param id 歌曲 id
      */
     get(id: number): MusicItem | null {
-        const { cacheIds } = this;
-        const key = cacheIds.find(item => item.id === id);
-        if (!key) {
-            return null;
-        }
-
-        return this.cache.get(key);
+        return this.cache.get(id) || null;
     }
 
     /**
@@ -53,10 +41,10 @@ class MusicCache {
      */
     del(id: number): void {
         const { cache, cacheIds } = this;
-        const index = cacheIds.findIndex(item => item.id === id);
+        const index = cacheIds.findIndex(item => item === id);
         if (index !== -1) {
-            const key = cacheIds.splice(index, 1)[0];
-            cache.delete(key);
+            cacheIds.splice(index, 1);
+            cache.delete(id);
         }
     }
 
@@ -64,10 +52,8 @@ class MusicCache {
      * 删除所有歌曲缓存
      */
     delAll() {
-        const { cache, cacheIds } = this;
-        for (const key of cacheIds) {
-            cache.delete(key);
-        }
+        const { cache } = this;
+        cache.clear();
         this.cacheIds = [];
     }
 }
