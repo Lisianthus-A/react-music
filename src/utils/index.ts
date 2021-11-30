@@ -13,7 +13,7 @@ export const hasToken = (): boolean => {
     }
 
     const token = localStorage.getItem('token');
-    return !!token;
+    return Boolean(token);
 }
 
 /**

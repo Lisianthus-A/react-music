@@ -66,19 +66,24 @@ export const songlistTracks = (opt: 'add' | 'del', playlistId: number | string, 
     return ajax(`/playlist/tracks?op=${opt}&pid=${playlistId}&tracks=${songId}`);
 }
 
-//收藏 / 取消收藏歌单  type --> 1 收藏 2 取消收藏  id --> 歌单id
-export const songlistSubscribe = async (id, type = 1) => {
-    const result = await ajax(`/playlist/subscribe?t=${type}&id=${id}`);
-    return result;
+/**
+ * 收藏 / 取消收藏歌单
+ * @param id 歌单 id
+ * @param type 1: 收藏 2: 取消收藏
+ */
+export const songlistSubscribe = (id: number | string, type: number | string = 1) => {
+    return ajax(`/playlist/subscribe?t=${type}&id=${id}`);
 }
 
-//删除歌单
-export const deleteSonglist = async (id) => {
-    const result = await ajax(`/playlist/delete?id=${id}`);
-    return result;
+/**
+ * 删除歌单
+ * @param id 歌单 id
+ */
+export const deleteSonglist = (id: number | string) => {
+    return ajax(`/playlist/delete?id=${id}`);
 }
 
-interface UserSonglistRes {
+export interface UserSonglistRes {
     playlist: {
         id: number;
         name: string;
