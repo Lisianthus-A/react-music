@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import style from './index.module.scss';
-import { FuncContext } from 'AppContainer/index';
+import { FuncContext, StateContext } from 'AppContainer/index';
 import { Link } from 'react-router-dom';
 import { CaretRightOutlined } from '@ant-design/icons';
 
@@ -13,12 +13,17 @@ interface Props {
 
 function RecentSonglist({ data }: Props) {
 
-    const { playSong } = useContext(FuncContext);
+    const { playSong, setPlaylist } = useContext(FuncContext);
+    const { playlist } = useContext(StateContext);
 
     // 播放点击的歌曲
     const handlePlay = (e: MouseEvent, index: number) => {
         e.preventDefault();
-        playSong(data[index]);
+        const clickSong = data[index];
+        const newPlaylist = playlist.slice();
+        newPlaylist.push(clickSong);
+        setPlaylist(newPlaylist);
+        playSong(clickSong);
     }
 
     const renderList = (list: Props['data'], offset: number) => list.map(({ id, name, cover, singers }, idx) =>
