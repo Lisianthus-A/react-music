@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import View from './components/View';
 import { FuncContext } from 'AppContainer/index';
 import { resolveSongs } from 'Utils/resolve';

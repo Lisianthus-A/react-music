@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import style from './index.module.scss';
 import { Slider } from 'antd';
 import { SoundOutlined } from '@ant-design/icons';

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useMemo, useState } from 'react';
 import style from './index.module.scss';
 
@@ -25,6 +24,7 @@ function Tabs({ children, onChange }: TabsProps) {
     }, [children]);
 
     const [activeKey, setActiveKey] = useState(childrenArray[0].key);
+
     return (
         <>
             <div className={style.tabs}>
@@ -52,7 +52,7 @@ interface Props {
 }
 
 function Pane(props: Props): JSX.Element {
-    return props.children;
+    return props.children as JSX.Element;
 }
 
 Tabs.Pane = Pane;

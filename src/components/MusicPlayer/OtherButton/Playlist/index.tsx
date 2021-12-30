@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext, useState } from 'react';
+import { useRef, useEffect, useContext, useState } from 'react';
 import style from './index.module.scss';
 import {
     UnorderedListOutlined,

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import View from './components/View';
 import { search } from 'Apis/search';
 import { replaceHttpToHttps as rp } from 'Utils/index';

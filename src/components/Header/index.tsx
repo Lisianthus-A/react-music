@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo } from 'react';
 import style from './index.module.scss';
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
@@ -14,7 +14,6 @@ interface UserInfo {
 function Header() {
     const [userInfo, setUserInfo] = useState<UserInfo>({ name: null, avatar: null });
     const [visible, setVisible] = useState(false);
-
 
     useEffect(() => {
         // token 未过期

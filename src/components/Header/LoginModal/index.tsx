@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Form, Input, Button, Modal } from 'antd';
 import { emailLogin, phoneLogin } from 'Apis/login';
 import { replaceHttpToHttps as rp } from 'Utils/index';

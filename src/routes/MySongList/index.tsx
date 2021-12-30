@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { userPlaylist, deleteSonglist } from 'Apis/playlist';
 import { Modal } from 'antd';
 import View from './components/View';

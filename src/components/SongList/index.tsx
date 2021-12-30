@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo, memo } from 'react';
+import { Fragment, useState, useContext, useEffect, memo } from 'react';
 import style from './index.module.scss';
 import Loading from 'Components/Loading';
 import Pagination from 'Components/Pagination';
@@ -163,12 +163,12 @@ function SongList({ songList, songIds, isCreator }: Props) {
                                 <td>{convertTime(duration)}</td>
                                 <td>
                                     {singers.map(({ id, name }, idx) =>
-                                        <React.Fragment key={idx}>
+                                        <Fragment key={idx}>
                                             <Link to={`/Singer?id=${id}`} title={name} className={style.singer}>{name}</Link>
                                             {idx !== singers.length - 1 &&
                                                 <span> / </span>
                                             }
-                                        </React.Fragment>
+                                        </Fragment>
                                     )}
                                 </td>
                                 <td><Link to={`/Album?id=${albumId}`} title={albumName}>{albumName}</Link></td>

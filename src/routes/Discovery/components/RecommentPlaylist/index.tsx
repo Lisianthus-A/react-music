@@ -1,4 +1,3 @@
-import React from 'react';
 import style from './index.module.scss';
 import { Link } from 'react-router-dom';
 import { CustomerServiceOutlined, CaretRightOutlined } from '@ant-design/icons';

@@ -1,4 +1,4 @@
-import React, { Suspense, memo } from 'react';
+import { Suspense, memo } from 'react';
 import style from './index.module.scss';
 import Loading from 'Components/Loading';
 import Header from 'Components/Header';

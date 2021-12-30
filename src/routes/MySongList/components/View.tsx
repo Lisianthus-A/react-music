@@ -1,4 +1,3 @@
-import React from 'react';
 import style from './View.module.scss';
 import { Link } from 'react-router-dom';
 import { DeleteOutlined } from '@ant-design/icons';

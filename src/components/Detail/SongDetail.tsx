@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { Fragment, useContext } from 'react';
 import { FuncContext, StateContext } from 'AppContainer/index';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
@@ -66,10 +66,10 @@ function SongDetail({ detailData, songData, lyric }: Props) {
                 <div className="singer">
                     歌手：
                     {singers.map(({ id, name }, idx) =>
-                        <React.Fragment key={idx}>
+                        <Fragment key={idx}>
                             <Link to={`/Singer?id=${id}`}>{name}</Link>
                             <span> / </span>
-                        </React.Fragment>
+                        </Fragment>
                     )}
                 </div>
                 <div>

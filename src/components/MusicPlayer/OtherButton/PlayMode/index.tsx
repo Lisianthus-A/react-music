@@ -1,4 +1,4 @@
-import React, { memo, useContext } from 'react';
+import { memo, useContext } from 'react';
 import style from './index.module.scss';
 import { FuncContext } from 'AppContainer/index';
 import CustomIcon from 'Components/CustomIcon';

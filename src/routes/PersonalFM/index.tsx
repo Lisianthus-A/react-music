@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import style from './index.module.scss';
 import layoutStyle from 'Components/Layout/index.module.scss';
 import { Link } from 'react-router-dom';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { songComment, songDetail, getLyric } from 'Apis/song';
 import { useQuery } from 'Utils/hooks';
 import { resolveLyric, resolveDetail, resolveSongs } from 'Utils/resolve';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useQuery } from 'Utils/hooks';
 
 const User = () => {

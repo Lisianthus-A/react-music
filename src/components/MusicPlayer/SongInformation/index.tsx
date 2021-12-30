@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import style from './index.module.scss';
 import { Link } from 'react-router-dom';
 import { convertTime } from 'Utils/index';

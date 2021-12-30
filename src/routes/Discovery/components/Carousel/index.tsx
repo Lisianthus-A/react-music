@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import style from './index.module.scss';
 import { debounce, replaceHttpToHttps as rp } from 'Utils/index';

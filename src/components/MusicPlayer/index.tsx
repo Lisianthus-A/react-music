@@ -1,4 +1,4 @@
-import React, { memo, useContext, useState } from 'react';
+import { memo, useContext, useState } from 'react';
 import style from './index.module.scss';
 import { StateContext } from 'AppContainer/index';
 import { useInterval } from 'Utils/hooks';

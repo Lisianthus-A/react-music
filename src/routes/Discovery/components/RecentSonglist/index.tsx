@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import style from './index.module.scss';
 import { FuncContext, StateContext } from 'AppContainer/index';
 import { Link } from 'react-router-dom';

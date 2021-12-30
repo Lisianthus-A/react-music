@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { FuncContext } from 'AppContainer/index';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';

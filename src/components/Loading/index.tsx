@@ -1,4 +1,3 @@
-import React from 'react';
 import './index.css';
 
 const array = new Array(16).fill(0);

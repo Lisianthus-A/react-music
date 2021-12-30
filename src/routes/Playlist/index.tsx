@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from 'Utils/hooks';
 import { resolveDetail } from 'Utils/resolve';
 import { playlistDetail, playlistComment  } from 'Apis/playlist';

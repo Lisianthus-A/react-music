@@ -1,4 +1,3 @@
-import React from 'react';
 import style from './index.module.scss';
 import Playlist from './Playlist';
 import PlayMode from './PlayMode';

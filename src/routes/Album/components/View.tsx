@@ -1,4 +1,3 @@
-import React from 'react';
 import style from './View.module.scss';
 import Detail from 'Components/Detail';
 import SongList from 'Components/SongList';

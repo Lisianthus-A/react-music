@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import style from './index.module.scss';
 import { Link } from 'react-router-dom';
 import { LikeOutlined } from '@ant-design/icons';

@@ -1,4 +1,3 @@
-import React from 'react';
 import style from './View.module.scss';
 
 import Loading from 'Components/Loading';

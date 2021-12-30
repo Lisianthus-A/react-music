@@ -1,4 +1,3 @@
-import React from 'react';
 import LinkImageList from 'Components/LinkImageList';
 
 interface Props {
