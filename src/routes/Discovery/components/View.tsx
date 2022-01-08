@@ -7,7 +7,7 @@ import RecentSonglist from './RecentSonglist';
 import type { PageState } from '../index';
 
 interface Props {
-    pageState: PageState;
+    pageState: PageState | null;
     onPlayAll: (id: number) => Promise<void>;
 }
 

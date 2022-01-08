@@ -7,7 +7,7 @@ import Loading from 'Components/Loading';
 import type { PageState } from '../index';
 
 interface Props {
-    pageState: PageState;
+    pageState: PageState | null;
 }
 
 function View({ pageState }: Props) {

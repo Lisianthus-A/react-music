@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import style from './index.module.scss';
 import { debounce, replaceHttpToHttps as rp } from 'Utils/index';
 import { useInterval } from 'Utils/hooks';
@@ -13,7 +13,7 @@ interface Props {
 
 function Carousel({ data }: Props) {
     const len = data.length;
-    const history = useHistory();
+    const navigate = useNavigate();
     const [activeIndex, setActiveIndex] = useState(0);
     // 是否开启轮播
     const [autoPlay, setAutoPlay] = useState(true);
@@ -67,16 +67,16 @@ function Carousel({ data }: Props) {
         if (activeIndex === index) {
             switch (type) {
                 case 1:  //歌曲
-                    history.push(`/Song?id=${id}`);
+                    navigate(`/Song?id=${id}`);
                     break;
                 case 10:  //专辑
-                    history.push(`/Album?id=${id}`);
+                    navigate(`/Album?id=${id}`);
                     break;
                 case 1000: //歌单
-                    history.push(`SongList?id=${id}`);
+                    navigate(`SongList?id=${id}`);
                     break;
                 case 1004:  //视频 
-                    history.push(`/Video?id=${id}`);
+                    navigate(`/Video?id=${id}`);
                     break;
                 case 3000:  //广告
                     window.open(url);

@@ -33,23 +33,23 @@ function MySongList() {
             onOk: () => {
                 let nextState;
                 if (type === 1) {  // 删除创建的歌单
-                    const idx = pageState.create.findIndex(e => e.id === id);
-                    const create = pageState.create.slice();
+                    const idx = pageState!.create.findIndex(e => e.id === id);
+                    const create = pageState!.create.slice();
                     create.splice(idx, 1);
                     nextState = {
                         ...pageState,
                         create
                     };
                 } else {  // 删除收藏的歌单
-                    const idx = pageState.subscribe.findIndex(e => e.id === id);
-                    const subscribe = pageState.subscribe.slice();
+                    const idx = pageState!.subscribe.findIndex(e => e.id === id);
+                    const subscribe = pageState!.subscribe.slice();
                     subscribe.splice(idx, 1);
                     nextState = {
                         ...pageState,
                         subscribe
                     };
                 }
-                setPageState(nextState);
+                setPageState(nextState as any);
                 return deleteSonglist(id);
             },
             onCancel: () => {
@@ -66,7 +66,7 @@ function MySongList() {
     useEffect(() => {
         const getData = async () => {
             const listData = await userPlaylist(userid);
-            const state = {
+            const state: any = {
                 create: [],
                 subscribe: []
             };

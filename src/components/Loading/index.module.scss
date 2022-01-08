@@ -1,0 +1,74 @@
+@keyframes scale-out-in {
+    35% {
+        transform: scale(0);
+    }
+
+    70% {
+        transform: scale(1);
+    }
+}
+
+
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    :global {
+        .loader {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .loading-text {
+            color: #000;
+            margin-top: 10px;
+        }
+
+        .square:local {
+            width: 25%;
+            height: 25%;
+            background: #5f9cec;
+            animation: scale-out-in 1.4s ease-in-out infinite;
+        }
+
+        .square:nth-child(13) {
+            animation-delay: 0s;
+        }
+
+        .square:nth-child(9),
+        .square:nth-child(14) {
+            animation-delay: 0.1s;
+        }
+
+        .square:nth-child(5),
+        .square:nth-child(10),
+        .square:nth-child(15) {
+            animation-delay: 0.2s;
+        }
+
+        .square:nth-child(1),
+        .square:nth-child(6),
+        .square:nth-child(11),
+        .square:nth-child(16) {
+            animation-delay: 0.3s;
+        }
+
+        .square:nth-child(2),
+        .square:nth-child(3),
+        .square:nth-child(7),
+        .square:nth-child(8),
+        .square:nth-child(12) {
+            animation-delay: 0.4s;
+        }
+
+        .square:nth-child(4) {
+            animation-delay: 0.5s;
+        }
+    }
+}

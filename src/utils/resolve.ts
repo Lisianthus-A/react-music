@@ -7,6 +7,7 @@ import type { LyricRes } from 'Apis/song';
  * 将形如 03:40.00 的字符串转为秒数
  */
 const convertStringToSeconds = (str: string): number => {
+    // @ts-ignore
     const [min, s, ms] = str.match(/\d+/g);
     return Number(min) * 60 + Number(s) + Number(ms) * 0.001;
 }
@@ -36,6 +37,7 @@ export const resolveLyric = (lyricRes: LyricRes): [string, string, number][] => 
         const lrc = str.slice(idx + 1);
         // 匹配到的所有时间
         const times = str.match(/\d+\:\d+[\.\:]\d+/g);
+        // @ts-ignore
         times.forEach(time => {
             // 歌词对应的秒数
             const second = convertStringToSeconds(time);
@@ -99,6 +101,7 @@ export const resolveSongs = (songs: any[], type: SongsType): SongItem[] => {
             name,
             isFree,
             duration: duration * 0.001,
+            // @ts-ignore
             singers: singers.map(({ id, name }) => ({ id, name })),
             albumId: album.id,
             albumName: album.name,
@@ -146,11 +149,13 @@ export const resolveDetail = (res: any): Record<string, any> => {
         return { isPlaylist, isAlbum, isSong, title, cover, creator, isCreator, tags, description };
     } else if (isAlbum) {  // 专辑
         const { name: title, publishTime, description } = res.album;
+        // @ts-ignore
         const singers = res.album.artists.map(({ id, name }) => ({ id, name }));
         const cover = rp(res.album.picUrl);
         return { isPlaylist, isAlbum, isSong, title, cover, singers, publishTime, description };
     } else {  // 单曲
         const { name: title, al: { id: albumId, name: albumName } } = res.songs[0];
+        // @ts-ignore
         const singers = res.songs[0].ar.map(({ id, name }) => ({ id, name }));
         const cover = rp(res.songs[0].al.picUrl);
         return { isPlaylist, isAlbum, isSong, title, cover, singers, albumId, albumName };

@@ -19,8 +19,8 @@ function Singer() {
 
     useEffect(() => {
         const getData = async () => {
-            const singerRes = await singerInfo(id);
-            const descRes = await singerDesc(id);
+            const singerRes = await singerInfo(id as string);
+            const descRes = await singerDesc(id as string);
 
             const header = {
                 name: singerRes.artist.name,

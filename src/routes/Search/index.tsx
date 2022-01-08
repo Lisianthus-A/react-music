@@ -54,8 +54,8 @@ function Search() {
         const getData = async () => {
             const offset = (currentPage - 1) * 30;
             const res = await search(keyword, typeMap[type], offset);
-            let data: any[];
-            let total: number;
+            let data: any[] = [];
+            let total: number = 0;
             if (type === 'song') {
                 data = resolveSongs((res as SearchSongRes).result.songs, 'search');
                 total = (res as SearchSongRes).result.songCount;

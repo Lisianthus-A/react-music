@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import type { ReactNode } from 'react';
 
-function LinkImageList({ children }) {
+function LinkImageList({ children }: any) {
     return (
         <div className={style['link-image-list']}>
             {children}

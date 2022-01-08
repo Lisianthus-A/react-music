@@ -47,6 +47,7 @@ export const throttle = (fn: Function, timeout: number) => {
     return function (...args: any[]) {  // 使用 function，防止丢失 this
         if (canRun) {
             canRun = false;
+            // @ts-ignore
             fn.call(this, ...args);
             setTimeout(() => {
                 canRun = true;
@@ -63,6 +64,7 @@ export const debounce = (fn: Function, timeout: number) => {
     return function (...args: any[]) {  // 使用 function，防止丢失 this
         clearTimeout(timer);
         timer = setTimeout(() => {
+            // @ts-ignore
             fn.call(this, ...args);
         }, timeout);
     }

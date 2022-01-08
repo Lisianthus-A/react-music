@@ -37,13 +37,14 @@ function PersonalFM() {
 
         // 如果歌词面板打开了，则关闭面板
         const toggleList = document.getElementById('toggleList');
-        (toggleList as HTMLInputElement).checked && toggleList.click();
+        // @ts-ignore
+        toggleList.checked && toggleList.click();
 
         // 暂停外部音乐播放器的歌曲
         pauseSong();
 
         // 暂存 mediaSession metadata
-        let preMetaData = null;
+        let preMetaData: any = null;
         if (navigator.mediaSession) {
             preMetaData = navigator.mediaSession.metadata;
         }
@@ -64,7 +65,7 @@ function PersonalFM() {
     }, []);
 
     const [like, setLike] = useState<boolean>(false);  // 喜欢
-    const [playingSong, setPlayingSong] = useState<SongItem>(null);  // 正在播放的歌曲
+    const [playingSong, setPlayingSong] = useState<SongItem | null>(null);  // 正在播放的歌曲
     const [songList, setSongList] = useState<SongItem[]>([]);  // 歌曲列表
     const [playing, setPlaying] = useState<boolean>(false);  // 是否正在播放
     const audioRef = useRef<HTMLAudioElement>(null);
@@ -82,7 +83,7 @@ function PersonalFM() {
             const list = resolveSongs(fmRes.data, 'fm');
             if (!playingSong) {  //首次加载
                 const song = list.pop();
-                setPlayingSong(song);
+                setPlayingSong(song as any);
             }
             setSongList(list);
         }
@@ -92,9 +93,9 @@ function PersonalFM() {
     // 播放或暂停
     const handlePlayOrPause = () => {
         if (playing) {
-            audioRef.current.pause();
+            audioRef.current!.pause();
         } else {
-            audioRef.current.play();
+            audioRef.current!.play();
         }
         setPlaying(!playing);
     }
@@ -102,12 +103,12 @@ function PersonalFM() {
     // 喜欢
     const handleLike = () => {
         setLike(true);
-        collectSong(playingSong.id);
+        collectSong(playingSong!.id);
     }
 
     // 不喜欢
     const handleUnlike = () => {
-        unlike(playingSong.id);
+        unlike(playingSong!.id);
         handleNext();
     }
 
@@ -118,7 +119,7 @@ function PersonalFM() {
         }
         const list = songList.slice();
         const music = list.pop();
-        setPlayingSong(music);
+        setPlayingSong(music as any);
         setSongList(list);
         setLike(false);
     }
@@ -126,23 +127,23 @@ function PersonalFM() {
     // 设置进度
     const handleSetProgress = (e: MouseEvent) => {
         const element = progressRef.current;
-        const percent = (e.pageX - element.offsetLeft) / element.clientWidth;
-        audioRef.current.currentTime = percent * playingSong.duration;
+        const percent = (e.pageX - element!.offsetLeft) / element!.clientWidth;
+        audioRef.current!.currentTime = percent * playingSong!.duration;
     }
 
     // 音频可以播放时触发
     const handleCanPlay = () => {
         if (playing) {
-            audioRef.current.play();
+            audioRef.current!.play();
         }
     }
 
     //播放位置改变时触发
     const handleTimeUpdate = (e: any) => {
-        const progress = e.target.currentTime / playingSong.duration * 100 + '%';  //播放进度
-        const time = '-' + convertTime(playingSong.duration - e.target.currentTime);  //剩余时间
-        progressContainerRef.current.style.setProperty('--time', `'${time}'`);
-        progressRef.current.style.setProperty('--progress', progress);
+        const progress = e.target.currentTime / playingSong!.duration * 100 + '%';  //播放进度
+        const time = '-' + convertTime(playingSong!.duration - e.target.currentTime);  //剩余时间
+        progressContainerRef.current!.style.setProperty('--time', `'${time}'`);
+        progressRef.current!.style.setProperty('--progress', progress);
     }
 
     // mediaSession MediaMetadata
@@ -174,15 +175,15 @@ function PersonalFM() {
             return;
         }
         navigator.mediaSession.setActionHandler('play', () => {
-            audioRef.current.play();
+            audioRef.current!.play();
             setPlaying(true);
         });
         navigator.mediaSession.setActionHandler('pause', () => {
-            audioRef.current.pause();
+            audioRef.current!.pause();
             setPlaying(false);
         });
         navigator.mediaSession.setActionHandler('stop', () => {
-            audioRef.current.pause();
+            audioRef.current!.pause();
             setPlaying(false);
         });
         navigator.mediaSession.setActionHandler('previoustrack', null);

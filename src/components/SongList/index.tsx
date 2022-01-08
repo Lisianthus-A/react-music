@@ -85,7 +85,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
             cancelText: '否',
             async onOk() {
                 // 歌单 id
-                await songlistTracks('del', playlistId, songItem.id);
+                await songlistTracks('del', playlistId as string, songItem.id);
                 message.success('已删除');
 
                 // 在 currentList 中删除
@@ -102,7 +102,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
         const getData = async () => {
             setCurrentList([]);
             const start = (currentPage - 1) * 50;
-            const ids = songIds.slice(start, start + 50);
+            const ids = songIds!.slice(start, start + 50);
             const songRes = await songDetail(ids);
             setCurrentList(resolveSongs(songRes.songs, 'detail'));
         }
@@ -120,6 +120,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
         <div className={style.songlist}>
             <div className="title">
                 歌曲列表
+                {/* @ts-ignore */}
                 <span>{(songList || songIds).length}首歌</span>
             </div>
             <table>

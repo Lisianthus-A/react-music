@@ -25,9 +25,11 @@ function Detail({ data }: Props) {
                 <PlaylistDetail detailData={detail} songList={songList} songIds={songIds} />
             }
             {isAlbum &&
+                // @ts-ignore
                 <AlbumDetail detailData={detail} songList={songList} />
             }
             {isSong &&
+                // @ts-ignore
                 <SongDetail detailData={detail} songData={songList[0]} lyric={lyric} />
             }
         </div >

@@ -1,17 +1,16 @@
-import { Suspense, memo } from 'react';
+import { memo } from 'react';
 import style from './index.module.scss';
-import Loading from 'Components/Loading';
 import Header from 'Components/Header';
 import Sidebar from 'Components/Sidebar';
 import MusicPlayer from 'Components/MusicPlayer';
 
-import type { LazyExoticComponent } from 'react';
+import type { ReactElement } from 'react';
 
 interface Props {
-    TargetComponent: LazyExoticComponent<any>;
+    children: ReactElement;
 }
 
-function Layout({ TargetComponent }: Props) {
+function Layout({ children }: Props) {
     return (
         <div className={style.layout}>
             <div className={style.top}>
@@ -23,9 +22,7 @@ function Layout({ TargetComponent }: Props) {
                     <Sidebar />
                 </div>
                 <div className={style.right}>
-                    <Suspense fallback={<Loading />}>
-                        <TargetComponent />
-                    </Suspense>
+                    {children}
                 </div>
             </div>
 

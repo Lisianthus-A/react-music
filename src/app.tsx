@@ -1,13 +1,12 @@
-import { HashRouter } from 'react-router-dom';
-import AppContainer from './containers/index';
-import './app.scss';
+import './app.css';
+import { BrowserRouter } from 'react-router-dom';
+import AppContainer from './containers';
 
 function App() {
-
     return (
-        <HashRouter>
+        <BrowserRouter>
             <AppContainer />
-        </HashRouter>
+        </BrowserRouter>
     );
 }
 

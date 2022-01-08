@@ -1,3 +1,4 @@
+// @ts-ignore
 import FFTJS from './fft';
 import music from './music';
 

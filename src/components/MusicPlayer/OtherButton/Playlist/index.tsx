@@ -29,7 +29,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
-    const activeRef = useRef<Element>(null);
+    const activeRef = useRef<HTMLDivElement>(null);
     const preIdRef = useRef<number>(playingItem.id);
 
     // 清空播放列表
@@ -86,7 +86,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
         }
 
         // 所有歌词 DOM 元素列表
-        const elemList = contentRef.current.getElementsByClassName("lyric");
+        const elemList = contentRef.current!.getElementsByClassName("lyric");
 
         if (elemList.length === 0) {
             return;
@@ -136,20 +136,19 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
         // 移除旧元素的 CSS 类
         activeRef.current && activeRef.current.classList.remove("active");
 
-        // 新元素添加 CSS 类
+        // @ts-ignore 新元素添加 CSS 类
         activeRef.current = elementToScroll;
         elementToScroll.classList.add("active");
 
-        // @ts-ignore
         // 歌词置中 195 = content 高度 / 2 + title 高度
-        const scrollPosition = activeRef.current.offsetTop + activeRef.current.scrollHeight / 2 - 195;
-        contentRef.current.scrollTop = scrollPosition < 0 ? 0 : scrollPosition;
+        const scrollPosition = activeRef.current!.offsetTop + activeRef.current!.scrollHeight / 2 - 195;
+        contentRef.current!.scrollTop = scrollPosition < 0 ? 0 : scrollPosition;
     }, 400);
 
     useEffect(() => {
         if (playingItem.id !== preIdRef.current) {
             activeRef.current && activeRef.current.classList.remove('active');
-            contentRef.current.scrollTop = 0;
+            contentRef.current!.scrollTop = 0;
             preIdRef.current = playingItem.id;
             setLyric(playingItem.lyric);
         } else {
@@ -161,7 +160,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
     useEffect(() => {
         if (canvasRef.current) {
             const ctx = canvasRef.current.getContext('2d');
-            music().setCanvasContext(ctx);
+            music().setCanvasContext(ctx as any);
             music().drawStart();
         }
     }, [canvasRef])

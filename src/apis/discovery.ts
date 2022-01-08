@@ -7,7 +7,7 @@ export interface BannerRes {
         imageUrl: string;
         targetId: number;
         targetType: number;
-        url: string | null;
+        url: string;
     }[];
 }
 

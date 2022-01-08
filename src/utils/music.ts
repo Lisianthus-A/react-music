@@ -54,6 +54,7 @@ class Music {
         this.startTime = false;
         this.playingItem = null;
         this.rejectFn = () => { };
+        this.reqId = 0;
 
         this.drawCanvas = this.drawCanvas.bind(this);
 
@@ -79,13 +80,13 @@ class Music {
         const data = getFreqData(playingItem.abuffer);
 
         // 绘制
-        canvasContext.clearRect(0, 0, W, H);
+        canvasContext!.clearRect(0, 0, W, H);
         const barWidth = W / data.length;
         for (let i = 0; i < data.length; ++i) {
             const barHeight = data[i] * H;
             const x = i * barWidth;
             const y = H - barHeight;
-            canvasContext.fillRect(x, y, barWidth, barHeight);
+            canvasContext!.fillRect(x, y, barWidth, barHeight);
         }
     }
 
@@ -257,7 +258,7 @@ class Music {
      * 停止绘制音乐频谱图
      */
     drawStop() {
-        this.canvasContext.clearRect(0, 0, W, H);
+        this.canvasContext!.clearRect(0, 0, W, H);
         cancelAnimationFrame(this.reqId);
     }
 
@@ -313,7 +314,7 @@ class Music {
      * 获取当前播放的歌曲
      */
     getPlayingItem(): MusicItem['info'] {
-        return this.playingItem.info;
+        return this.playingItem!.info;
     }
 }
 

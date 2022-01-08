@@ -12,6 +12,7 @@ function Introduction ({ data }: Props) {
                 <h2>歌手简介</h2>
                 <span>{briefDesc}</span>
             </div>
+            {/* @ts-ignore */}
             {intro.map(({ ti, txt }, idx) =>
                 <div className="block" key={idx}>
                     <h2>{ti}</h2>

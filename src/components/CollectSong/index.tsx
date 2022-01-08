@@ -9,7 +9,7 @@ interface Props {
 }
 
 function CollectSong({ id }: Props) {
-    const [tree, setTree] = useState(null);
+    const [tree, setTree] = useState<any>(null);
     const [selectedId, setSelectedId] = useState(null);
     const [isLoading, setLoading] = useState(false);
     const userid = window.localStorage.getItem('userid');

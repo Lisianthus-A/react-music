@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { debounce } from 'Utils/index';
@@ -11,12 +11,12 @@ type DropdownItemsMap = Record<string, {
 }[]>;
 
 function Search() {
-    const history = useHistory();
+    const navigate = useNavigate();
     // 当前搜索内容
     const [searchValue, setSearchValue] = useState<string>('');
     // 搜索框是否 focus
     const [focus, setFocus] = useState(false);
-    const inputRef = useRef(null);
+    const inputRef = useRef<any>(null);
     // 下拉列表
     const [dropdownItemsMap, setDropdownItemsMap] = useState<DropdownItemsMap>({});
 
@@ -76,7 +76,7 @@ function Search() {
                 onPressEnter={() => {
                     // 按下回车键，跳转到搜索结果页
                     inputRef.current && inputRef.current.blur();
-                    history.push(`/Search?keyword=${searchValue}`);
+                    navigate(`/Search?keyword=${searchValue}`);
                     setSearchValue('');
                     setDropdownItemsMap({});
                 }}

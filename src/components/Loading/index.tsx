@@ -1,16 +1,22 @@
-import './index.css';
+import styles from './index.module.scss';
 
 const array = new Array(16).fill(0);
 
-function Loading() {
+interface Props {
+    text?: string;
+}
+
+function Loading({ text }: Props) {
     return (
-        <div className="loading-container">
+        <div className={styles.container}>
             <div className="loader">
                 {array.map((_, idx) =>
                     <div className="square" key={idx} />
                 )}
             </div>
-            <div className="loading-text">加载中</div>
+            <div className="loading-text">
+                {text || "加载中"}
+            </div>
         </div>
     );
 }

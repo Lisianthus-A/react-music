@@ -1,74 +1,32 @@
 {
-  "name": "react-music",
-  "version": "1.0.0",
-  "private": true,
-  "description": "基于 React + TypeScript 的仿网易云音乐播放器",
-  "main": "index.js",
-  "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run front\"",
-    "front": "webpack-dev-server --inline --config ./config/webpack.dev.config.js",
-    "server": "node ./server/app.js",
-    "build": "webpack --config ./config/webpack.prod.config.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lisianthus-a/react-music.git"
-  },
-  "keywords": [
-    "react",
-    "react hook",
-    "music",
-    "网易云音乐",
-    "音乐",
-    "网易云"
-  ],
-  "author": "Lisianthus-A",
-  "license": "MIT",
-  "dependencies": {
-    "@ant-design/icons": "^4.7.0",
-    "@types/react-router-dom": "^5.1.8",
-    "antd": "^4.16.13",
-    "axios": ">=0.21.4",
-    "core-js": "^3.18.2",
-    "express": "^4.17.1",
-    "express-fileupload": "^1.2.0",
-    "pac-proxy-agent": "^5.0.0",
-    "react": "^16.14.0",
-    "react-dom": "^16.13.1",
-    "react-router": "^5.2.1",
-    "react-router-dom": "^5.2.0",
-    "request": "^2.88.2"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.15.6",
-    "@babel/preset-react": "^7.12.10",
-    "@types/react": "^17.0.20",
-    "@types/react-dom": "^17.0.9",
-    "@types/react-router": "^5.1.16",
-    "@types/wicg-mediasession": "^1.1.3",
-    "autoprefixer": "^10.3.4",
-    "babel-loader": "^8.2.2",
-    "clean-webpack-plugin": "^3.0.0",
-    "concurrently": "^6.3.0",
-    "copy-webpack-plugin": "^6.4.1",
-    "css-loader": "^5.2.7",
-    "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^4.4.1",
-    "mini-css-extract-plugin": "^1.6.2",
-    "node-sass": "^6.0.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.8",
-    "postcss": "^8.3.9",
-    "postcss-loader": "^4.1.0",
-    "sass-loader": "^10.0.5",
-    "style-loader": "^2.0.0",
-    "ts-loader": "^8.3.0",
-    "typescript": "^4.4.3",
-    "uglifyjs-webpack-plugin": "^2.2.0",
-    "url-loader": "^4.1.1",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^5.7.3"
-  }
+    "name": "vite-app",
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "server": "node ./server/app.js",
+        "predev": "node ./scripts/generateRoute.js",
+        "prebuild": "node ./scripts/generateRoute.js"
+    },
+    "dependencies": {
+        "@ant-design/icons": "^4.7.0",
+        "antd": "^4.18.2",
+        "axios": "^0.24.0",
+        "express": "^4.17.2",
+        "express-fileupload": "^1.2.1",
+        "pac-proxy-agent": "^5.0.0",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-router-dom": "^6.2.1",
+        "request": "^2.88.2"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.8",
+        "@types/react": "^17.0.33",
+        "@types/react-dom": "^17.0.10",
+        "@vitejs/plugin-react": "^1.0.7",
+        "sass": "^1.47.0",
+        "typescript": "^4.4.4",
+        "vite": "^2.7.2"
+    }
 }

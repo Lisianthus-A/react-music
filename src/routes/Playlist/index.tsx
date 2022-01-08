@@ -17,7 +17,7 @@ export interface PageState {
 
 function Playlist() {
     const id = useQuery('id');
-    if (!/\d+/.test(id)) {
+    if (!/\d+/.test(id as string)) {
         return <div>id 错误</div>;
     }
 
@@ -33,13 +33,13 @@ function Playlist() {
 
     useEffect(() => {
         const getData = async () => {
-            const detailRes = await playlistDetail(id);
+            const detailRes = await playlistDetail(id as string);
             // 详情
             const detail = resolveDetail(detailRes);  
             // 所有歌曲 id
             const songIds = detailRes.playlist.trackIds.map(({ id }) => id);
             // 评论
-            const comment = await playlistComment(id);
+            const comment = await playlistComment(id as string);
 
             setPageState({ detail, songIds, comment });
         }

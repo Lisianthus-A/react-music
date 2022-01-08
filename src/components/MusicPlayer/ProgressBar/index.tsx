@@ -17,8 +17,8 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
     // 文本框是否可见
     const [visible, setVisible] = useState(false);
 
-    const railRef = useRef(null);
-    const tipRef = useRef(null);
+    const railRef = useRef<HTMLDivElement>(null);
+    const tipRef = useRef<HTMLDivElement>(null);
     const { playSong } = useContext(FuncContext);
 
     // 鼠标按下
@@ -34,8 +34,8 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
         setVisible(true);
         const width = window.innerWidth < 1000 ? 1000 : window.innerWidth;
         const percent = e.clientX / width;
-        railRef.current.style.width = `${percent * 100}%`;
-        tipRef.current.textContent = convertTime(percent * duration);
+        railRef.current!.style.width = `${percent * 100}%`;
+        tipRef.current!.textContent = convertTime(percent * duration);
     }
 
     // 鼠标抬起
@@ -68,14 +68,14 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
         } else if (percent < 0) {
             percent = 0;
         }
-        railRef.current.style.width = `${percent * 100}%`;
-        tipRef.current.textContent = convertTime(percent * duration);
+        railRef.current!.style.width = `${percent * 100}%`;
+        tipRef.current!.textContent = convertTime(percent * duration);
     }
 
     const railStyle = useMemo(() => {
         // 文本框可见，说明正在拖动
         if (visible) {
-            return { width: railRef.current.style.width };
+            return { width: railRef.current!.style.width };
         }
 
         return { width: `${currentTime / duration * 100}%` };

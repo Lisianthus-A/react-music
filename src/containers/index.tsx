@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
 import { useSetState } from 'Utils/hooks';
 import { Modal, message } from 'antd';
 import music from 'Utils/music';
-import routes from '../routes';
 import Layout from 'Components/Layout';
+import Controller from "../routeController";
 import CollectSong from 'Components/CollectSong';
 // 全局引入 antd css
 import 'antd/dist/antd.min.css';
@@ -60,26 +59,14 @@ interface FuncCtx {
 }
 
 // 是否播放中、播放列表、播放模式、当前播放音乐
-export const StateContext = React.createContext<State>(null);
-// 封装好的一些用于改变 state 的函数
+export const StateContext = React.createContext<State>(initialState);
+// @ts-ignore 封装好的一些用于改变 state 的函数
 export const FuncContext = React.createContext<FuncCtx>(null);
 
+const audio: HTMLAudioElement = document.getElementById('audio') as any;
+
 function AppContainer() {
-    const { pathname } = useLocation();
-    const history = useHistory();
     const [state, setState] = useSetState<State>(initialState);
-    const audioRef = useRef<HTMLAudioElement>(null);
-
-    // 访问路径不在路由列表中，跳转到发现页面
-    if (!routes.includes(pathname)) {
-        history.replace('/Discovery');
-    }
-
-    // 目标路由的组件
-    const TargetComponent = useMemo(() =>
-        React.lazy(() => import(`../routes${pathname}`)),
-        [pathname]
-    );
 
     const globalFunc = useMemo(() => {
         // 根据播放模式获取上一首 / 下一首歌曲
@@ -130,7 +117,7 @@ function AppContainer() {
             });
             music().play(id, offset).then(isDone => {
                 if (isDone) {
-                    audioRef.current.play();
+                    audio.play();
                     setState({
                         playingItem: music().getPlayingItem()
                     });
@@ -152,7 +139,7 @@ function AppContainer() {
 
         // 暂停歌曲
         const pauseSong = () => {
-            audioRef.current.pause();
+            audio.pause();
             music().pause();
             setState({ isPlaying: false });
         }
@@ -246,9 +233,9 @@ function AppContainer() {
     return (
         <FuncContext.Provider value={globalFunc}>
             <StateContext.Provider value={state}>
-                <Layout TargetComponent={TargetComponent} />
-                {/* 无声 audio ，用于获得 Audio Focus */}
-                <audio ref={audioRef} src="./silence.mp3" loop />
+                <Layout>
+                    <Controller />
+                </Layout>
             </StateContext.Provider>
         </FuncContext.Provider>
     );

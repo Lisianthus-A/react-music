@@ -20,7 +20,7 @@ class MusicCache {
         // 缓存数超过限制，删除最早放入的缓存项
         if (cacheIds.length >= MAX_CACHE_LEN) {
             const firstKey = cacheIds.shift();
-            cache.delete(firstKey);
+            cache.delete(firstKey as number);
         }
 
         // 放入缓存

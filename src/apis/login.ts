@@ -1,6 +1,7 @@
 // 登录相关 API
 
 import ajax from './apiBase';
+// @ts-ignore
 import md5 from 'Utils/md5';
 
 // 邮箱登录
