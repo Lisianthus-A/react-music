@@ -1,1 +1,0 @@
-import{u as d}from"./index.39ed000d.js";import{b as r,j as s}from"./vendor.fb93b9f7.js";const i=()=>{const e=d("id");return r("div",{className:"video",children:["Video Id=",e]})};var o=i,t=()=>s(o,{});export{t as default};
