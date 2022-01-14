@@ -23,13 +23,13 @@ const dfs = (dir, isDynamic) => {
             if (fileName.toLocaleLowerCase() === 'index.tsx') {
                 routes += '\n    {\n';
                 routes += `        isDynamic: ${isDynamic},\n`;
-                routes += `        path: "${dir.slice(13) || "/"}",\n`;
-                routes += `        component: () => import("./routes${dir.slice(13)}")\n    },`;
+                routes += `        path: "${dir.slice(12) || "/"}",\n`;
+                routes += `        component: () => import("./pages${dir.slice(12)}")\n    },`;
             }
         }
     });
 };
 
-dfs('../src/routes', false);
+dfs('../src/pages', false);
 routes += '\n];';
 fs.writeFileSync(path.join(__dirname, '../src/routes.tsx'), routes);
