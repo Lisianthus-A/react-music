@@ -108,7 +108,7 @@ const listen = async () => {
             server.listen(p, (err) => {
                 err && console.log(err);
                 !err && console.log(`server runing on port: ${p}`);
-                !err && openBrowser && exec(`start http://localhost:${p}/react-music`);
+                !err && openBrowser && exec(`start http://localhost:${p}`);
             });
             return;
         }
