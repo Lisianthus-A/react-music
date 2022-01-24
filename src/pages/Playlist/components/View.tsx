@@ -1,8 +1,5 @@
 import style from './View.module.scss';
-import Detail from 'Components/Detail';
-import SongList from 'Components/SongList';
-import CommentList from 'Components/CommentList';
-import Loading from 'Components/Loading';
+import { Detail, SongList, CommentList, Loading } from 'Components/index';
 
 import type { PageState } from '../index';
 

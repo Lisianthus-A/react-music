@@ -1,9 +1,6 @@
 import style from './View.module.scss';
-
-import Loading from 'Components/Loading';
-import SongList from 'Components/SongList';
+import { Loading, SongList, Tabs } from 'Components/index';
 import Header from './Header';
-import Tabs from 'Components/Tabs';
 import Introduction from './Introduction';
 
 import type { PageState } from '../index';

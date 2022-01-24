@@ -1,7 +1,5 @@
 import style from './View.module.scss';
-import Detail from 'Components/Detail';
-import CommentList from 'Components/CommentList';
-import Loading from 'Components/Loading';
+import { Detail, CommentList, Loading } from 'Components/index';
 
 import type { PageState } from '../index';
 

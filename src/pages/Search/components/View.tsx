@@ -1,8 +1,5 @@
 import style from './View.module.scss';
-import Tabs from 'Components/Tabs';
-import Pagination from 'Components/Pagination';
-import Loading from 'Components/Loading';
-import SongList from 'Components/SongList';
+import { Tabs, Pagination, Loading, SongList } from 'Components/index';
 import AlbumList from './AlbumList';
 import SingerList from './SingerList';
 import PlaylistList from './PlaylistList';

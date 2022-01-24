@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import style from './index.module.scss';
 import { TreeSelect, Button, Modal, message } from 'antd';
-import Loading from 'Components/Loading';
+import { Loading } from 'Components/index';
 import { userPlaylist, songlistTracks } from 'Apis/playlist';
 
 interface Props {

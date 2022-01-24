@@ -1,7 +1,6 @@
 import { Fragment, useState, useContext, useEffect, memo } from 'react';
 import style from './index.module.scss';
-import Loading from 'Components/Loading';
-import Pagination from 'Components/Pagination';
+import { Loading, Pagination } from 'Components/index';
 import { Link } from 'react-router-dom';
 import { FuncContext, StateContext } from 'AppContainer/index';
 import { message, Modal } from 'antd';

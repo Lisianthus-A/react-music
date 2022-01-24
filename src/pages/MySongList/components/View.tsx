@@ -1,7 +1,7 @@
 import style from './View.module.scss';
 import { Link } from 'react-router-dom';
 import { DeleteOutlined } from '@ant-design/icons';
-import Loading from 'Components/Loading';
+import { Loading } from 'Components/index';
 import { replaceHttpToHttps as rp } from 'Utils/index';
 
 import type { PageState } from '../index';

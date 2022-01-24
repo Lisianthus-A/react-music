@@ -1,7 +1,7 @@
 import { memo, useContext } from 'react';
 import style from './index.module.scss';
 import { FuncContext } from 'AppContainer/index';
-import CustomIcon from 'Components/CustomIcon';
+import { CustomIcon } from 'Components/index';
 import { RetweetOutlined } from '@ant-design/icons';
 
 import type { State } from 'AppContainer/index';

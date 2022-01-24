@@ -1,4 +1,4 @@
-import LinkImageList from 'Components/LinkImageList';
+import { LinkImageList } from 'Components/index';
 
 interface Props {
     data: {

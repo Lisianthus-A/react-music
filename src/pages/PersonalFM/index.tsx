@@ -3,7 +3,7 @@ import style from './index.module.scss';
 import layoutStyle from 'Components/Layout/index.module.scss';
 import { Link } from 'react-router-dom';
 import { CaretRightOutlined, HeartOutlined, DeleteOutlined, StepForwardOutlined, HeartFilled, PauseOutlined } from '@ant-design/icons';
-import Loading from 'Components/Loading';
+import { Loading } from 'Components/index';
 import { FuncContext } from 'AppContainer/index';
 import { getFMList, unlike } from 'Apis/personalFM';
 import { hasToken, convertTime } from 'Utils/index';

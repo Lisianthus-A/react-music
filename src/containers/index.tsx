@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSetState } from 'Utils/hooks';
 import { Modal, message } from 'antd';
 import music from 'Utils/music';
-import Layout from 'Components/Layout';
+import { Layout, CollectSong } from 'Components/index';
 import Controller from "../routeController";
-import CollectSong from 'Components/CollectSong';
 // 全局引入 antd css
 import 'antd/dist/antd.min.css';
 
