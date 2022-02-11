@@ -57,7 +57,11 @@ function Controller() {
             const { path, component } = dynamicRouteMap[key];
             const fields = (path.match(/\[[^\/]+\]/g) || []).map(item => item.slice(1, -1));
             const regex = new RegExp(path.replace(/\[[^\/]+\]/g, '([^\/]+)'));
-            const values = (pathname.match(regex) || []).slice(1);
+            const _values = (pathname.match(regex) || []);
+            if (_values.index !== 0) {
+                continue;
+            }
+            const values = _values.slice(1);
             if (fields.length === values.length) {
                 const pageParamsObj: Record<string, string> = {};
                 for (let i = 0; i < fields.length; ++i) {
