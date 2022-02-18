@@ -7,7 +7,7 @@ const ignoreDirNames = ['components', 'component', 'utils', 'util'];
 let routes = 'export default [';
 
 // 深度优先搜索
-const dfs = (dir, isDynamic) => {
+const dfs = (dir) => {
     const dirPath = path.join(__dirname, dir);
     const files = fs.readdirSync(dirPath, { withFileTypes: true });
     files.forEach(file => {
@@ -17,12 +17,10 @@ const dfs = (dir, isDynamic) => {
             if (ignoreDirNames.includes(fileName.toLocaleLowerCase())) {
                 return;
             }
-            const dynamic = fileName[0] === '[' && fileName[fileName.length - 1] === ']';
-            dfs(`${dir}/${fileName}`, dynamic);
+            dfs(`${dir}/${fileName}`);
         } else if (file.isFile()) {
             if (fileName.toLocaleLowerCase() === 'index.tsx') {
                 routes += '\n    {\n';
-                routes += `        isDynamic: ${isDynamic},\n`;
                 routes += `        path: "${dir.slice(12) || "/"}",\n`;
                 routes += `        component: () => import("./pages${dir.slice(12)}")\n    },`;
             }
@@ -30,6 +28,6 @@ const dfs = (dir, isDynamic) => {
     });
 };
 
-dfs('../src/pages', false);
+dfs('../src/pages');
 routes += '\n];';
 fs.writeFileSync(path.join(__dirname, '../src/routes.tsx'), routes);
