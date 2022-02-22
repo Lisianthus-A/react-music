@@ -6,23 +6,16 @@ import routes from "./routes";
 import type { LazyExoticComponent } from 'react';
 
 interface Route {
-    isDynamic: boolean;
     path: string;
     component: () => any;
 }
 
 // 静态路由
 const staticRouteMap: Record<string, Route> = {};
-// 动态路由
-const dynamicRouteMap: Record<string, Route> = {};
 
 routes.forEach(route => {
-    const { path, isDynamic } = route;
-    if (isDynamic) {
-        dynamicRouteMap[path] = route;
-    } else {
-        staticRouteMap[path] = route;
-    }
+    const { path } = route;
+    staticRouteMap[path] = route;
 });
 
 function Controller() {
