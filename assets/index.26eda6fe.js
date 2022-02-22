@@ -1,0 +1,1 @@
+import{u as s}from"./index.ccf4df5c.js";import{j as e,b as a}from"./vendor.47a03c39.js";const d=()=>{const r=s("id");return e("div",{className:"user",children:["User Id=",r]})};var i=d,o=()=>a(i,{});export{o as default};
