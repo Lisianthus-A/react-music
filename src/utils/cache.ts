@@ -25,6 +25,7 @@ class MusicCache {
 
         // 放入缓存
         cache.set(id, item);
+        cacheIds.push(id);
     }
 
     /**
