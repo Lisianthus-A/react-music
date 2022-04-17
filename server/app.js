@@ -10,13 +10,18 @@ const fileUpload = require('express-fileupload')
 
 const app = express()
 
+const isDeploy = process.argv[2] === '--deploy';
+
+if (isDeploy) {
+  app.use(express.static('dist'));
+}
+
 // CORS & Preflight request
 app.use((req, res, next) => {
   if (req.path !== '/' && !req.path.includes('.')) {
     res.set({
       'Access-Control-Allow-Credentials': true,
-      // 'Access-Control-Allow-Origin': req.headers.origin || '*',
-      'Access-Control-Allow-Origin': 'http://124.220.165.139',
+      'Access-Control-Allow-Origin': isDeploy ? 'http://124.220.165.139' : req.headers.origin || '*',
       'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
       'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
       'Content-Type': 'application/json; charset=utf-8',
@@ -105,7 +110,17 @@ fs.readdirSync(path.join(__dirname, 'module'))
           res.status(answer.status).send(answer.body)
         })
     })
-  })
+  });
+
+  if (isDeploy) {
+      app.use("*", (req, res) => {
+          res.sendFile(path.join(__dirname, '../dist/index.html'), {
+            headers: {
+              'Content-Type': 'text/html'
+            } 
+          });
+      });
+  }
 
 const port = process.env.PORT || 4101
 const host = process.env.HOST || ''

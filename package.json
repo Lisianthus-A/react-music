@@ -8,6 +8,7 @@
         "front": "vite",
         "build": "tsc && vite build",
         "server": "node ./server/app.js",
+        "deploy": "node ./server/app.js --deploy",
         "prestart": "node ./scripts/generateRoute.js",
         "prebuild": "node ./scripts/generateRoute.js"
     },
