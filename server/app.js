@@ -36,9 +36,13 @@ app.use((req, res, next) => {
     ; (req.headers.cookie || '').split(/\s*;\s*/).forEach((pair) => {
       let crack = pair.indexOf('=')
       if (crack < 1 || crack == pair.length - 1) return
-      req.cookies[
-        decodeURIComponent(pair.slice(0, crack)).trim()
-      ] = decodeURIComponent(pair.slice(crack + 1)).trim()
+      try {
+        req.cookies[
+          decodeURIComponent(pair.slice(0, crack)).trim()
+        ] = decodeURIComponent(pair.slice(crack + 1)).trim()
+      } catch(e) {
+        console.log(e);
+      }
     })
   next()
 })
@@ -123,7 +127,7 @@ fs.readdirSync(path.join(__dirname, 'module'))
   }
 
 const port = process.env.PORT || 4101
-const host = process.env.HOST || '124.220.165.139'
+const host = process.env.HOST || ''
 
 app.server = app.listen(port, host, () => {
   console.log(`server running @ http://${host ? host : 'localhost'}:${port}`)
