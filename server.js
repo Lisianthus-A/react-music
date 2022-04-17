@@ -39,7 +39,6 @@ const mapContentType = {
 };
 
 const sendFile = (req, res) => new Promise(resolve => {
-    let result;
     const pathname = req.url.match(/[\/\w\-\.%!_:\(\)]+/)?.[0] || '';
     // 文件后缀
     const suffix = pathname.match(/\.(\w+)$/)?.[1];
@@ -51,7 +50,15 @@ const sendFile = (req, res) => new Promise(resolve => {
     // Content-Type
     const type = mapContentType[suffix] || 'text/html';
 
-    try {
+    fs.access(filePath, (err) => {
+        // 文件读取错误
+        if (err) {
+            res.statusCode = 404;
+            res.end();
+            resolve(false);
+            return;
+        }
+
         res.statusCode = 200;
         res.setHeader("Content-Type", type);
         const encoding = req.headers["accept-encoding"];
@@ -67,13 +74,9 @@ const sendFile = (req, res) => new Promise(resolve => {
         } else {  // 不压缩
             readStream.pipe(res);
         }
-        result = true;
-    } catch (e) {
-        res.statusCode = 404;
-        result = false;
-        res.end();
-    }
-    resolve(result);
+
+        resolve(true);
+    });
 });
 
 const server = http.createServer((req, res) => {
