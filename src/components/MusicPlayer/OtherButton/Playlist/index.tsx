@@ -5,7 +5,7 @@ import {
     CaretRightOutlined,
     DownloadOutlined,
     DeleteOutlined,
-    PlusOutlined
+    HeartOutlined
 } from '@ant-design/icons';
 import { convertTime } from 'Utils/index';
 import { useInterval } from 'Utils/hooks';
@@ -13,7 +13,7 @@ import music from 'Utils/music';
 import cache from 'Utils/cache';
 import { FuncContext } from 'AppContainer/index';
 
-import type { MouseEvent, ChangeEvent } from 'react';
+import type { MouseEvent } from 'react';
 import type { State } from 'AppContainer/index';
 
 interface Props {
@@ -193,7 +193,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
                                 {id === playingItem.id && <CaretRightOutlined />}
                                 <div className="song-title" title={name}>{name}</div>
                                 <div className="icons">
-                                    <PlusOutlined title='添加到歌单' onClick={(e) => handleCollectSong(e, id)} />
+                                    <HeartOutlined title='添加到歌单' onClick={(e) => handleCollectSong(e, id)} />
                                     <DownloadOutlined title='下载' onClick={(e) => handleDownload(e, id, name)} />
                                     <DeleteOutlined title='删除' onClick={(e) => handleDelete(e, idx)} />
                                 </div>
