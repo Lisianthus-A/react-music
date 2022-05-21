@@ -24,7 +24,8 @@ const ajax = async <T = any>(
         url: baseUrl + url,
         ...baseParams,
         ...params,
-    }).catch(() => {
+    }).catch((err) => {
+        console.log('ajax error', err);
         message.error("请求失败");
         return null;
     });
