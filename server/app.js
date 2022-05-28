@@ -3,10 +3,10 @@ const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('./util/request')
-const _request = require('request');
 const cache = require('./util/apicache').middleware
 const { cookieToJson } = require('./util/index')
 const fileUpload = require('express-fileupload')
+const axios = require('axios');
 
 const app = express()
 
@@ -14,6 +14,7 @@ const isDeploy = process.argv[2] === '--deploy';
 
 if (isDeploy) {
   app.use(express.static('dist'));
+  app.use(express.static('musicDir'));
 }
 
 // CORS & Preflight request
@@ -40,7 +41,7 @@ app.use((req, res, next) => {
         req.cookies[
           decodeURIComponent(pair.slice(0, crack)).trim()
         ] = decodeURIComponent(pair.slice(crack + 1)).trim()
-      } catch(e) {
+      } catch (e) {
         console.log(e);
       }
     })
@@ -55,17 +56,29 @@ app.use(fileUpload())
 
 // cache
 app.use(cache('2 minutes', (req, res) => res.statusCode === 200))
-app.use('/getMusicUrl', (req, res) => {
+app.use('/getMusicUrl', async (req, res) => {
   const { id } = req.query;
-  _request(`https://music.163.com/song/media/outer/url?id=${id}`, {
-    followRedirect: false
-  }, (err, response) => {
-    if (err) {
-      res.json({ error: err }).end();
+  fs.access(path.join(__dirname, `../musicDir/${id}.mp3`), async (err) => {
+    // file exist
+    if (!err) {
+      res.json({ error: false, url: `/${id}.mp3` });
       return;
     }
-    const { location } = response.headers;
-    res.json({ url: location }).end();
+
+    const uRes = await axios({
+      url: `https://music.163.com/song/media/outer/url?id=${id}`,
+      responseType: 'arraybuffer'
+    }).catch((err) => {
+      console.log('getMusicError', err);
+      return null;
+    })
+
+    if (uRes && uRes.headers['content-type'].indexOf('audio/') >= 0) {
+      fs.writeFileSync(path.join(__dirname, `../musicDir/${id}.mp3`), uRes.data);
+      res.json({ error: false, url: `/${id}.mp3` });
+    } else {
+      res.json({ error: true, url: '' });
+    }
   });
 });
 
@@ -116,15 +129,15 @@ fs.readdirSync(path.join(__dirname, 'module'))
     })
   });
 
-  if (isDeploy) {
-      app.use("*", (req, res) => {
-          res.sendFile(path.join(__dirname, '../dist/index.html'), {
-            headers: {
-              'Content-Type': 'text/html'
-            } 
-          });
-      });
-  }
+if (isDeploy) {
+  app.use("*", (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'), {
+      headers: {
+        'Content-Type': 'text/html'
+      }
+    });
+  });
+}
 
 const port = process.env.PORT || 4101
 const host = process.env.HOST || ''
