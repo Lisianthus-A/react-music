@@ -45,7 +45,7 @@ function Song() {
 
         setPageState(null);
         getData();
-    }, [id]);
+    }, []);
 
     // 改变标题
     useEffect(() => {

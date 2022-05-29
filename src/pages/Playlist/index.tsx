@@ -46,7 +46,7 @@ function Playlist() {
 
         setPageState(null);
         getData();
-    }, [id]);
+    }, []);
 
     if (!id) {
         return <div>id 错误</div>;
