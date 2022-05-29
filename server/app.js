@@ -42,7 +42,7 @@ app.use((req, res, next) => {
           decodeURIComponent(pair.slice(0, crack)).trim()
         ] = decodeURIComponent(pair.slice(crack + 1)).trim()
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     })
   next()
@@ -60,7 +60,7 @@ app.use(cache('2 minutes', (req, res) => res.statusCode === 200));
 // getMusic
 app.use('/getMusicUrl', async (req, res) => {
   const { id } = req.query;
-  await axios({
+  const uRes = await axios({
     url: `https://music.163.com/song/media/outer/url?id=${id}`,
     maxRedirects: 0,
   }).catch((err) => {
@@ -68,9 +68,14 @@ app.use('/getMusicUrl', async (req, res) => {
     if (location) {
       res.json({ error: false, url: location });
     } else {
-      res.json({ error: true, url: '' })
+      res.json({ error: true, url: '' });
     }
   });
+
+  console.log('headers', uRes.headers);
+  console.log('data', uRes.data);
+
+  res.json({ error: true, url: '' });
 
   // fs.access(path.join(__dirname, `../musicDir/${id}.mp3`), async (err) => {
   //   // file exist
