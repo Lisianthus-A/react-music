@@ -14,7 +14,6 @@ const isDeploy = process.argv[2] === '--deploy';
 
 if (isDeploy) {
   app.use(express.static('dist'));
-  app.use(express.static('musicDir'));
 }
 
 // CORS & Preflight request

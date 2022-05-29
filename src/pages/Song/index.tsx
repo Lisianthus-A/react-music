@@ -21,13 +21,13 @@ export interface PageState {
 function Song() {
     const id = useQuery('id');
 
-    if (!id) {
-        return <div>歌曲id错误</div>;
-    }
-
     const [pageState, setPageState] = useState<PageState | null>(null);
 
     useEffect(() => {
+        if (!id) {
+            return;
+        }
+
         const getData = async () => {
             const detailRes = await songDetail([id]);
             const lyricRes = await getLyric(id);
@@ -54,6 +54,10 @@ function Song() {
             document.title = title;
         }        
     }, [pageState]);
+
+    if (!id) {
+        return <div>歌曲 id 错误</div>;
+    }
 
     return (
         <View pageState={pageState} />

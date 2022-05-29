@@ -40,14 +40,14 @@ const typeMap = {
 
 function Search() {
     const keyword = useQuery('keyword');
-    if (!keyword) {
-        return <div>请输入搜索内容</div>;
-    }
-
     const [pageState, setPageState] = useSetState<PageState>(initState);
 
     // 获取搜索内容
     useEffect(() => {
+        if (!keyword) {
+            return;
+        }
+
         const { currentPage, type } = pageState;
         setPageState({ loading: true });
 
@@ -92,6 +92,10 @@ function Search() {
 
         getData();
     }, [keyword, pageState.currentPage, pageState.type]);
+
+    if (!keyword) {
+        return <div>请输入搜索内容</div>;
+    }
 
     return (
         <View pageState={pageState} setPageState={setPageState} />

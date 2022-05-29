@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'Utils/hooks';
 import { resolveDetail } from 'Utils/resolve';
-import { playlistDetail, playlistComment  } from 'Apis/playlist';
+import { playlistDetail, playlistComment } from 'Apis/playlist';
 import SongListView from './components/View';
 
-import type { PlaylistCommentRes} from 'Apis/playlist';
+import type { PlaylistCommentRes } from 'Apis/playlist';
 
 export interface PageState {
     // 详情
@@ -17,10 +17,6 @@ export interface PageState {
 
 function Playlist() {
     const id = useQuery('id');
-    if (!/\d+/.test(id as string)) {
-        return <div>id 错误</div>;
-    }
-
     const [pageState, setPageState] = useState<PageState | null>(null);
 
     // 改变标题
@@ -32,10 +28,14 @@ function Playlist() {
     }, [pageState]);
 
     useEffect(() => {
+        if (!id) {
+            return;
+        }
+
         const getData = async () => {
             const detailRes = await playlistDetail(id as string);
             // 详情
-            const detail = resolveDetail(detailRes);  
+            const detail = resolveDetail(detailRes);
             // 所有歌曲 id
             const songIds = detailRes.playlist.trackIds.map(({ id }) => id);
             // 评论
@@ -47,6 +47,10 @@ function Playlist() {
         setPageState(null);
         getData();
     }, [id]);
+
+    if (!id) {
+        return <div>id 错误</div>;
+    }
 
     return (
         <SongListView pageState={pageState} />

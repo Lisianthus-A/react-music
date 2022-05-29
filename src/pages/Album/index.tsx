@@ -18,15 +18,14 @@ export interface PageState {
 
 function Album() {
     const id = useQuery('id');
-    if (!id) {
-        return (
-            <div>id错误</div>
-        );
-    }
 
     const [pageState, setPageState] = useState<PageState | null>(null);
 
     useEffect(() => {
+        if (!id) {
+            return;
+        }
+
         const getData = async () => {
             const detailRes = await album(id);
             // 详情
@@ -50,6 +49,12 @@ function Album() {
             document.title = title;
         }
     }, [pageState]);
+
+    if (!id) {
+        return (
+            <div>id错误</div>
+        );
+    }
 
     return (
         <View pageState={pageState} />

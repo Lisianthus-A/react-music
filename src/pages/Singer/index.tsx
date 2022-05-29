@@ -18,6 +18,10 @@ function Singer() {
     const [pageState, setPageState] = useState<PageState | null>(null);
 
     useEffect(() => {
+        if (!id) {
+            return;
+        }
+
         const getData = async () => {
             const singerRes = await singerInfo(id as string);
             const descRes = await singerDesc(id as string);
@@ -47,6 +51,10 @@ function Singer() {
             document.title = `${name}的音乐`;
         }
     }, [pageState]);
+
+    if (!id) {
+        return <div>id 错误</div>;
+    }
 
     return (
         <View pageState={pageState} />
