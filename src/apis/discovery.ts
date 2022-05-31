@@ -57,7 +57,7 @@ export interface TopSongRes {
  * @param type 类型 全部0 华语7 欧美96 日系8 韩系16
  */
 export const topSong = (type: number = 0) => {
-    return ajax<TopSongRes>(`/top/song?type=${type}`);
+    return ajax<TopSongRes>(`/top/song?type=${type}&limit=10`);
 }
 
 //获取相似的歌曲
