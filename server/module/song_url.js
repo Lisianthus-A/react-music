@@ -7,7 +7,7 @@ module.exports = (query, request) => {
   query.cookie.os = 'pc'
   const data = {
     ids: '[' + query.id + ']',
-    br: parseInt(query.br || 999000),
+    br: parseInt(query.br || 128000),
   }
   return request(
     'POST',
