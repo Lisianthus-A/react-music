@@ -1,10 +1,11 @@
-// 云村热评
-
 module.exports = (query, request) => {
-  const data = {}
+  const data = {
+    userTaskId: query.userTaskId,
+    depositCode: query.depositCode || '0',
+  }
   return request(
     'POST',
-    `https://music.163.com/api/comment/hotwall/list/get`,
+    `https://music.163.com/api/usertool/task/point/receive`,
     data,
     {
       crypto: 'weapi',
