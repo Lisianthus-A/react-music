@@ -116,13 +116,13 @@ class Music {
                 return;
             }
 
-            ajax<{ error?: any, url: string }>(`/getMusicUrl?id=${id}`).then(res => {
-                if (res.error || res.url?.includes('music.163.com/404')) {
+            ajax<{ code: number; data: any }>(`/song/url?id=${id}`).then(res => {
+                if (res.code !== 200) {
                     resolve(null);
                     return;
                 }
 
-                const { url } = res;
+                const { url } = res.data[0];
                 const pBuffer = axios({
                     url: rp(url),
                     responseType: 'arraybuffer'

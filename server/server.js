@@ -163,47 +163,6 @@ async function consturctServer(moduleDefs) {
     app.use(express.static('dist'));
   }
 
-  // getMusic
-  app.use('/getMusicUrl', async (req, res) => {
-    const { id } = req.query;
-    const uRes = await axios({
-      url: `https://music.163.com/song/media/outer/url?id=${id}`,
-      maxRedirects: 0,
-    }).catch((err) => {
-      const { location } = err.response.headers;
-      if (location) {
-        console.log(`[OK] /getMusicUrl?id=${id}`);
-        res.json({ error: false, url: location });
-      } else {
-        console.log(`[ERR] /getMusicUrl?id=${id}`);
-        res.json({ error: true, url: '' });
-      }
-    });
-
-    // fs.access(path.join(__dirname, `../musicDir/${id}.mp3`), async (err) => {
-    //   // file exist
-    //   if (!err) {
-    //     res.json({ error: false, url: `/${id}.mp3` });
-    //     return;
-    //   }
-
-    //   const uRes = await axios({
-    //     url: `https://music.163.com/song/media/outer/url?id=${id}`,
-    //     responseType: 'arraybuffer'
-    //   }).catch((err) => {
-    //     console.log('getMusicError', err);
-    //     return null;
-    //   })
-
-    //   if (uRes && uRes.headers['content-type'].indexOf('audio/') >= 0) {
-    //     fs.writeFileSync(path.join(__dirname, `../musicDir/${id}.mp3`), uRes.data);
-    //     res.json({ error: false, url: `/${id}.mp3` });
-    //   } else {
-    //     res.json({ error: true, url: '' });
-    //   }
-    // });
-  });
-
   /**
    * Special Routers
    */
