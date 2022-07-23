@@ -117,7 +117,7 @@ class Music {
             }
 
             ajax<{ code: number; data: any }>(`/song/url?id=${id}`).then(res => {
-                if (res.code !== 200 || res.data.code !== 200) {
+                if (res.code !== 200 || res.data[0].code !== 200) {
                     resolve(null);
                     return;
                 }
