@@ -71,24 +71,24 @@ export const resolveSongs = (songs: any[], type: SongsType): SongItem[] => {
     return songs.map(item => {
         const { id, name } = item;
         // 专辑
-        // topSong、fm、search 接口返回的专辑属性是 album
+        // topSong、fm 接口返回的专辑属性是 album
         // 其他的是 al
-        const album = ['topSong', 'fm', 'search'].includes(type)
+        const album = ['topSong', 'fm'].includes(type)
             ? item.album
             : item.al;
 
         // 歌手
-        // detail 接口返回的歌手属性是 ar
+        // detail、search 接口返回的歌手属性是 ar
         // 其他的是 artists
-        const singers = type === 'detail'
+        const singers = ['detail', 'search'].includes(type)
             ? item.ar
             : item.artists;
 
         // 时长
-        // simiSong、fm、search 接口返回的时长属性是 duration
+        // simiSong、fm 接口返回的时长属性是 duration
         // 其他的是 dt
         // 目前还没使用 simiSong 接口
-        const duration = ['simiSong', 'fm', 'search'].includes(type)
+        const duration = ['simiSong', 'fm'].includes(type)
             ? item.duration
             : item.dt;
 
