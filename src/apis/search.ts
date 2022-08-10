@@ -105,5 +105,5 @@ type SearchRes = SearchSongRes | SearchAlbumRes | SearchSingerRes | SearchPlayli
  * @param offset 偏移
  */
 export const search = (keywords: string, type: string, offset: number) => {
-    return ajax<SearchRes>(`/search?keywords=${keywords}&type=${type}&offset=${offset}`);
+    return ajax<SearchRes>(`/cloudsearch?keywords=${keywords}&type=${type}&offset=${offset}`);
 }
