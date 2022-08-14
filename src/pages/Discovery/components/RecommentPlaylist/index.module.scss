@@ -35,14 +35,6 @@
             right: 0;
         }
 
-        .copywriter {
-            background-color: rgba(0, 0, 0, 0.5);
-            width: 100%;
-            padding: 5px 10px;
-            transition: all 0.3s 0.3s;
-            transform: translateY(-150%);
-        }
-
         .play-count {
             background-image: linear-gradient(to left, rgba(0, 0, 0, 0.6), transparent);
             width: 50%;
@@ -74,16 +66,8 @@
             }
         }
 
-        .image:hover {
-            .copywriter {
-                transform: translateY(0);
-            }
-            .play-count {
-                opacity: 0;
-            }
-            .play-button {
-                opacity: 0.8;
-            }
+        .image:hover .play-button {
+            opacity: 0.8;
         }
 
         .description {

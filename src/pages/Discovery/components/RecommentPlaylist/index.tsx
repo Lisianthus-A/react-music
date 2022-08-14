@@ -29,11 +29,10 @@ function RecommentPlaylist({ data, onPlayAll }: Props) {
 
     const renderList = (list: Props['data']) => (
         <div className="playlist">
-            {list.map(({ id, name, copywriter, picUrl, playCount }) =>
+            {list.map(({ id, name, picUrl, playCount }) =>
                 <div className="listitem" key={id}>
                     <Link className="image" to={`/Playlist?id=${id}`}>
                         <img src={`${rp(picUrl)}?param=240y240`} loading='lazy' />
-                        <div className="copywriter">{copywriter}</div>
                         <div className="play-count"><CustomerServiceOutlined />
                             {convertCount(playCount)}
                         </div>
