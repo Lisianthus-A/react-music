@@ -181,7 +181,7 @@ async function consturctServer(moduleDefs) {
 
   for (const moduleDef of moduleDefinitions) {
     // Register the route.
-    app.use(moduleDef.route, async (req, res) => {
+    app.use(`/api${moduleDef.route}`, async (req, res) => {
       ;[req.query, req.body].forEach((item) => {
         if (typeof item.cookie === 'string') {
           item.cookie = cookieToJson(decode(item.cookie))

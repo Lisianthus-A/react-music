@@ -3,8 +3,8 @@ import axios from "axios";
 import type { AxiosRequestConfig } from "axios";
 
 // 服务器地址
-// const baseUrl = "http://127.0.0.1:4101";
-const baseUrl = 'http://124.220.165.139';
+// const baseUrl = "http://127.0.0.1:4101/api";
+const baseUrl = 'http://124.220.165.139/api';
 
 //请求携带的参数
 const baseParams: AxiosRequestConfig = {
