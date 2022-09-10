@@ -50,8 +50,8 @@ function SongList({ songList, songIds, isCreator }: Props) {
 
     //下载
     const handleDownload = (songItem: SongItem) => {
-        const { id, name } = songItem;
-        music().download(id, name);
+        const { id } = songItem;
+        music().download(id);
     }
 
     // 播放指定歌曲

@@ -21,7 +21,7 @@ interface Props {
 
 function SongDetail({ detailData, songData, lyric }: Props) {
     const { title, cover, singers, albumId, albumName } = detailData;
-    const { id, name, isFree } = songData;
+    const { id, isFree } = songData;
 
     const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
     const { playingItem, playlist } = useContext(StateContext);
@@ -51,7 +51,7 @@ function SongDetail({ detailData, songData, lyric }: Props) {
 
     // 下载歌曲
     const handleDownload = () => {
-        music().download(id, name);
+        music().download(id);
     }
 
     return (

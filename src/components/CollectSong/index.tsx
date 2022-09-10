@@ -3,6 +3,7 @@ import style from './index.module.scss';
 import { TreeSelect, Button, Modal, message } from 'antd';
 import { Loading } from 'Components/index';
 import { userPlaylist, songlistTracks } from 'Apis/playlist';
+import { hasToken } from 'Utils/index';
 
 interface Props {
     id: number;
@@ -13,10 +14,6 @@ function CollectSong({ id }: Props) {
     const [selectedId, setSelectedId] = useState(null);
     const [isLoading, setLoading] = useState(false);
     const userid = window.localStorage.getItem('userid');
-
-    if (!userid) {
-        return <div>未找到 userid，请重新登录</div>;
-    }
 
     //确认
     const handleClick = () => {
@@ -32,6 +29,10 @@ function CollectSong({ id }: Props) {
     }
 
     useEffect(() => {
+        if (!userid) {
+            return;
+        }
+
         const getData = async () => {
             const listData = await userPlaylist(userid);
             // 我创建的歌单
@@ -56,6 +57,10 @@ function CollectSong({ id }: Props) {
         }
         getData();
     }, []);
+
+    if (!userid || !hasToken()) {
+        return <div>需要登录</div>;
+    }
 
     if (!tree) {
         return <Loading />;

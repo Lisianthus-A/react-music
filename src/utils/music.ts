@@ -274,18 +274,20 @@ class Music {
      * 下载歌曲
      * @param id 歌曲 id
      */
-    async download(id: number, songName: string): Promise<boolean> {
+    async download(id: number): Promise<boolean> {
         const music = await this.getMusic(id);
         if (!music) {
             return false;
         }
+        const { singers, name } = music.info;
+        const singerName = singers.map((singer) => singer.name).join('/');
         const blob = new Blob([music.buffer]);
         const blobUrl = URL.createObjectURL(blob);
 
         // 使用 a 标签结合 download 属性下载
         const a = document.createElement('a');
         a.href = blobUrl;
-        a.download = `${songName}.mp3`;
+        a.download = `${name} - ${singerName}.mp3`;
         a.click();
         URL.revokeObjectURL(blobUrl);
 

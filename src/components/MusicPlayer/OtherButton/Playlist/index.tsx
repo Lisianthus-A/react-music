@@ -45,9 +45,9 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
     }
 
     // 下载歌曲
-    const handleDownload = (e: MouseEvent, id: number, name: string) => {
+    const handleDownload = (e: MouseEvent, id: number) => {
         e.stopPropagation();
-        music().download(id, name);
+        music().download(id);
     }
 
     // 删除指定歌曲
@@ -194,7 +194,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
                                 <div className="song-title" title={name}>{name}</div>
                                 <div className="icons">
                                     <HeartOutlined title='添加到歌单' onClick={(e) => handleCollectSong(e, id)} />
-                                    <DownloadOutlined title='下载' onClick={(e) => handleDownload(e, id, name)} />
+                                    <DownloadOutlined title='下载' onClick={(e) => handleDownload(e, id)} />
                                     <DeleteOutlined title='删除' onClick={(e) => handleDelete(e, idx)} />
                                 </div>
                                 <div className="singer" title={singers.map(({ name }) => name).join('/')}>
