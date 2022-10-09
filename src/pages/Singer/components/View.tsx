@@ -2,6 +2,7 @@ import style from './View.module.scss';
 import { Loading, SongList, Tabs } from 'Components/index';
 import Header from './Header';
 import Introduction from './Introduction';
+import AlbumList from './AlbumList';
 
 import type { PageState } from '../index';
 
@@ -14,7 +15,7 @@ function View({ pageState }: Props) {
         return <Loading />;
     }
 
-    const { header, songList, intro } = pageState;
+    const { header, songList, intro, albumList } = pageState;
 
     return (
         <div className={style.singer}>
@@ -23,7 +24,10 @@ function View({ pageState }: Props) {
                 <Tabs.Pane key="0" text="热门作品">
                     <SongList songList={songList} />
                 </Tabs.Pane>
-                <Tabs.Pane key="1" text="歌手介绍">
+                <Tabs.Pane key="1" text="歌手专辑">
+                    <AlbumList data={albumList}  />
+                </Tabs.Pane>
+                <Tabs.Pane key="2" text="歌手介绍">
                     <Introduction data={intro} />
                 </Tabs.Pane>
             </Tabs>
