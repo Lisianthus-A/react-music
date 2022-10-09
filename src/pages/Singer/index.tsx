@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'Utils/hooks';
 import { resolveSongs } from 'Utils/resolve';
-import { singerInfo, singerDesc } from 'Apis/singer';
+import { singerInfo, singerDesc, singerAlbum } from 'Apis/singer';
 import View from './components/View';
 
 import type { SongItem } from 'AppContainer/index';
@@ -9,6 +9,7 @@ import type { SongItem } from 'AppContainer/index';
 export interface PageState {
     header: any;
     songList: SongItem[];
+    albumList: any[];
     intro: any;
 }
 
@@ -25,6 +26,7 @@ function Singer() {
         const getData = async () => {
             const singerRes = await singerInfo(id as string);
             const descRes = await singerDesc(id as string);
+            const albumRes = await singerAlbum(id as string);
 
             const header = {
                 name: singerRes.artist.name,
@@ -36,8 +38,14 @@ function Singer() {
                 intro: descRes.introduction,
                 briefDesc: descRes.briefDesc
             };
+            const albumList = albumRes.hotAlbums.map((item: any) => ({
+                id: item.id,
+                name: item.name,
+                singer: item.artists,
+                picUrl: item.picUrl
+            }));
 
-            setPageState({ header, songList, intro })
+            setPageState({ header, songList, intro, albumList })
         }
 
         setPageState(null);
