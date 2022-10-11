@@ -280,7 +280,7 @@ class Music {
             return false;
         }
         const { singers, name } = music.info;
-        const singerName = singers.map((singer) => singer.name).join('/');
+        const singerName = singers.map((singer) => singer.name).join('_');
         const blob = new Blob([music.buffer]);
         const blobUrl = URL.createObjectURL(blob);
 
