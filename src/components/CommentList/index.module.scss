@@ -36,6 +36,7 @@
     .content {
       display: flex;
       flex-direction: column;
+      word-break: break-all;
     }
 
     .image {
