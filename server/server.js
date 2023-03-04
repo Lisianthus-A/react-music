@@ -6,7 +6,6 @@ const cache = require('./util/apicache').middleware
 const { cookieToJson } = require('./util/index')
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component');
-const axios = require('axios');
 
 const isDeploy = process.argv[2] === '--deploy';
 
@@ -135,14 +134,14 @@ async function consturctServer(moduleDefs) {
    */
   app.use((req, _, next) => {
     req.cookies = {}
-      //;(req.headers.cookie || '').split(/\s*;\s*/).forEach((pair) => { //  Polynomial regular expression //
-      ; (req.headers.cookie || '').split(/;\s+|(?<!\s)\s+$/g).forEach((pair) => {
-        let crack = pair.indexOf('=')
-        if (crack < 1 || crack == pair.length - 1) return
-        req.cookies[decode(pair.slice(0, crack)).trim()] = decode(
-          pair.slice(crack + 1),
-        ).trim()
-      })
+    //;(req.headers.cookie || '').split(/\s*;\s*/).forEach((pair) => { //  Polynomial regular expression //
+    ; (req.headers.cookie || '').split(/;\s+|(?<!\s)\s+$/g).forEach((pair) => {
+      let crack = pair.indexOf('=')
+      if (crack < 1 || crack == pair.length - 1) return
+      req.cookies[decode(pair.slice(0, crack)).trim()] = decode(
+        pair.slice(crack + 1),
+      ).trim()
+    })
     next()
   })
 

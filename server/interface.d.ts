@@ -712,6 +712,10 @@ export function lyric(
   params: { id: string | number } & RequestBaseConfig,
 ): Promise<Response>
 
+export function lyric_new(
+  params: { id: string | number } & RequestBaseConfig,
+): Promise<Response>
+
 export function msg_comments(
   params: {
     uid: string | number
@@ -1056,6 +1060,17 @@ export function song_url(
   params: { id: string | number; br?: string | number } & RequestBaseConfig,
 ): Promise<Response>
 
+export const enum SoundQualityType {
+  standard = 'standard',
+  exhigh = 'exhigh',
+  lossless = 'lossless',
+  hires = 'hires',
+}
+
+export function song_url_v1(
+  params: { id: string | number; level: SoundQualityType } & RequestBaseConfig,
+): Promise<Response>
+
 export function top_album(
   params: {
     area?: AlbumListArea
@@ -1296,17 +1311,11 @@ export function yunbei_info(params: RequestBaseConfig): Promise<Response>
 export function yunbei_sign(params: RequestBaseConfig): Promise<Response>
 
 export function yunbei_receipt(
-  params: {
-    limit?: number | string
-    offset?: number | string
-  } & RequestBaseConfig,
+  params: MultiPageConfig & RequestBaseConfig,
 ): Promise<Response>
 
 export function yunbei_expense(
-  params: {
-    limit?: number | string
-    offset?: number | string
-  } & RequestBaseConfig,
+  params: MultiPageConfig & RequestBaseConfig,
 ): Promise<Response>
 
 export function yunbei_tasks(params: RequestBaseConfig): Promise<Response>
@@ -1342,17 +1351,11 @@ export function comment_hug_list(
 ): Promise<Response>
 
 export function topic_sublist(
-  params: {
-    limit?: number | string
-    offset?: number | string
-  } & RequestBaseConfig,
+  params: MultiPageConfig & RequestBaseConfig,
 ): Promise<Response>
 
 export function topic_sublist(
-  params: {
-    limit?: number | string
-    offset?: number | string
-  } & RequestBaseConfig,
+  params: MultiPageConfig & RequestBaseConfig,
 ): Promise<Response>
 
 export function artist_new_mv(
@@ -1490,11 +1493,7 @@ export function vip_growthpoint_get(
 ): Promise<Response>
 
 export function artist_fans(
-  params: {
-    id: number | string
-    limit?: number | string
-    offset?: number | string
-  } & RequestBaseConfig,
+  params: { id: number | string } & MultiPageConfig & RequestBaseConfig,
 ): Promise<Response>
 
 export function digitalAlbum_detail(
@@ -1546,7 +1545,8 @@ export function playlist_track_all(
   params: {
     id: number | string
     s?: number | string
-  } & RequestBaseConfig,
+  } & MultiPageConfig &
+    RequestBaseConfig,
 ): Promise<Response>
 
 export function artist_video(
@@ -1621,5 +1621,68 @@ export function vip_timemachine(
     startTime?: number | string
     endTime?: number | string
     limit?: number | string
+  } & RequestBaseConfig,
+): Promise<Response>
+
+export function song_wiki_summary(
+  params: {
+    id: number | string
+  } & RequestBaseConfig,
+): Promise<Response>
+
+export function sheet_list(
+  params: {
+    id: number | string
+    abTest?: 'a' | 'b'
+  } & RequestBaseConfig,
+): Promise<Response>
+
+export function sheet_preview(
+  params: {
+    id: number | string
+  } & RequestBaseConfig,
+): Promise<Response>
+
+export function style_list(params: RequestBaseConfig): Promise<Response>
+
+export function style_preference(params: RequestBaseConfig): Promise<Response>
+
+export function style_detail(
+  params: {
+    tagId: number | string
+  } & RequestBaseConfig,
+): Promise<Response>
+
+export function style_song(
+  params: {
+    tagId: number | string
+    size?: number | string
+    cursor?: number | string
+    sort?: number | string
+  } & RequestBaseConfig,
+): Promise<Response>
+
+export function style_album(
+  params: {
+    tagId: number | string
+    size?: number | string
+    cursor?: number | string
+    sort?: number | string
+  } & RequestBaseConfig,
+): Promise<Response>
+
+export function style_playlist(
+  params: {
+    tagId: number | string
+    size?: number | string
+    cursor?: number | string
+  } & RequestBaseConfig,
+): Promise<Response>
+
+export function style_artist(
+  params: {
+    tagId: number | string
+    size?: number | string
+    cursor?: number | string
   } & RequestBaseConfig,
 ): Promise<Response>
