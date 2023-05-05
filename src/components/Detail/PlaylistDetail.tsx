@@ -1,13 +1,12 @@
-import { useContext } from 'react';
-import { FuncContext } from '@/containers';
-import { Link } from 'react-router-dom';
-import { Button } from 'antd';
-import { CaretRightOutlined } from '@ant-design/icons';
-import { songDetail } from '@/apis/song';
+import { useContext } from "react";
+import { FuncContext } from "@/containers";
+import { Link } from "react-router-dom";
+import { Icon, Button } from "@/components";
+import { songDetail } from "@/apis/song";
 
-import type { SongItem } from '@/containers';
-import { resolveSongs } from '@/utils/resolve';
-import cache from '@/utils/cache';
+import type { SongItem } from "@/containers";
+import { resolveSongs } from "@/utils/resolve";
+import cache from "@/utils/cache";
 
 interface Props {
     detailData: {
@@ -37,22 +36,25 @@ function PlaylistDetail({ detailData, songList, songIds }: Props) {
         let freeSongList: SongItem[] = [];
         // 已有歌曲数据
         if (songList) {
-            freeSongList = songList.filter(item => item.isFree);
-        } else if (songIds) {  // 没有歌曲数据
+            freeSongList = songList.filter((item) => item.isFree);
+        } else if (songIds) {
+            // 没有歌曲数据
             const count = Math.ceil(songIds.length * 0.02);
             // 分割 id， 每 50 个 id 请求一次
             for (let i = 0; i < count; ++i) {
                 const startIndex = i * 50;
                 const sliceIds = songIds.slice(startIndex, startIndex + 50);
                 const res = await songDetail(sliceIds);
-                const freeList = resolveSongs(res.songs, 'detail').filter(item => item.isFree);
+                const freeList = resolveSongs(res.songs, "detail").filter(
+                    (item) => item.isFree
+                );
                 freeSongList = [...freeSongList, ...freeList];
             }
         }
         cache().delAll();
         setPlaylist(freeSongList);
         playSong(freeSongList[0]);
-    }
+    };
 
     return (
         <>
@@ -68,16 +70,24 @@ function PlaylistDetail({ detailData, songList, songIds }: Props) {
                         <img src={`${creator.avatar}?param=40y40`} />
                         {creator.name}
                     </Link>
-                    {new Date(creator.createTime).toLocaleDateString().replace(/\//g, '-')}创建
+                    {new Date(creator.createTime)
+                        .toLocaleDateString()
+                        .replace(/\//g, "-")}
+                    创建
                 </div>
                 <div className="btns">
-                    <Button icon={<CaretRightOutlined />} onClick={handlePlayAll}>播放全部</Button>
+                    <Button
+                        icon={<Icon type="icon-play" />}
+                        onClick={handlePlayAll}
+                    >
+                        播放全部
+                    </Button>
                 </div>
                 <div className="tags">
                     标签：
-                    {tags.map((item, idx) =>
+                    {tags.map((item, idx) => (
                         <span key={idx}>{item}</span>
-                    )}
+                    ))}
                 </div>
                 <div className="description">{description}</div>
             </div>

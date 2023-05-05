@@ -1,16 +1,15 @@
-import { Fragment, useContext } from 'react';
-import { FuncContext } from '@/containers';
-import { Link } from 'react-router-dom';
-import { Button } from 'antd';
-import { CaretRightOutlined } from '@ant-design/icons';
+import { Fragment, useContext } from "react";
+import { FuncContext } from "@/containers";
+import { Link } from "react-router-dom";
+import { Button, Icon } from "@/components";
 
-import type { SongItem } from '@/containers';
+import type { SongItem } from "@/containers";
 
 interface Props {
     detailData: {
         title: string;
         cover: string;
-        singers: { id: number; name: string; }[];
+        singers: { id: number; name: string }[];
         publishTime: number;
         description: string;
     };
@@ -26,7 +25,7 @@ function AlbumDetail({ detailData, songList }: Props) {
         const firstSong = songList[0];
         playSong(firstSong);
         setPlaylist(songList);
-    }
+    };
 
     return (
         <>
@@ -39,19 +38,26 @@ function AlbumDetail({ detailData, songList }: Props) {
                 <div className="title-album">{title}</div>
                 <div className="singer">
                     歌手：
-                    {singers.map(({ id, name }, idx) =>
+                    {singers.map(({ id, name }, idx) => (
                         <Fragment key={idx}>
                             <Link to={`/Singer?id=${id}`}>{name}</Link>
                             <span> / </span>
                         </Fragment>
-                    )}
+                    ))}
                 </div>
                 <div>
                     发行时间：
-                    {new Date(publishTime).toLocaleDateString().replace(/\//g, '-')}
+                    {new Date(publishTime)
+                        .toLocaleDateString()
+                        .replace(/\//g, "-")}
                 </div>
                 <div className="btns">
-                    <Button icon={<CaretRightOutlined />} onClick={handlePlayAll}>播放全部</Button>
+                    <Button
+                        icon={<Icon type="icon-play" />}
+                        onClick={handlePlayAll}
+                    >
+                        播放全部
+                    </Button>
                 </div>
                 <div className="description">{description}</div>
             </div>

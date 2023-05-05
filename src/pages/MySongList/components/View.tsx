@@ -1,10 +1,9 @@
-import style from './View.module.scss';
-import { Link } from 'react-router-dom';
-import { DeleteOutlined } from '@ant-design/icons';
-import { Loading } from '@/components';
-import { replaceHttpToHttps as rp } from '@/utils';
+import style from "./View.module.scss";
+import { Link } from "react-router-dom";
+import { Loading, Icon } from "@/components";
+import { replaceHttpToHttps as rp } from "@/utils";
 
-import type { PageState } from '../index';
+import type { PageState } from "../index";
 
 interface Props {
     pageState: PageState | null;
@@ -12,7 +11,6 @@ interface Props {
 }
 
 function View({ pageState, onDelete }: Props) {
-
     if (!pageState) {
         return <Loading />;
     }
@@ -22,16 +20,20 @@ function View({ pageState, onDelete }: Props) {
     return (
         <div className={style.view}>
             <div className="title">我创建的歌单</div>
-            {create.map(({ name, coverImgUrl, trackCount, id }) =>
+            {create.map(({ name, coverImgUrl, trackCount, id }) => (
                 <Link className="item" key={id} to={`/Playlist?id=${id}`}>
                     <div className="image">
-                        <img src={`${rp(coverImgUrl)}?param=100y100`} loading='lazy' />
+                        <img
+                            src={`${rp(coverImgUrl)}?param=100y100`}
+                            loading="lazy"
+                        />
                     </div>
                     <div className="content">
                         <span>{name}</span>
                         <span>{trackCount}首</span>
                     </div>
-                    <DeleteOutlined
+                    <Icon
+                        type="icon-delete"
                         className="delete"
                         onClick={(e) => {
                             e.preventDefault();
@@ -39,18 +41,22 @@ function View({ pageState, onDelete }: Props) {
                         }}
                     />
                 </Link>
-            )}
+            ))}
             <div className="title">我收藏的歌单</div>
-            {subscribe.map(({ name, coverImgUrl, trackCount, id }) =>
+            {subscribe.map(({ name, coverImgUrl, trackCount, id }) => (
                 <Link className="item" key={id} to={`/Playlist?id=${id}`}>
                     <div className="image">
-                        <img src={`${rp(coverImgUrl)}?param=100y100`} loading='lazy' />
+                        <img
+                            src={`${rp(coverImgUrl)}?param=100y100`}
+                            loading="lazy"
+                        />
                     </div>
                     <div className="content">
                         <span>{name}</span>
                         <span>{trackCount}首</span>
                     </div>
-                    <DeleteOutlined
+                    <Icon
+                        type="icon-delete"
                         className="delete"
                         onClick={(e) => {
                             e.preventDefault();
@@ -58,7 +64,7 @@ function View({ pageState, onDelete }: Props) {
                         }}
                     />
                 </Link>
-            )}
+            ))}
         </div>
     );
 }

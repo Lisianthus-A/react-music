@@ -1,31 +1,27 @@
-import { useRef, useEffect, useContext, useState } from 'react';
-import style from './index.module.scss';
-import {
-    UnorderedListOutlined,
-    CaretRightOutlined,
-    DownloadOutlined,
-    DeleteOutlined,
-    HeartOutlined
-} from '@ant-design/icons';
-import { convertTime } from '@/utils';
-import { useInterval } from '@/utils/hooks';
-import music from '@/utils/music';
-import cache from '@/utils/cache';
-import { FuncContext } from '@/containers';
+import { useRef, useEffect, useContext, useState } from "react";
+import style from "./index.module.scss";
+import { Icon } from "@/components";
+import { convertTime } from "@/utils";
+import { useInterval } from "@/utils/hooks";
+import music from "@/utils/music";
+import cache from "@/utils/cache";
+import { FuncContext } from "@/containers";
 
-import type { MouseEvent } from 'react';
-import type { State } from '@/containers';
+import type { MouseEvent } from "react";
+import type { State } from "@/containers";
 
 interface Props {
     isPlaying: boolean;
-    playlist: State['playlist'];
-    playingItem: State['playingItem'];
+    playlist: State["playlist"];
+    playingItem: State["playingItem"];
     currentTime: number;
 }
 
 function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
     const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
-    const [lyric, setLyric] = useState<null | [string, string, number][]>(playingItem.lyric);
+    const [lyric, setLyric] = useState<null | [string, string, number][]>(
+        playingItem.lyric
+    );
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
@@ -36,19 +32,19 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
     const handleClean = () => {
         cache().delAll();
         setPlaylist([]);
-    }
+    };
 
     // 播放点击的歌曲
     const handlePlaySong = async (index: number) => {
         const clickSong = playlist[index];
         playSong(clickSong);
-    }
+    };
 
     // 下载歌曲
     const handleDownload = (e: MouseEvent, id: number) => {
         e.stopPropagation();
         music().download(id);
-    }
+    };
 
     // 删除指定歌曲
     const handleDelete = async (e: MouseEvent, index: number) => {
@@ -56,7 +52,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
         const newList = playlist.slice();
 
         // 正在播放的歌曲的 index
-        const playingIndex = newList.findIndex(e => e.id === playingItem.id);
+        const playingIndex = newList.findIndex((e) => e.id === playingItem.id);
 
         // 歌曲列表删除对应项
         const delItem = newList.splice(index, 1);
@@ -69,13 +65,13 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
             const nextSong = newList[index] || newList[newList.length - 1];
             nextSong && playSong(nextSong);
         }
-    }
+    };
 
     // 收藏歌单中的某首歌
     const handleCollectSong = (e: MouseEvent, id: number) => {
         e.stopPropagation();
         collectSong(id);
-    }
+    };
 
     // 不断读取当前播放进度，滚动歌词
     useInterval(() => {
@@ -94,9 +90,10 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
 
         // 二分查找当前播放时间对应的元素的下标
         const find = () => {
-            let left = 0, right = elemList.length - 1;
+            let left = 0,
+                right = elemList.length - 1;
             while (left <= right) {
-                const mid = left + right >> 1;
+                const mid = (left + right) >> 1;
                 // @ts-ignore
                 const elemTime = Number(elemList[mid].dataset.time);
 
@@ -108,8 +105,7 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
             }
 
             return left - 1;
-        }
-
+        };
 
         let elementToScroll: Element;
         // @ts-ignore
@@ -141,13 +137,16 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
         elementToScroll.classList.add("active");
 
         // 歌词置中 195 = content 高度 / 2 + title 高度
-        const scrollPosition = activeRef.current!.offsetTop + activeRef.current!.scrollHeight / 2 - 195;
+        const scrollPosition =
+            activeRef.current!.offsetTop +
+            activeRef.current!.scrollHeight / 2 -
+            195;
         contentRef.current!.scrollTop = scrollPosition < 0 ? 0 : scrollPosition;
     }, 400);
 
     useEffect(() => {
         if (playingItem.id !== preIdRef.current) {
-            activeRef.current && activeRef.current.classList.remove('active');
+            activeRef.current && activeRef.current.classList.remove("active");
             contentRef.current!.scrollTop = 0;
             preIdRef.current = playingItem.id;
             setLyric(playingItem.lyric);
@@ -159,49 +158,83 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
     // 开始绘制音乐频谱图
     useEffect(() => {
         if (canvasRef.current) {
-            const ctx = canvasRef.current.getContext('2d');
+            const ctx = canvasRef.current.getContext("2d");
             music().setCanvasContext(ctx as any);
             music().drawStart();
         }
-    }, [canvasRef])
+    }, [canvasRef]);
 
     return (
         <div className={style.playlist}>
-            <div className="icon" title='播放列表'>
-                <label htmlFor='toggleList'>
-                    <UnorderedListOutlined />
+            <div className="icon" title="播放列表">
+                <label htmlFor="toggleList">
+                    <Icon type="icon-list" />
                     {playlist.length}
                 </label>
             </div>
-            <input type='checkbox' id='toggleList' className="toggle" />
+            <input type="checkbox" id="toggleList" className="toggle" />
             <div className="list">
                 <canvas ref={canvasRef} height="310" width="900" />
                 <div className="list-left">
                     <div className="title">
                         <span>播放列表 ({playlist.length})</span>
                         <span className="clean" onClick={handleClean}>
-                            <DeleteOutlined /> 清空
+                            <Icon type="icon-delete" /> 清空
                         </span>
                     </div>
                     <div className="content">
-                        {playlist.map(({ id, name, singers, duration }, idx) =>
-                            <div
-                                className={id === playingItem.id ? 'item playing' : 'item'}
-                                key={id}
-                                onClick={() => handlePlaySong(idx)}
-                            >
-                                {id === playingItem.id && <CaretRightOutlined />}
-                                <div className="song-title" title={name}>{name}</div>
-                                <div className="icons">
-                                    <HeartOutlined title='添加到歌单' onClick={(e) => handleCollectSong(e, id)} />
-                                    <DownloadOutlined title='下载' onClick={(e) => handleDownload(e, id)} />
-                                    <DeleteOutlined title='删除' onClick={(e) => handleDelete(e, idx)} />
+                        {playlist.map(
+                            ({ id, name, singers, duration }, idx) => (
+                                <div
+                                    className={
+                                        id === playingItem.id
+                                            ? "item playing"
+                                            : "item"
+                                    }
+                                    key={id}
+                                    onClick={() => handlePlaySong(idx)}
+                                >
+                                    {id === playingItem.id && (
+                                        <Icon type="icon-play" />
+                                    )}
+                                    <div className="song-title" title={name}>
+                                        {name}
+                                    </div>
+                                    <div className="icons">
+                                        <Icon
+                                            type="icon-heart"
+                                            onClick={(e) =>
+                                                handleCollectSong(e, id)
+                                            }
+                                        />
+                                        <Icon
+                                            type="icon-download"
+                                            onClick={(e) =>
+                                                handleDownload(e, id)
+                                            }
+                                        />
+                                        <Icon
+                                            type="icon-delete"
+                                            onClick={(e) =>
+                                                handleDelete(e, idx)
+                                            }
+                                        />
+                                    </div>
+                                    <div
+                                        className="singer"
+                                        title={singers
+                                            .map(({ name }) => name)
+                                            .join("/")}
+                                    >
+                                        {singers
+                                            .map(({ name }) => name)
+                                            .join("/")}
+                                    </div>
+                                    <div className="duration">
+                                        {convertTime(duration)}
+                                    </div>
                                 </div>
-                                <div className="singer" title={singers.map(({ name }) => name).join('/')}>
-                                    {singers.map(({ name }) => name).join('/')}
-                                </div>
-                                <div className="duration">{convertTime(duration)}</div>
-                            </div>
+                            )
                         )}
                     </div>
                 </div>
@@ -210,31 +243,37 @@ function Playlist({ isPlaying, playlist, playingItem, currentTime }: Props) {
                         <span title={playingItem.name}>{playingItem.name}</span>
                     </div>
                     <div className="content" ref={contentRef}>
-                        {lyric === null &&
-                            <p>歌词加载中...</p>
-                        }
-                        {lyric && lyric.length === 0 &&
-                            <p>暂无歌词</p>
-                        }
-                        {lyric && lyric.map(([origin, trans, time], idx) =>   //原歌词，翻译歌词，时间
-                            <p key={idx} data-time={time} className="lyric">
-                                {origin}
-                                {trans &&
-                                    <>
-                                        <br />
-                                        {trans}
-                                    </>
-                                }
-                            </p>
-                        )}
+                        {lyric === null && <p>歌词加载中...</p>}
+                        {lyric && lyric.length === 0 && <p>暂无歌词</p>}
+                        {lyric &&
+                            lyric.map(
+                                (
+                                    [origin, trans, time],
+                                    idx //原歌词，翻译歌词，时间
+                                ) => (
+                                    <p
+                                        key={idx}
+                                        data-time={time}
+                                        className="lyric"
+                                    >
+                                        {origin}
+                                        {trans && (
+                                            <>
+                                                <br />
+                                                {trans}
+                                            </>
+                                        )}
+                                    </p>
+                                )
+                            )}
                     </div>
                 </div>
-                <label htmlFor='toggleList'>
+                <label htmlFor="toggleList">
                     <div className="close">X</div>
                 </label>
             </div>
         </div>
     );
-};
+}
 
 export default Playlist;

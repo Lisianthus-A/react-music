@@ -154,9 +154,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            & > span {
+            & > svg {
                 cursor: pointer;
-                margin: 0 5px;
+                margin: 0 4px;
                 &:hover {
                     color: #fff;
                 }

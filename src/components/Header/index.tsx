@@ -1,7 +1,7 @@
 import { useState, useEffect, memo } from 'react';
 import style from './index.module.scss';
 import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import {  Icon } from "@/components";
 import { hasToken } from '@/utils';
 import { logout } from '@/apis/login';
 import LoginModal from './LoginModal';
@@ -49,7 +49,7 @@ function Header() {
                 // @ts-ignore
                 onClick={toggleVisible}
                 size={40}
-                icon={<UserOutlined />}
+                icon={<Icon type="icon-user" />}
                 src={userInfo.avatar ? `${userInfo.avatar}?param=80y80` : null}
             />
             <div className="username">{userInfo.name || '未登录'}</div>

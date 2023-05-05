@@ -1,24 +1,17 @@
-import { Fragment, useState, useContext, useEffect, memo } from 'react';
-import style from './index.module.scss';
-import { Loading, Pagination } from '@/components';
-import { Link } from 'react-router-dom';
-import { FuncContext, StateContext } from '@/containers';
-import { message, Modal } from 'antd';
-import {
-    CaretRightOutlined,
-    PlusOutlined,
-    HeartOutlined,
-    DownloadOutlined,
-    DeleteOutlined
-} from '@ant-design/icons';
-import { songlistTracks } from '@/apis/playlist';
-import { convertTime } from '@/utils';
-import { useQuery } from '@/utils/hooks';
-import { songDetail } from '@/apis/song';
-import { resolveSongs } from '@/utils/resolve';
-import music from '@/utils/music';
+import { Fragment, useState, useContext, useEffect, memo } from "react";
+import style from "./index.module.scss";
+import { Loading, Pagination, Icon } from "@/components";
+import { Link } from "react-router-dom";
+import { FuncContext, StateContext } from "@/containers";
+import { message, Modal } from "antd";
+import { songlistTracks } from "@/apis/playlist";
+import { convertTime } from "@/utils";
+import { useQuery } from "@/utils/hooks";
+import { songDetail } from "@/apis/song";
+import { resolveSongs } from "@/utils/resolve";
+import music from "@/utils/music";
 
-import type { SongItem } from '@/containers';
+import type { SongItem } from "@/containers";
 
 interface Props {
     songList?: SongItem[];
@@ -29,7 +22,7 @@ interface Props {
 function SongList({ songList, songIds, isCreator }: Props) {
     const state = useContext(StateContext);
     const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
-    const playlistId = useQuery('id');
+    const playlistId = useQuery("id");
     const { playingItem, playlist } = state;
 
     const [currentList, setCurrentList] = useState<SongItem[]>(songList || []);
@@ -38,7 +31,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
     //添加到播放列表
     const handleAddToPlaylist = (songItem: SongItem) => {
         // 播放列表中已有该歌曲
-        if (playlist.find(item => item.id === songItem.id)) {
+        if (playlist.find((item) => item.id === songItem.id)) {
             return;
         }
 
@@ -46,13 +39,13 @@ function SongList({ songList, songIds, isCreator }: Props) {
         const newList = playlist.slice();
         newList.push(songItem);
         setPlaylist(newList);
-    }
+    };
 
     //下载
     const handleDownload = (songItem: SongItem) => {
         const { id } = songItem;
         music().download(id);
-    }
+    };
 
     // 播放指定歌曲
     const handlePlay = (songItem: SongItem) => {
@@ -60,7 +53,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
         playSong(songItem);
 
         // 播放列表中已有该歌曲
-        if (playlist.find(item => item.id === songItem.id)) {
+        if (playlist.find((item) => item.id === songItem.id)) {
             return;
         }
 
@@ -68,33 +61,35 @@ function SongList({ songList, songIds, isCreator }: Props) {
         const newList = playlist.slice();
         newList.push(songItem);
         setPlaylist(newList);
-    }
+    };
 
     //收藏歌单中的某首歌
     const handleCollectSong = (id: number) => {
         collectSong(id);
-    }
+    };
 
     //删除歌单中的某首歌
     const handleDelete = (songItem: SongItem) => {
         Modal.confirm({
-            title: '删除歌曲',
+            title: "删除歌曲",
             content: `是否要删除歌曲 ${songItem.name} ？`,
-            okText: '是',
-            cancelText: '否',
+            okText: "是",
+            cancelText: "否",
             async onOk() {
                 // 歌单 id
-                await songlistTracks('del', playlistId as string, songItem.id);
-                message.success('已删除');
+                await songlistTracks("del", playlistId as string, songItem.id);
+                message.success("已删除");
 
                 // 在 currentList 中删除
                 const newList = currentList.slice();
-                const index = currentList.findIndex(item => item.id === songItem.id);
+                const index = currentList.findIndex(
+                    (item) => item.id === songItem.id
+                );
                 newList.splice(index, 1);
                 setCurrentList(newList);
-            }
-        })
-    }
+            },
+        });
+    };
 
     useEffect(() => {
         // 根据分页加载数据
@@ -103,8 +98,8 @@ function SongList({ songList, songIds, isCreator }: Props) {
             const start = (currentPage - 1) * 50;
             const ids = songIds!.slice(start, start + 50);
             const songRes = await songDetail(ids);
-            setCurrentList(resolveSongs(songRes.songs, 'detail'));
-        }
+            setCurrentList(resolveSongs(songRes.songs, "detail"));
+        };
 
         if (songIds) {
             getData();
@@ -134,44 +129,97 @@ function SongList({ songList, songIds, isCreator }: Props) {
                 </thead>
                 <tbody>
                     {currentList.map((item, index) => {
-                        const { id, name, singers, duration, isFree, albumId, albumName } = item;
+                        const {
+                            id,
+                            name,
+                            singers,
+                            duration,
+                            isFree,
+                            albumId,
+                            albumName,
+                        } = item;
 
                         return (
                             <tr key={id} className={isFree ? undefined : "fee"}>
                                 <td>
-                                    <span>{(currentPage - 1) * 50 + index + 1}</span>
-                                    <CaretRightOutlined
-                                        className={playingItem.id === id ? 'play-btn-playing' : 'play-btn'}
+                                    <span>
+                                        {(currentPage - 1) * 50 + index + 1}
+                                    </span>
+                                    <Icon
+                                        type="icon-play"
+                                        className={
+                                            playingItem.id === id
+                                                ? "play-btn-playing"
+                                                : "play-btn"
+                                        }
                                         onClick={() => handlePlay(item)}
                                     />
                                 </td>
                                 <td>
-                                    <Link to={`/Song?id=${id}`} title={name}>{name}</Link>
+                                    <Link to={`/Song?id=${id}`} title={name}>
+                                        {name}
+                                    </Link>
                                     <div className="icons">
-                                        {isFree &&
+                                        {isFree && (
                                             <>
-                                                <PlusOutlined title="添加到播放列表" onClick={() => handleAddToPlaylist(item)} />
-                                                <HeartOutlined title="收藏到歌单" onClick={() => handleCollectSong(id)} />
-                                                <DownloadOutlined title="下载" onClick={() => handleDownload(item)} />
+                                                <Icon
+                                                    type="icon-plus"
+                                                    onClick={() =>
+                                                        handleAddToPlaylist(
+                                                            item
+                                                        )
+                                                    }
+                                                />
+
+                                                <Icon
+                                                    type="icon-heart"
+                                                    onClick={() =>
+                                                        handleCollectSong(id)
+                                                    }
+                                                />
+                                                <Icon
+                                                    type="icon-download"
+                                                    onClick={() =>
+                                                        handleDownload(item)
+                                                    }
+                                                />
                                             </>
-                                        }
-                                        {isCreator &&
-                                            <DeleteOutlined title="删除" onClick={() => handleDelete(item)} />
-                                        }
+                                        )}
+                                        {isCreator && (
+                                            <Icon
+                                                type="icon-delete"
+                                                onClick={() =>
+                                                    handleDelete(item)
+                                                }
+                                            />
+                                        )}
                                     </div>
                                 </td>
                                 <td>{convertTime(duration)}</td>
                                 <td>
-                                    {singers.map(({ id, name }, idx) =>
+                                    {singers.map(({ id, name }, idx) => (
                                         <Fragment key={idx}>
-                                            <Link to={`/Singer?id=${id}`} title={name} className={style.singer}>{name}</Link>
-                                            {idx !== singers.length - 1 &&
+                                            <Link
+                                                to={`/Singer?id=${id}`}
+                                                title={name}
+                                                className={style.singer}
+                                            >
+                                                {name}
+                                            </Link>
+                                            {idx !== singers.length - 1 && (
                                                 <span> / </span>
-                                            }
+                                            )}
                                         </Fragment>
-                                    )}
+                                    ))}
                                 </td>
-                                <td><Link to={`/Album?id=${albumId}`} title={albumName}>{albumName}</Link></td>
+                                <td>
+                                    <Link
+                                        to={`/Album?id=${albumId}`}
+                                        title={albumName}
+                                    >
+                                        {albumName}
+                                    </Link>
+                                </td>
                             </tr>
                         );
                     })}
@@ -184,7 +232,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
                 onChange={setCurrentPage}
             />
         </div>
-    )
+    );
 }
 
 export default memo(SongList);
