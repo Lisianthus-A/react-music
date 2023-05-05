@@ -45,22 +45,22 @@ function Sidebar() {
                     发现音乐
                 </Link>
                 <div className="category">GitHub</div>
-                <Link
+                <a
                     className="item"
-                    to="https://github.com/lisianthus-a/react-music"
+                    href="https://github.com/lisianthus-a/react-music"
                     target="_blank"
                 >
                     <Icon type="icon-github-fill" />
                     项目地址
-                </Link>
-                <Link
+                </a>
+                <a
                     className="item"
-                    to="https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi"
+                    href="https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi"
                     target="_blank"
                 >
                     <Icon type="icon-file-text" />
                     API文档
-                </Link>
+                </a>
             </div>
             <label htmlFor="toggle">
                 <div className="toggle" />
