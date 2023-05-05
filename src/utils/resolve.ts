@@ -1,7 +1,7 @@
-import { replaceHttpToHttps as rp } from 'Utils/index';
+import { replaceHttpToHttps as rp } from '@/utils';
 
-import type { SongItem } from 'AppContainer/index';
-import type { LyricRes } from 'Apis/song';
+import type { SongItem } from '@/containers';
+import type { LyricRes } from '@/apis/song';
 
 /**
  * 将形如 03:40.00 的字符串转为秒数

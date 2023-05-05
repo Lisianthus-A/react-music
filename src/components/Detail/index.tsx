@@ -4,7 +4,7 @@ import PlaylistDetail from './PlaylistDetail';
 import AlbumDetail from './AlbumDetail';
 import SongDetail from './SongDetail';
 
-import type { SongItem } from 'AppContainer/index';
+import type { SongItem } from '@/containers';
 
 interface Props {
     data: {

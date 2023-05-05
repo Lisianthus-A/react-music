@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState, lazy } from 'react';
-import { Loading } from 'Components/index';
+import { Loading } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import routes from "./routes";
 

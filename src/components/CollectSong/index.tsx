@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import style from './index.module.scss';
 import { TreeSelect, Button, Modal, message } from 'antd';
-import { Loading } from 'Components/index';
-import { userPlaylist, songlistTracks } from 'Apis/playlist';
-import { hasToken } from 'Utils/index';
+import { Loading } from '@/components';
+import { userPlaylist, songlistTracks } from '@/apis/playlist';
+import { hasToken } from '@/utils';
 
 interface Props {
     id: number;

@@ -1,11 +1,11 @@
 import { Fragment, useContext } from 'react';
-import { FuncContext, StateContext } from 'AppContainer/index';
+import { FuncContext, StateContext } from '@/containers';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import { CaretRightOutlined, HeartOutlined, DownloadOutlined } from '@ant-design/icons';
-import music from 'Utils/music';
+import music from '@/utils/music';
 
-import type { SongItem } from 'AppContainer/index';
+import type { SongItem } from '@/containers';
 
 interface Props {
     detailData: {

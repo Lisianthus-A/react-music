@@ -3,7 +3,7 @@ import Playlist from './Playlist';
 import PlayMode from './PlayMode';
 import Volume from './Volume';
 
-import type { State } from 'AppContainer/index';
+import type { State } from '@/containers';
 
 interface Props {
     isPlaying: boolean;

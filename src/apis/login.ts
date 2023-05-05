@@ -2,7 +2,7 @@
 
 import ajax from './apiBase';
 // @ts-ignore
-import md5 from 'Utils/md5';
+import md5 from '@/utils/md5';
 
 // 邮箱登录
 export const emailLogin = (email: string, password: string) => {

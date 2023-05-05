@@ -2,9 +2,9 @@ import { memo } from 'react';
 import style from './index.module.scss';
 import { Link } from 'react-router-dom';
 import { LikeOutlined } from '@ant-design/icons';
-import { convertDate, replaceHttpToHttps as rp } from 'Utils/index';
+import { convertDate, replaceHttpToHttps as rp } from '@/utils';
 
-import type { PlaylistCommentRes } from 'Apis/playlist';
+import type { PlaylistCommentRes } from '@/apis/playlist';
 
 interface Props {
     data: PlaylistCommentRes;

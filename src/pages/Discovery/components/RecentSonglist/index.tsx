@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import style from './index.module.scss';
-import { FuncContext, StateContext } from 'AppContainer/index';
+import { FuncContext, StateContext } from '@/containers';
 import { Link } from 'react-router-dom';
 import { CaretRightOutlined } from '@ant-design/icons';
 

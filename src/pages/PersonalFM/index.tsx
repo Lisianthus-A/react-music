@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import style from './index.module.scss';
-import layoutStyle from 'Components/Layout/index.module.scss';
+import layoutStyle from '@/components/Layout/index.module.scss';
 import { Link } from 'react-router-dom';
 import { CaretRightOutlined, HeartOutlined, DeleteOutlined, StepForwardOutlined, HeartFilled, PauseOutlined } from '@ant-design/icons';
-import { Loading } from 'Components/index';
-import { FuncContext } from 'AppContainer/index';
-import { getFMList, unlike } from 'Apis/personalFM';
-import { hasToken, convertTime } from 'Utils/index';
-import { resolveSongs } from 'Utils/resolve';
+import { Loading } from '@/components';
+import { FuncContext } from '@/containers';
+import { getFMList, unlike } from '@/apis/personalFM';
+import { hasToken, convertTime } from '@/utils';
+import { resolveSongs } from '@/utils/resolve';
 
-import type { SongItem } from 'AppContainer/index';
+import type { SongItem } from '@/containers';
 import type { MouseEvent } from 'react';
 
 function PersonalFM() {

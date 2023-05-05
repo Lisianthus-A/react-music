@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from 'Utils/hooks';
-import { resolveSongs } from 'Utils/resolve';
-import { singerInfo, singerDesc, singerAlbum } from 'Apis/singer';
+import { useQuery } from '@/utils/hooks';
+import { resolveSongs } from '@/utils/resolve';
+import { singerInfo, singerDesc, singerAlbum } from '@/apis/singer';
 import View from './components/View';
 
-import type { SongItem } from 'AppContainer/index';
+import type { SongItem } from '@/containers';
 
 export interface PageState {
     header: any;

@@ -21,18 +21,9 @@
         "noEmit": true,
         "jsx": "react-jsx",
         "paths": {
-            "Components/*": [
-                "src/components/*"
+            "@/*": [
+                "src/*"
             ],
-            "Apis/*": [
-                "src/apis/*"
-            ],
-            "AppContainer/*": [
-                "src/containers/*"
-            ],
-            "Utils/*": [
-                "src/utils/*"
-            ]
         }
     },
     "include": [

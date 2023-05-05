@@ -1,9 +1,9 @@
 import { useState, useRef, useContext, useMemo, memo } from 'react';
 import style from './index.module.scss';
-import { convertTime } from 'Utils/index';
-import { FuncContext } from 'AppContainer/index';
+import { convertTime } from '@/utils';
+import { FuncContext } from '@/containers';
 
-import type { State } from 'AppContainer/index';
+import type { State } from '@/containers';
 
 interface Props {
     playingItem: State['playingItem'];

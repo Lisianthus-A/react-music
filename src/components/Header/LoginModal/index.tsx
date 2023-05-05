@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Form, Input, Button, Modal } from 'antd';
-import { emailLogin, phoneLogin } from 'Apis/login';
-import { replaceHttpToHttps as rp } from 'Utils/index';
+import { emailLogin, phoneLogin } from '@/apis/login';
+import { replaceHttpToHttps as rp } from '@/utils';
 
 interface Props {
     onCancel: (...args: any[]) => void;

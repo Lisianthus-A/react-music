@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import style from './index.module.scss';
-import { Header, Sidebar, MusicPlayer } from 'Components/index';
+import { Header, Sidebar, MusicPlayer } from '@/components';
 
 import type { ReactElement } from 'react';
 

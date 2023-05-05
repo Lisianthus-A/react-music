@@ -1,5 +1,5 @@
 // import { useEffect } from 'react';
-import { useQuery } from 'Utils/hooks';
+import { useQuery } from '@/utils/hooks';
 
 const Video = () => {
     const id = useQuery('id');

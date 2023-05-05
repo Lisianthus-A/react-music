@@ -1,5 +1,5 @@
 import style from './View.module.scss';
-import { Loading } from 'Components/index';
+import { Loading } from '@/components';
 import Carousel from './Carousel';
 import RecommentPlaylist from './RecommentPlaylist';
 import RecentSonglist from './RecentSonglist';

@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 import View from './components/View';
-import { search } from 'Apis/search';
-import { replaceHttpToHttps as rp } from 'Utils/index';
-import { resolveSongs } from 'Utils/resolve';
-import { useQuery, useSetState } from 'Utils/hooks';
+import { search } from '@/apis/search';
+import { replaceHttpToHttps as rp } from '@/utils';
+import { resolveSongs } from '@/utils/resolve';
+import { useQuery, useSetState } from '@/utils/hooks';
 
 import type {
     SearchSongRes,
     SearchAlbumRes,
     SearchSingerRes,
     SearchPlaylistRes
-} from 'Apis/search';
+} from '@/apis/search';
 
 type Type = 'song' | 'album' | 'singer' | 'playlist';
 

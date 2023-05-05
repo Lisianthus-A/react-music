@@ -1,8 +1,8 @@
 import { Fragment, useState, useContext, useEffect, memo } from 'react';
 import style from './index.module.scss';
-import { Loading, Pagination } from 'Components/index';
+import { Loading, Pagination } from '@/components';
 import { Link } from 'react-router-dom';
-import { FuncContext, StateContext } from 'AppContainer/index';
+import { FuncContext, StateContext } from '@/containers';
 import { message, Modal } from 'antd';
 import {
     CaretRightOutlined,
@@ -11,14 +11,14 @@ import {
     DownloadOutlined,
     DeleteOutlined
 } from '@ant-design/icons';
-import { songlistTracks } from 'Apis/playlist';
-import { convertTime } from 'Utils/index';
-import { useQuery } from 'Utils/hooks';
-import { songDetail } from 'Apis/song';
-import { resolveSongs } from 'Utils/resolve';
-import music from 'Utils/music';
+import { songlistTracks } from '@/apis/playlist';
+import { convertTime } from '@/utils';
+import { useQuery } from '@/utils/hooks';
+import { songDetail } from '@/apis/song';
+import { resolveSongs } from '@/utils/resolve';
+import music from '@/utils/music';
 
-import type { SongItem } from 'AppContainer/index';
+import type { SongItem } from '@/containers';
 
 interface Props {
     songList?: SongItem[];

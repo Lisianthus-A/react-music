@@ -7,14 +7,14 @@ import {
     DeleteOutlined,
     HeartOutlined
 } from '@ant-design/icons';
-import { convertTime } from 'Utils/index';
-import { useInterval } from 'Utils/hooks';
-import music from 'Utils/music';
-import cache from 'Utils/cache';
-import { FuncContext } from 'AppContainer/index';
+import { convertTime } from '@/utils';
+import { useInterval } from '@/utils/hooks';
+import music from '@/utils/music';
+import cache from '@/utils/cache';
+import { FuncContext } from '@/containers';
 
 import type { MouseEvent } from 'react';
-import type { State } from 'AppContainer/index';
+import type { State } from '@/containers';
 
 interface Props {
     isPlaying: boolean;

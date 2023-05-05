@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
-import { useSetState } from 'Utils/hooks';
+import { useSetState } from '@/utils/hooks';
 import { Modal, message } from 'antd';
-import music from 'Utils/music';
-import { Layout, CollectSong } from 'Components/index';
+import music from '@/utils/music';
+import { Layout, CollectSong } from '@/components';
 import Controller from "../routeController";
 // 全局引入 antd css
 import 'antd/dist/antd.min.css';
 
-import type { MusicItem } from 'Utils/music';
+import type { MusicItem } from '@/utils/music';
 
 export type SongItem = Omit<MusicItem['info'], 'lyric'>;
 

@@ -2,8 +2,8 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { debounce } from 'Utils/index';
-import { searchSuggest } from 'Apis/search';
+import { debounce } from '@/utils';
+import { searchSuggest } from '@/apis/search';
 
 type DropdownItemsMap = Record<string, {
     path: string;

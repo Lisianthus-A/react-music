@@ -1,10 +1,10 @@
 import { memo, useContext } from 'react';
 import style from './index.module.scss';
-import { FuncContext } from 'AppContainer/index';
-import { CustomIcon } from 'Components/index';
+import { FuncContext } from '@/containers';
+import { CustomIcon } from '@/components';
 import { RetweetOutlined } from '@ant-design/icons';
 
-import type { State } from 'AppContainer/index';
+import type { State } from '@/containers';
 
 interface Props {
     playMode: State['playMode'];

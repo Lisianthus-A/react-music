@@ -1,9 +1,9 @@
-import ajax from 'Apis/apiBase';
+import ajax from '@/apis/apiBase';
 import axios from 'axios';
 import cache from './cache';
-import { songDetail, getLyric } from 'Apis/song';
-import { resolveLyric, resolveSongs } from 'Utils/resolve';
-import { replaceHttpToHttps as rp } from 'Utils/index';
+import { songDetail, getLyric } from '@/apis/song';
+import { resolveLyric, resolveSongs } from '@/utils/resolve';
+import { replaceHttpToHttps as rp } from '@/utils';
 import getFreqData from './getFreqData';
 
 export interface MusicItem {

@@ -1,5 +1,5 @@
 import style from './index.module.scss';
-import { replaceHttpToHttps as rp } from 'Utils/index';
+import { replaceHttpToHttps as rp } from '@/utils';
 
 interface Props {
     data: any;

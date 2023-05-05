@@ -1,13 +1,13 @@
 import { useState, useEffect, useContext } from 'react';
 import View from './components/View';
-import { FuncContext } from 'AppContainer/index';
-import { resolveSongs } from 'Utils/resolve';
-import { banner, recommendPlaylist, topSong } from 'Apis/discovery';
-import { songDetail } from 'Apis/song';
-import { playlistDetail } from 'Apis/playlist';
+import { FuncContext } from '@/containers';
+import { resolveSongs } from '@/utils/resolve';
+import { banner, recommendPlaylist, topSong } from '@/apis/discovery';
+import { songDetail } from '@/apis/song';
+import { playlistDetail } from '@/apis/playlist';
 
-import type { BannerRes, RecommendPlaylistRes } from 'Apis/discovery';
-import type { SongItem } from 'AppContainer/index';
+import type { BannerRes, RecommendPlaylistRes } from '@/apis/discovery';
+import type { SongItem } from '@/containers';
 
 export interface PageState {
     // 轮播图

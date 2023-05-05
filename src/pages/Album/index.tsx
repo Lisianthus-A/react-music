@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { album, albumComment } from 'Apis/album';
-import { useQuery } from 'Utils/hooks';
-import { resolveSongs, resolveDetail } from 'Utils/resolve';
+import { album, albumComment } from '@/apis/album';
+import { useQuery } from '@/utils/hooks';
+import { resolveSongs, resolveDetail } from '@/utils/resolve';
 import View from './components/View';
 
-import type { SongItem } from 'AppContainer/index';
-import type { AlbumCommentRes } from 'Apis/album';
+import type { SongItem } from '@/containers';
+import type { AlbumCommentRes } from '@/apis/album';
 
 export interface PageState {
     // 详情

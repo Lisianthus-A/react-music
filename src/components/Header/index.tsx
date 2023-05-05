@@ -2,8 +2,8 @@ import { useState, useEffect, memo } from 'react';
 import style from './index.module.scss';
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { hasToken } from 'Utils/index';
-import { logout } from 'Apis/login';
+import { hasToken } from '@/utils';
+import { logout } from '@/apis/login';
 import LoginModal from './LoginModal';
 import Search from './Search';
 interface UserInfo {

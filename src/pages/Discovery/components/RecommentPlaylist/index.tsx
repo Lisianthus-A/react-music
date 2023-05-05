@@ -1,7 +1,7 @@
 import style from './index.module.scss';
 import { Link } from 'react-router-dom';
 import { CustomerServiceOutlined, CaretRightOutlined } from '@ant-design/icons';
-import { replaceHttpToHttps as rp } from 'Utils/index';
+import { replaceHttpToHttps as rp } from '@/utils';
 
 import type { MouseEvent } from 'react';
 import type { PageState } from '../../index';

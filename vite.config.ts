@@ -14,10 +14,7 @@ export default defineConfig({
     plugins: [react()],
     resolve: {
         alias: {
-            Components: path.join(__dirname, './src/components'),
-            Apis: path.join(__dirname, './src/apis'),
-            AppContainer: path.join(__dirname, './src/containers'),
-            Utils: path.join(__dirname, './src/utils')
+            "@": path.join(__dirname, "./src"),
         }
     }
 })

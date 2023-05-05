@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from 'Utils/hooks';
-import { resolveDetail } from 'Utils/resolve';
-import { playlistDetail, playlistComment } from 'Apis/playlist';
+import { useQuery } from '@/utils/hooks';
+import { resolveDetail } from '@/utils/resolve';
+import { playlistDetail, playlistComment } from '@/apis/playlist';
 import SongListView from './components/View';
 
-import type { PlaylistCommentRes } from 'Apis/playlist';
+import type { PlaylistCommentRes } from '@/apis/playlist';
 
 export interface PageState {
     // 详情

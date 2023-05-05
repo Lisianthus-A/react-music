@@ -1,8 +1,8 @@
 import { memo, useContext, useState } from 'react';
 import style from './index.module.scss';
-import { StateContext } from 'AppContainer/index';
-import { useInterval } from 'Utils/hooks';
-import music from 'Utils/music';
+import { StateContext } from '@/containers';
+import { useInterval } from '@/utils/hooks';
+import music from '@/utils/music';
 
 import SongInformation from './SongInformation';
 import ControlButton from './ControlButton';

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './index.module.scss';
-import { debounce, replaceHttpToHttps as rp } from 'Utils/index';
-import { useInterval } from 'Utils/hooks';
+import { debounce, replaceHttpToHttps as rp } from '@/utils';
+import { useInterval } from '@/utils/hooks';
 
 import type { CSSProperties } from 'react';
 import type { PageState } from '../../index';

@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import style from './index.module.scss';
 import { Link } from 'react-router-dom';
-import { convertTime } from 'Utils/index';
+import { convertTime } from '@/utils';
 
-import type { State } from 'AppContainer/index';
+import type { State } from '@/containers';
 
 interface Props {
     playingItem: State['playingItem'];

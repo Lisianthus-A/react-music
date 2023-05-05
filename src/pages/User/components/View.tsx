@@ -1,4 +1,4 @@
-import { useQuery } from 'Utils/hooks';
+import { useQuery } from '@/utils/hooks';
 
 const User = () => {
     const id = useQuery('id');

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { userPlaylist, deleteSonglist } from 'Apis/playlist';
+import { userPlaylist, deleteSonglist } from '@/apis/playlist';
 import { Modal } from 'antd';
 import View from './components/View';
-import { hasToken } from 'Utils/index';
+import { hasToken } from '@/utils';
 
-import type { UserSonglistRes } from 'Apis/playlist';
+import type { UserSonglistRes } from '@/apis/playlist';
 
 type Item = UserSonglistRes['playlist'][number];
 

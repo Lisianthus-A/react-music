@@ -6,7 +6,7 @@ import {
     PauseOutlined,
     StepForwardOutlined
 } from '@ant-design/icons';
-import { StateContext, FuncContext } from 'AppContainer/index';
+import { StateContext, FuncContext } from '@/containers';
 
 function ControlButton() {
     const { getSong, playSong, pauseSong } = useContext(FuncContext);

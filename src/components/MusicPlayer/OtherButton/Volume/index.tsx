@@ -2,7 +2,7 @@ import { memo } from 'react';
 import style from './index.module.scss';
 import { Slider } from 'antd';
 import { SoundOutlined } from '@ant-design/icons';
-import music from 'Utils/music';
+import music from '@/utils/music';
 
 function Volume() {
 

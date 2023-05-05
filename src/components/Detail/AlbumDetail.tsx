@@ -1,10 +1,10 @@
 import { Fragment, useContext } from 'react';
-import { FuncContext } from 'AppContainer/index';
+import { FuncContext } from '@/containers';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 
-import type { SongItem } from 'AppContainer/index';
+import type { SongItem } from '@/containers';
 
 interface Props {
     detailData: {

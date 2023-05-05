@@ -1,13 +1,13 @@
 import { useContext } from 'react';
-import { FuncContext } from 'AppContainer/index';
+import { FuncContext } from '@/containers';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
-import { songDetail } from 'Apis/song';
+import { songDetail } from '@/apis/song';
 
-import type { SongItem } from 'AppContainer/index';
-import { resolveSongs } from 'Utils/resolve';
-import cache from 'Utils/cache';
+import type { SongItem } from '@/containers';
+import { resolveSongs } from '@/utils/resolve';
+import cache from '@/utils/cache';
 
 interface Props {
     detailData: {

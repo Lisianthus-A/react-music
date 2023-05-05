@@ -1,5 +1,5 @@
 import style from './View.module.scss';
-import { Detail, CommentList, Loading } from 'Components/index';
+import { Detail, CommentList, Loading } from '@/components';
 
 import type { PageState } from '../index';
 
