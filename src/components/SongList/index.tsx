@@ -1,9 +1,9 @@
 import { Fragment, useState, useContext, useEffect, memo } from "react";
 import style from "./index.module.scss";
-import { Loading, Pagination, Icon } from "@/components";
+import { Loading, Pagination, Icon, Toast } from "@/components";
 import { Link } from "react-router-dom";
 import { FuncContext, StateContext } from "@/containers";
-import { message, Modal } from "antd";
+import { Modal } from "antd";
 import { songlistTracks } from "@/apis/playlist";
 import { convertTime } from "@/utils";
 import { useQuery } from "@/utils/hooks";
@@ -78,7 +78,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
             async onOk() {
                 // 歌单 id
                 await songlistTracks("del", playlistId as string, songItem.id);
-                message.success("已删除");
+                Toast.show("已删除");
 
                 // 在 currentList 中删除
                 const newList = currentList.slice();

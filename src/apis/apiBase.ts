@@ -1,10 +1,10 @@
-import { message } from "antd";
+import { Toast } from "@/components";
 import axios from "axios";
 import type { AxiosRequestConfig } from "axios";
 
 // 服务器地址
 // const baseUrl = "http://127.0.0.1:4101/api";
-const baseUrl = 'http://45.207.8.158:4101/api';
+const baseUrl = "http://45.207.8.158:4101/api";
 
 //请求携带的参数
 const baseParams: AxiosRequestConfig = {
@@ -25,8 +25,8 @@ const ajax = async <T = any>(
         ...baseParams,
         ...params,
     }).catch((err) => {
-        console.log('ajax error', err);
-        message.error("请求失败");
+        console.log("ajax error", err);
+        Toast.show("请求失败");
         return null;
     });
     if (response) {

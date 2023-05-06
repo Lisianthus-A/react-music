@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
-import style from './index.module.scss';
-import { TreeSelect, Button, Modal, message } from 'antd';
-import { Loading } from '@/components';
-import { userPlaylist, songlistTracks } from '@/apis/playlist';
-import { hasToken } from '@/utils';
+import { useState, useEffect } from "react";
+import style from "./index.module.scss";
+import { TreeSelect, Button, Modal } from "antd";
+import { Toast } from "@/components";
+import { Loading } from "@/components";
+import { userPlaylist, songlistTracks } from "@/apis/playlist";
+import { hasToken } from "@/utils";
 
 interface Props {
     id: number;
@@ -13,7 +14,7 @@ function CollectSong({ id }: Props) {
     const [tree, setTree] = useState<any>(null);
     const [selectedId, setSelectedId] = useState(null);
     const [isLoading, setLoading] = useState(false);
-    const userid = window.localStorage.getItem('userid');
+    const userid = window.localStorage.getItem("userid");
 
     //确认
     const handleClick = () => {
@@ -22,11 +23,11 @@ function CollectSong({ id }: Props) {
         }
 
         setLoading(true);
-        songlistTracks('add', selectedId, id).then(() => {
+        songlistTracks("add", selectedId, id).then(() => {
             Modal.destroyAll();
-            message.success('已收藏歌曲');
+            Toast.show("已收藏歌曲");
         });
-    }
+    };
 
     useEffect(() => {
         if (!userid) {
@@ -36,25 +37,35 @@ function CollectSong({ id }: Props) {
         const getData = async () => {
             const listData = await userPlaylist(userid);
             // 我创建的歌单
-            const create = listData.playlist.filter(({ subscribed }) => !subscribed);
+            const create = listData.playlist.filter(
+                ({ subscribed }) => !subscribed
+            );
             // 我收藏的歌单
-            const subscribe = listData.playlist.filter(({ subscribed }) => subscribed);
+            const subscribe = listData.playlist.filter(
+                ({ subscribed }) => subscribed
+            );
             const treeData = [
                 {
                     title: `我创建的歌单 (${create.length})`,
-                    value: '0-0',
+                    value: "0-0",
                     selectable: false,
-                    children: create.map(({ name, id }) => ({ title: name, value: id })),
+                    children: create.map(({ name, id }) => ({
+                        title: name,
+                        value: id,
+                    })),
                 },
                 {
                     title: `我收藏的歌单 (${subscribe.length})`,
-                    value: '0-1',
+                    value: "0-1",
                     selectable: false,
-                    children: subscribe.map(({ name, id }) => ({ title: name, value: id }))
+                    children: subscribe.map(({ name, id }) => ({
+                        title: name,
+                        value: id,
+                    })),
                 },
             ];
             setTree(treeData);
-        }
+        };
         getData();
     }, []);
 
@@ -67,10 +78,10 @@ function CollectSong({ id }: Props) {
     }
 
     return (
-        <div className={style['collect-song']}>
+        <div className={style["collect-song"]}>
             <TreeSelect
                 treeData={tree}
-                style={{ width: '100%' }}
+                style={{ width: "100%" }}
                 onChange={(value) => setSelectedId(value)}
                 treeDefaultExpandAll={true}
                 placeholder="请选择歌单"
