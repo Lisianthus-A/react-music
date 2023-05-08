@@ -1,0 +1,45 @@
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  padding: 0 12px;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid #e8eaed;
+  border-radius: 8px;
+  outline: 0;
+
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 2px 2px rgba(171, 59, 59, 0.2);
+  }
+
+  &::placeholder {
+    font-size: 14px;
+  }
+
+  &::-webkit-input-placeholder {
+    font-size: 14px;
+  }
+
+  &::-moz-placeholder {
+    font-size: 14px;
+  }
+}
+
+.with-icon {
+  padding-right: 36px;
+}
+
+.icon {
+  position: absolute;
+  font-size: 24px;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+}
