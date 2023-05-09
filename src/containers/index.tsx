@@ -1,12 +1,8 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSetState } from "@/utils/hooks";
-import { Modal } from "antd";
 import music from "@/utils/music";
-import { Layout, CollectSong, Toast } from "@/components";
+import { Layout, CollectSong, Toast, Modal } from "@/components";
 import Controller from "../routeController";
-// 全局引入 antd css
-import "antd/dist/antd.min.css";
-
 import type { MusicItem } from "@/utils/music";
 
 export type SongItem = Omit<MusicItem["info"], "lyric">;
@@ -66,6 +62,13 @@ const audio: HTMLAudioElement = document.getElementById("audio") as any;
 
 function AppContainer() {
     const [state, setState] = useSetState<State>(initialState);
+    const [visible, setVisible] = useState(false);
+    const [collectId, setCollectId] = useState(0);
+
+    const handleCancle = useCallback(() => {
+        setCollectId(0);
+        setVisible(false);
+    }, []);
 
     const globalFunc = useMemo(() => {
         // 根据播放模式获取上一首 / 下一首歌曲
@@ -132,13 +135,8 @@ function AppContainer() {
         };
 
         const collectSong = (id: number) => {
-            Modal.info({
-                title: "收藏歌曲",
-                maskClosable: true,
-                okButtonProps: { style: { display: "none" } },
-                width: 500,
-                content: <CollectSong id={id} />,
-            });
+            setVisible(true);
+            setCollectId(id);
         };
 
         // 暂停歌曲
@@ -264,6 +262,16 @@ function AppContainer() {
                 <Layout>
                     <Controller />
                 </Layout>
+                {!!collectId && (
+                    <Modal
+                        title="收藏歌曲到歌单"
+                        visible={visible}
+                        onCancel={handleCancle}
+                        noFooter
+                    >
+                        <CollectSong id={collectId} />
+                    </Modal>
+                )}
             </StateContext.Provider>
         </FuncContext.Provider>
     );

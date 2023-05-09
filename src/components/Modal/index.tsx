@@ -8,12 +8,21 @@ interface Props {
     className?: string;
     visible: boolean;
     title?: string;
+    noFooter?: boolean;
     children: ReactNode;
     onOk?: (evt: MouseEvent<HTMLDivElement>) => any;
     onCancel?: (evt: MouseEvent) => any;
 }
 
-function Modal({ className, visible, title, children, onCancel, onOk }: Props) {
+function Modal({
+    className,
+    visible,
+    title,
+    noFooter = false,
+    children,
+    onCancel,
+    onOk,
+}: Props) {
     const modalRef = useRef<HTMLDivElement>(null);
 
     useLayoutEffect(() => {
@@ -42,14 +51,13 @@ function Modal({ className, visible, title, children, onCancel, onOk }: Props) {
         };
     }, [visible]);
 
-    if (!visible) {
-        return null;
-    }
-
     return (
         <Portal>
             <style>{`body { overflow: hidden; }`}</style>
-            <div className={styles.overlay}>
+            <div
+                className={styles.overlay}
+                style={{ display: visible ? "block" : "none" }}
+            >
                 <div
                     className={classNames(styles.modal, className)}
                     ref={modalRef}
@@ -63,14 +71,19 @@ function Modal({ className, visible, title, children, onCancel, onOk }: Props) {
                         />
                     </div>
                     <div className="modal-content">{children}</div>
-                    <div className="modal-footer">
-                        <Button type="primary" onClick={onOk}>
-                            确认
-                        </Button>
-                        <Button style={{ marginLeft: 8 }} onClick={onCancel}>
-                            取消
-                        </Button>
-                    </div>
+                    {!noFooter && (
+                        <div className="modal-footer">
+                            <Button type="primary" onClick={onOk}>
+                                确认
+                            </Button>
+                            <Button
+                                style={{ marginLeft: 8 }}
+                                onClick={onCancel}
+                            >
+                                取消
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
         </Portal>

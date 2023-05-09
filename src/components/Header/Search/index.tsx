@@ -1,7 +1,6 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Input } from "antd";
-import { Icon } from "@/components";
+import { Input } from "@/components";
 import { debounce } from "@/utils";
 import { searchSuggest } from "@/apis/search";
 
@@ -19,7 +18,6 @@ function Search() {
     const [searchValue, setSearchValue] = useState<string>("");
     // 搜索框是否 focus
     const [focus, setFocus] = useState(false);
-    const inputRef = useRef<any>(null);
     // 下拉列表
     const [dropdownItemsMap, setDropdownItemsMap] = useState<DropdownItemsMap>(
         {}
@@ -75,17 +73,15 @@ function Search() {
     return (
         <div className="search-container">
             <Input
+                type="search"
                 className="search-input"
-                placeholder="搜索音乐"
-                suffix={<Icon type="icon-search" />}
-                ref={inputRef}
+                placeholder="搜索歌曲"
                 onFocus={() => setFocus(true)}
                 onBlur={() => setTimeout(setFocus, 100, false)}
                 value={searchValue}
-                onChange={(evt) => setSearchValue(evt.target.value)}
+                onChange={setSearchValue}
                 onPressEnter={() => {
                     // 按下回车键，跳转到搜索结果页
-                    inputRef.current && inputRef.current.blur();
                     navigate(`/Search?keyword=${searchValue}`);
                     setSearchValue("");
                     setDropdownItemsMap({});

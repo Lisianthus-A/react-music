@@ -1,7 +1,6 @@
 import { memo } from "react";
 import style from "./index.module.scss";
-import { Slider } from "antd";
-import { Icon } from "@/components";
+import { Icon, ProgressBar } from "@/components";
 import music from "@/utils/music";
 
 function Volume() {
@@ -16,10 +15,10 @@ function Volume() {
                 <Icon type="icon-voice" />
             </div>
             <div className="slider">
-                <Slider
-                    defaultValue={100}
+                <ProgressBar
                     onChange={handleChangeVolume}
-                    tipFormatter={(value) => `${value}%`}
+                    defaultValue={100}
+                    tipFormatter={(value) => `${value >> 0}%`}
                 />
             </div>
         </div>

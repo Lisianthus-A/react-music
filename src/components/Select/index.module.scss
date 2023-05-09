@@ -1,0 +1,83 @@
+.select-wrapper {
+  position: relative;
+}
+
+.select {
+  padding: 0 32px 0 12px;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  border: 1px solid #e8eaed;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 3px -2px #e6e6e6;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  transition: all 150ms ease;
+  user-select: none;
+}
+
+.select-focus {
+  outline: 0;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 119, 255, 0.2);
+
+  & + .sprites {
+    color: var(--primary-color);
+  }
+}
+
+.options {
+  padding: 4px;
+  position: absolute;
+  max-height: 200px;
+  background-color: #fff;
+  z-index: 1003;
+  user-select: none;
+  font-size: 16px;
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: auto;
+}
+
+.options::-webkit-scrollbar {
+  width: 8px;
+}
+
+.options::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #666;
+  }
+}
+
+.option {
+  padding: 0 12px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: #e6e6e6;
+  }
+}
+
+.option-selected {
+  background-color: #a3c8ff;
+
+  &:hover {
+    background-color: #9cc0f7;
+  }
+}
+
+.arrow {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 16px;
+  height: 16px;
+}

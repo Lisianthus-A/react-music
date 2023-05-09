@@ -42,7 +42,7 @@ function Sidebar() {
                     to="/MySongList"
                 >
                     <Icon type="icon-heart" />
-                    发现音乐
+                    我的音乐
                 </Link>
                 <div className="category">GitHub</div>
                 <a

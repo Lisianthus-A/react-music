@@ -1,14 +1,31 @@
 body {
+    font-size: 14px;
     margin: 0;
     font-family: Helvetica, sans-serif;
+    line-height: 1.5715;
     color: rgba(0, 0, 0, 0.8);
     --primary-color: #c62f2f;
+    overflow: hidden;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 img {
     image-rendering: -webkit-optimize-contrast;
+    vertical-align: middle;
 }
 
 audio {
     display: none;
+}
+
+a {
+    color: #1890ff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #40a9ff;
 }

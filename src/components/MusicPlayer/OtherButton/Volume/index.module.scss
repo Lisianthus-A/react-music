@@ -3,6 +3,8 @@
 
     :global {
         .slider {
+            display: flex;
+            align-items: center;
             padding-left: 5px;
             width: 150px;
         }
@@ -12,18 +14,6 @@
             &:hover {
                 color: #666;
             }
-        }
-
-        .ant-slider-handle {
-            border: 2px solid #c62f2f !important;
-        }
-
-        .ant-slider-rail {
-            background-color: #bbb !important;
-        }
-
-        .ant-slider-track {
-            background-color: #c62f2f !important;
         }
     }
 }

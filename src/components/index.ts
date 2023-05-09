@@ -16,3 +16,6 @@ export { default as Modal } from "./Modal";
 export { default as Icon } from "./Icon";
 export { default as Toast } from "./Toast";
 export { default as Input } from "./Input";
+export { default as Select } from "./Select";
+export { default as Tooltip } from "./Tooltip";
+export { default as ProgressBar } from "./ProgressBar";

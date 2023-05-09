@@ -10,6 +10,9 @@ interface Props {
     type?: "text" | "search" | "password";
     maxLength?: number;
     placeholder?: string;
+    onFocus?: () => void;
+    onBlur?: () => void;
+    onPressEnter?: (value: string) => void;
     onSearch?: (value: string) => void;
     onChange?: (value: string) => void;
 }
@@ -21,8 +24,11 @@ function Input({
     type = "text",
     placeholder,
     maxLength,
+    onFocus,
+    onBlur,
     onChange,
     onSearch,
+    onPressEnter,
 }: Props) {
     const valueRef = useRef("");
 
@@ -30,6 +36,10 @@ function Input({
         if (type === "search") {
             onSearch && onSearch(valueRef.current);
         }
+    };
+
+    const handlePressEnter = () => {
+        onPressEnter && onPressEnter(valueRef.current);
     };
 
     return (
@@ -45,8 +55,11 @@ function Input({
                 maxLength={maxLength}
                 style={style}
                 value={value}
+                onFocus={onFocus}
+                onBlur={onBlur}
                 onKeyDown={(evt) => {
                     if (evt.key === "Enter") {
+                        handlePressEnter();
                         doSearch();
                     }
                 }}

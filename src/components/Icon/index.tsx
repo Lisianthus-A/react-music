@@ -3,6 +3,7 @@ import classNames from "classnames";
 import type { CSSProperties, MouseEvent } from "react";
 
 export type IconType =
+    | "icon-arrow-down"
     | "icon-file-text"
     | "icon-delete"
     | "icon-like"

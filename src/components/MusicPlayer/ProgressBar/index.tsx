@@ -1,12 +1,13 @@
-import { useState, useRef, useContext, useMemo, memo } from 'react';
-import style from './index.module.scss';
-import { convertTime } from '@/utils';
-import { FuncContext } from '@/containers';
+import { useState, useRef, useContext, useMemo, memo } from "react";
+import style from "./index.module.scss";
+import { ProgressBar as CProgressBar } from "@/components";
+import { convertTime } from "@/utils";
+import { FuncContext } from "@/containers";
 
-import type { State } from '@/containers';
+import type { State } from "@/containers";
 
 interface Props {
-    playingItem: State['playingItem'];
+    playingItem: State["playingItem"];
     currentTime: number;
     setCurrentTime: (value: number) => void;
 }
@@ -21,27 +22,10 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
     const tipRef = useRef<HTMLDivElement>(null);
     const { playSong } = useContext(FuncContext);
 
-    // 鼠标按下
-    const handleMouseDown = (e: any) => {
-        // 按下的不是鼠标左键
-        if (e.button !== 0) {
-            return;
-        }
-
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mouseup', handleMouseUp);
-
-        setVisible(true);
-        const width = window.innerWidth < 1000 ? 1000 : window.innerWidth;
-        const percent = e.clientX / width;
-        railRef.current!.style.width = `${percent * 100}%`;
-        tipRef.current!.textContent = convertTime(percent * duration);
-    }
-
     // 鼠标抬起
     const handleMouseUp = (e: any) => {
-        window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('mouseup', handleMouseUp);
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
 
         setVisible(false);
         const width = window.innerWidth < 1000 ? 1000 : window.innerWidth;
@@ -56,7 +40,7 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
         }
         setCurrentTime(offset);
         playSong(playingItem, offset);
-    }
+    };
 
     // 鼠标移动
     const handleMouseMove = (e: any) => {
@@ -70,25 +54,32 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
         }
         railRef.current!.style.width = `${percent * 100}%`;
         tipRef.current!.textContent = convertTime(percent * duration);
-    }
-
-    const railStyle = useMemo(() => {
-        // 文本框可见，说明正在拖动
-        if (visible) {
-            return { width: railRef.current!.style.width };
-        }
-
-        return { width: `${currentTime / duration * 100}%` };
-    }, [currentTime, duration]);
+    };
 
     return (
-        <div className={style.progressbar}>
-            <div className="track" onMouseDown={handleMouseDown} />
-            <div className="rail" onMouseDown={handleMouseDown} ref={railRef} style={railStyle}>
-                <div className="handle" />
-                <div className="tooltip" ref={tipRef} style={{ display: visible ? 'block' : 'none' }} />
-            </div>
-        </div>
+        <CProgressBar
+            className={style.progressbar}
+            onChangeEnd={(value) => playSong(playingItem, value)}
+            tipFormatter={convertTime}
+            max={duration}
+            value={currentTime}
+        />
+        // <div className={style.progressbar}>
+        //     <div className="track" onMouseDown={handleMouseDown} />
+        //     <div
+        //         className="rail"
+        //         onMouseDown={handleMouseDown}
+        //         ref={railRef}
+        //         style={railStyle}
+        //     >
+        //         <div className="handle" />
+        //         <div
+        //             className="tooltip"
+        //             ref={tipRef}
+        //             style={{ display: visible ? "block" : "none" }}
+        //         />
+        //     </div>
+        // </div>
     );
 }
 

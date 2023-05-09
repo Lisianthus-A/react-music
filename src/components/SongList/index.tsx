@@ -1,9 +1,8 @@
 import { Fragment, useState, useContext, useEffect, memo } from "react";
 import style from "./index.module.scss";
-import { Loading, Pagination, Icon, Toast } from "@/components";
+import { Loading, Pagination, Icon, Toast, Modal } from "@/components";
 import { Link } from "react-router-dom";
 import { FuncContext, StateContext } from "@/containers";
-import { Modal } from "antd";
 import { songlistTracks } from "@/apis/playlist";
 import { convertTime } from "@/utils";
 import { useQuery } from "@/utils/hooks";
@@ -27,6 +26,8 @@ function SongList({ songList, songIds, isCreator }: Props) {
 
     const [currentList, setCurrentList] = useState<SongItem[]>(songList || []);
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [visible, setVisible] = useState(false);
+    const [selectedItem, setSelectedItem] = useState<SongItem | null>(null);
 
     //添加到播放列表
     const handleAddToPlaylist = (songItem: SongItem) => {
@@ -69,26 +70,20 @@ function SongList({ songList, songIds, isCreator }: Props) {
     };
 
     //删除歌单中的某首歌
-    const handleDelete = (songItem: SongItem) => {
-        Modal.confirm({
-            title: "删除歌曲",
-            content: `是否要删除歌曲 ${songItem.name} ？`,
-            okText: "是",
-            cancelText: "否",
-            async onOk() {
-                // 歌单 id
-                await songlistTracks("del", playlistId as string, songItem.id);
-                Toast.show("已删除");
+    const handleDelete = async () => {
+        if (!selectedItem) {
+            return;
+        }
 
-                // 在 currentList 中删除
-                const newList = currentList.slice();
-                const index = currentList.findIndex(
-                    (item) => item.id === songItem.id
-                );
-                newList.splice(index, 1);
-                setCurrentList(newList);
-            },
-        });
+        await songlistTracks("del", playlistId as string, selectedItem.id);
+        Toast.show("已删除");
+
+        // 在 currentList 中删除
+        const newList = currentList.filter(
+            (item) => item.id !== selectedItem.id
+        );
+        setCurrentList(newList);
+        setVisible(false);
     };
 
     useEffect(() => {
@@ -188,9 +183,10 @@ function SongList({ songList, songIds, isCreator }: Props) {
                                         {isCreator && (
                                             <Icon
                                                 type="icon-delete"
-                                                onClick={() =>
-                                                    handleDelete(item)
-                                                }
+                                                onClick={() => {
+                                                    setVisible(true);
+                                                    setSelectedItem(item);
+                                                }}
                                             />
                                         )}
                                     </div>
@@ -231,6 +227,14 @@ function SongList({ songList, songIds, isCreator }: Props) {
                 pageSize={50}
                 onChange={setCurrentPage}
             />
+            <Modal
+                visible={visible}
+                title="删除歌曲"
+                onCancel={() => setVisible(false)}
+                onOk={handleDelete}
+            >
+                是否要删除歌曲 {selectedItem?.name} ？
+            </Modal>
         </div>
     );
 }
