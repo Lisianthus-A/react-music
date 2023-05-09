@@ -120,7 +120,7 @@ async function consturctServer(moduleDefs) {
     if (req.path !== '/' && !req.path.includes('.')) {
       res.set({
         'Access-Control-Allow-Credentials': true,
-        'Access-Control-Allow-Origin': isDeploy ? 'http://45.207.8.158:4101' : req.headers.origin || '*',
+        'Access-Control-Allow-Origin': isDeploy ? 'http://45.207.8.158' : req.headers.origin || '*',
         'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
         'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
         'Content-Type': 'application/json; charset=utf-8',

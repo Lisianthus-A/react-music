@@ -2,7 +2,7 @@
 基于 React + Vite + TypeScript 的仿网易云音乐播放器，使用一行 npm 命令即可在本地运行前后端。
 
 ## 预览
-<a href="http://45.207.8.158:4101" target="_blank">在线预览</a>
+<a href="http://45.207.8.158" target="_blank">在线预览</a>
 
 ![preview](./.github/preview.png)
 
