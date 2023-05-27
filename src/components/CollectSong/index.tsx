@@ -7,9 +7,10 @@ import { hasToken } from "@/utils";
 
 interface Props {
     id: number;
+    onCollect?: () => void;
 }
 
-function CollectSong({ id }: Props) {
+function CollectSong({ id, onCollect }: Props) {
     const [selectedId, setSelectedId] = useState("");
     const [options, setOptions] = useState<{ value: any; text: string }[]>([]);
     const userid = window.localStorage.getItem("userid");
@@ -22,6 +23,7 @@ function CollectSong({ id }: Props) {
 
         await songlistTracks("add", selectedId, id);
         Toast.show("已收藏");
+        onCollect && onCollect();
     };
 
     useEffect(() => {
@@ -42,6 +44,8 @@ function CollectSong({ id }: Props) {
                     text: name,
                 }))
             );
+            // @ts-ignore
+            selectedId(createdList[0].id);
         };
         getData();
     }, []);

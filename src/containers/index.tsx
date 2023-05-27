@@ -264,12 +264,12 @@ function AppContainer() {
                 </Layout>
                 {!!collectId && (
                     <Modal
-                        title="收藏歌曲到歌单"
+                        title="收藏歌曲"
                         visible={visible}
                         onCancel={handleCancle}
                         noFooter
                     >
-                        <CollectSong id={collectId} />
+                        <CollectSong id={collectId} onCollect={handleCancle} />
                     </Modal>
                 )}
             </StateContext.Provider>
