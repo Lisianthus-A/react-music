@@ -45,7 +45,7 @@ function CollectSong({ id, onCollect }: Props) {
                 }))
             );
             // @ts-ignore
-            selectedId(createdList[0].id);
+            setSelectedId(createdList[0].id);
         };
         getData();
     }, []);
