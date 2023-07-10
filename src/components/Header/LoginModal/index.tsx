@@ -76,6 +76,7 @@ function ModalView({ onCancel, setUserInfo }: Props) {
                     value={password}
                     onChange={setPassword}
                     placeholder="请输入密码"
+                    onPressEnter={onOk}
                 />
             </div>
         </Modal>
