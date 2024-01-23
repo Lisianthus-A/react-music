@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { userPlaylist, deleteSonglist } from "@/apis/playlist";
 import { Modal } from "@/components";
 import View from "./components/View";
-import { hasToken } from "@/utils";
+import { getCookie } from "@/utils";
 
 import type { UserSonglistRes } from "@/apis/playlist";
 
@@ -16,7 +16,7 @@ export interface PageState {
 function MySongList() {
     const userid = window.localStorage.getItem("userid");
 
-    if (!userid || !hasToken()) {
+    if (!userid || !getCookie()) {
         return <div>需要登录使用</div>;
     }
 

@@ -121,7 +121,7 @@ async function consturctServer(moduleDefs) {
       res.set({
         'Access-Control-Allow-Credentials': true,
         'Access-Control-Allow-Origin': isDeploy ? 'http://45.207.8.158' : req.headers.origin || '*',
-        'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+        'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type,token',
         'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
         'Content-Type': 'application/json; charset=utf-8',
       })
@@ -185,7 +185,11 @@ async function consturctServer(moduleDefs) {
         if (typeof item.cookie === 'string') {
           item.cookie = cookieToJson(decode(item.cookie))
         }
-      })
+      });
+
+      if (req.headers.token) {
+        req.cookies = req.headers.token;
+      }
 
       let query = Object.assign(
         {},
