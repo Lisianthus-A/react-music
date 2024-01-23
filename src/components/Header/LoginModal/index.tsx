@@ -1,7 +1,14 @@
-import { useState } from "react";
-import { Modal, Input, Toast } from "@/components";
-import { emailLogin, phoneLogin } from "@/apis/login";
+import { useEffect, useState } from "react";
+import { Modal, Input, Toast, Tabs } from "@/components";
+import {
+    emailLogin,
+    phoneLogin,
+    getLoginQR,
+    checkLoginQR,
+    loginStatus,
+} from "@/apis/login";
 import { replaceHttpToHttps as rp } from "@/utils";
+import { useInterval } from "@/utils/hooks";
 
 interface Props {
     onCancel: (...args: any[]) => void;
@@ -9,8 +16,18 @@ interface Props {
 }
 
 function ModalView({ onCancel, setUserInfo }: Props) {
+    // login by account
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [loginType, setLoginType] = useState<"account" | "qr">("qr");
+    // login by qrcode
+    const [src, setSrc] = useState("");
+    const [delay, setDelay] = useState<number | null>(1500);
+
+    const handleTabChange = (type: string) => {
+        setLoginType(type as any);
+        setDelay(type === "qr" ? 1500 : null);
+    };
 
     // 登录
     const onOk = async () => {
@@ -43,7 +60,7 @@ function ModalView({ onCancel, setUserInfo }: Props) {
         // 用户 id
         window.localStorage.setItem("userid", res.account.id);
         // token
-        window.localStorage.setItem("token", res.token);
+        window.localStorage.setItem("cookie", res.cookie);
         // token 过期时间
         const maxAge = Number(
             res.cookie.match(/MUSIC_U=\w+;\s?Max-Age=(\d+)/)[1]
@@ -61,24 +78,98 @@ function ModalView({ onCancel, setUserInfo }: Props) {
         onCancel();
     };
 
+    const generateQR = async () => {
+        const res = await getLoginQR();
+        setSrc(res.data.qrimg);
+    };
+
+    useEffect(() => {
+        generateQR();
+    }, []);
+
+    useInterval(async () => {
+        if (src === "") {
+            return;
+        }
+
+        // 800 为二维码过期
+        // 801 为等待扫码
+        // 802 为待确认
+        // 803 为授权登录成功
+        const res = await checkLoginQR();
+        if (res.code === 800) {
+            Toast.show("二维码已过期，重新生成中");
+            setDelay(null);
+            await generateQR();
+            setDelay(1500);
+        } else if (res.code === 803) {
+            setDelay(null);
+            const sRes = await loginStatus(res.cookie);
+
+            // token 过期时间
+            const maxAge = Number(
+                res.cookie.match(/MUSIC_U=\w+;\s?Max-Age=(\d+)/)[1]
+            );
+            window.localStorage.setItem(
+                "timestampBefore",
+                String(Date.now() + maxAge * 1000)
+            );
+            // 昵称
+            window.localStorage.setItem("username", sRes.data.profile.nickname);
+            // 头像
+            window.localStorage.setItem("avatar", sRes.data.profile.avatarUrl);
+            // 用户 id
+            window.localStorage.setItem("userid", sRes.data.profile.userId);
+            // token
+            window.localStorage.setItem("cookie", res.cookie);
+            setUserInfo({
+                name: sRes.data.profile.nickname,
+                avatar: sRes.data.profile.avatarUrl,
+            });
+            onCancel();
+        }
+    }, delay);
+
     return (
-        <Modal title="登录" visible={true} onCancel={onCancel} onOk={onOk}>
-            <div style={{ padding: "0 16px 16px" }}>
-                <div style={{ marginBottom: 8 }}>账号</div>
-                <Input
-                    value={username}
-                    onChange={setUsername}
-                    placeholder="请输入手机号或邮箱"
-                />
-                <div style={{ margin: "8px 0" }}>密码</div>
-                <Input
-                    type="password"
-                    value={password}
-                    onChange={setPassword}
-                    placeholder="请输入密码"
-                    onPressEnter={onOk}
-                />
-            </div>
+        <Modal
+            title="登录"
+            visible={true}
+            onCancel={onCancel}
+            onOk={onOk}
+            noFooter={loginType === "qr"}
+        >
+            <Tabs onChange={handleTabChange}>
+                <Tabs.Pane text="扫码登录" key="qr">
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                        }}
+                    >
+                        <img src={src} />
+                        <div>使用网易云音乐APP扫码</div>
+                    </div>
+                </Tabs.Pane>
+                <Tabs.Pane text="账号登录" key="account">
+                    <div style={{ padding: "0 16px 16px" }}>
+                        <div style={{ marginBottom: 8 }}>账号</div>
+                        <Input
+                            value={username}
+                            onChange={setUsername}
+                            placeholder="请输入手机号或邮箱"
+                        />
+                        <div style={{ margin: "8px 0" }}>密码</div>
+                        <Input
+                            type="password"
+                            value={password}
+                            onChange={setPassword}
+                            placeholder="请输入密码"
+                            onPressEnter={onOk}
+                        />
+                    </div>
+                </Tabs.Pane>
+            </Tabs>
         </Modal>
     );
 }

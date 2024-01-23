@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Loading, Icon } from "@/components";
 import { FuncContext } from "@/containers";
 import { getFMList, unlike } from "@/apis/personalFM";
-import { hasToken, convertTime } from "@/utils";
+import { getCookie, convertTime } from "@/utils";
 import { resolveSongs } from "@/utils/resolve";
 
 import type { SongItem } from "@/containers";
@@ -13,7 +13,7 @@ import type { MouseEvent } from "react";
 
 function PersonalFM() {
     // 无 token，未登录
-    if (!hasToken()) {
+    if (!getCookie()) {
         return <div>私人 FM 需要登录使用</div>;
     }
 

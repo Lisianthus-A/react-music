@@ -3,7 +3,7 @@ import style from "./index.module.scss";
 import { Toast, Button, Select } from "@/components";
 import { Loading } from "@/components";
 import { userPlaylist, songlistTracks } from "@/apis/playlist";
-import { hasToken } from "@/utils";
+import { getCookie } from "@/utils";
 
 interface Props {
     id: number;
@@ -50,7 +50,7 @@ function CollectSong({ id, onCollect }: Props) {
         getData();
     }, []);
 
-    if (!userid || !hasToken()) {
+    if (!userid || !getCookie()) {
         return <div>需要登录</div>;
     }
 

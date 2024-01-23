@@ -1,19 +1,16 @@
-/**
- * 判断当前 token 是否过期
- */
-export const hasToken = (): boolean => {
-    // token 过期时间
+export const getCookie = () => {
+    // 过期时间
     const timestampBefore = Number(localStorage.getItem('timestampBefore'));
 
-    // token 已过期
+    // 已过期
     if (Date.now() >= timestampBefore) {
         localStorage.removeItem('timestampBefore');
-        localStorage.removeItem('token');
-        return false;
+        localStorage.removeItem('cookie');
+        return null;
     }
 
-    const token = localStorage.getItem('token');
-    return Boolean(token);
+    const token = localStorage.getItem('cookie');
+    return token;
 }
 
 /**

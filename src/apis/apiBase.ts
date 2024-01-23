@@ -1,4 +1,5 @@
 import { Toast } from "@/components";
+import { getCookie } from "@/utils";
 import axios from "axios";
 import type { AxiosRequestConfig } from "axios";
 
@@ -12,14 +13,18 @@ const baseParams: AxiosRequestConfig = {
     headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        token: "",
     },
-    withCredentials: true,
 };
 
 const ajax = async <T = any>(
     url: string,
     params: Omit<AxiosRequestConfig, "url"> = {}
 ): Promise<T> => {
+    if (baseParams.headers!.token === "") {
+        baseParams.headers!.token = getCookie() || "";
+    }
+
     const response = await axios({
         url: baseUrl + url,
         ...baseParams,

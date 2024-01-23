@@ -1,7 +1,7 @@
 import { useState, useEffect, memo } from "react";
 import style from "./index.module.scss";
 import { Icon } from "@/components";
-import { hasToken } from "@/utils";
+import { getCookie } from "@/utils";
 import { logout } from "@/apis/login";
 import LoginModal from "./LoginModal";
 import Search from "./Search";
@@ -19,7 +19,7 @@ function Header() {
 
     useEffect(() => {
         // token 未过期
-        if (hasToken()) {
+        if (getCookie()) {
             const name = window.localStorage.getItem("username");
             const avatar = window.localStorage.getItem("avatar");
             if (name && avatar) {
