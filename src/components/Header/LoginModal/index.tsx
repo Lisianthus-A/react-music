@@ -59,16 +59,24 @@ function ModalView({ onCancel, setUserInfo }: Props) {
         window.localStorage.setItem("avatar", rp(res.profile.avatarUrl));
         // 用户 id
         window.localStorage.setItem("userid", res.account.id);
-        // token
-        window.localStorage.setItem("cookie", res.cookie);
-        // token 过期时间
-        const maxAge = Number(
-            res.cookie.match(/MUSIC_U=\w+;\s?Max-Age=(\d+)/)[1]
-        );
-        window.localStorage.setItem(
-            "timestampBefore",
-            String(Date.now() + maxAge * 1000)
-        );
+
+        const matchRes: string[] | null = res.cookie.match(/[\w-]+=\w+/g);
+        if (matchRes) {
+            const cookieObj: Record<string, string> = {};
+            matchRes.forEach((item) => {
+                const [key, value] = item.split("=");
+                const lowerKey = key.toLowerCase();
+                if (["max-age", "expires"].indexOf(lowerKey) >= 0) {
+                    return;
+                }
+                cookieObj[key] = value;
+            });
+            let cookie = "";
+            Object.keys(cookieObj).forEach((key) => {
+                cookie += `${key}=${cookieObj[key]}; `;
+            });
+            window.localStorage.setItem("cookie", cookie);
+        }
 
         setUserInfo({
             name: res.profile.nickname,
@@ -104,16 +112,24 @@ function ModalView({ onCancel, setUserInfo }: Props) {
             setDelay(1500);
         } else if (res.code === 803) {
             setDelay(null);
-            const sRes = await loginStatus(res.cookie);
+            let cookie = "";
+            const matchRes: string[] | null = res.cookie.match(/[\w-]+=\w+/g);
+            if (matchRes) {
+                const cookieObj: Record<string, string> = {};
+                matchRes.forEach((item) => {
+                    const [key, value] = item.split("=");
+                    const lowerKey = key.toLowerCase();
+                    if (["max-age", "expires"].indexOf(lowerKey) >= 0) {
+                        return;
+                    }
+                    cookieObj[key] = value;
+                });
+                Object.keys(cookieObj).forEach((key) => {
+                    cookie += `${key}=${cookieObj[key]}; `;
+                });
+            }
+            const sRes = await loginStatus(cookie);
 
-            // token 过期时间
-            const maxAge = Number(
-                res.cookie.match(/MUSIC_U=\w+;\s?Max-Age=(\d+)/)[1]
-            );
-            window.localStorage.setItem(
-                "timestampBefore",
-                String(Date.now() + maxAge * 1000)
-            );
             // 昵称
             window.localStorage.setItem("username", sRes.data.profile.nickname);
             // 头像
@@ -121,7 +137,7 @@ function ModalView({ onCancel, setUserInfo }: Props) {
             // 用户 id
             window.localStorage.setItem("userid", sRes.data.profile.userId);
             // token
-            window.localStorage.setItem("cookie", res.cookie);
+            window.localStorage.setItem("cookie", cookie);
             setUserInfo({
                 name: sRes.data.profile.nickname,
                 avatar: sRes.data.profile.avatarUrl,
