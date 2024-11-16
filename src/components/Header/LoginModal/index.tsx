@@ -12,12 +12,11 @@ import { useInterval } from "@/utils/hooks";
 
 interface Props {
     onCancel: (...args: any[]) => void;
-    setUserInfo: (...args: any[]) => void;
 }
 
 const ONE_DAY = 86400000;
 
-function ModalView({ onCancel, setUserInfo }: Props) {
+function ModalView({ onCancel }: Props) {
     // login by account
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -137,12 +136,10 @@ function ModalView({ onCancel, setUserInfo }: Props) {
             // 用户 id
             window.localStorage.setItem("userid", sRes.data.profile.userId);
             // token
+            const exp = Date.now() + 6 * ONE_DAY
             window.localStorage.setItem("cookie", cookie);
-            setUserInfo({
-                name: sRes.data.profile.nickname,
-                avatar: sRes.data.profile.avatarUrl,
-            });
-            onCancel();
+            window.localStorage.setItem("expired", String(exp));
+            location.reload();
         }
     }, delay);
 

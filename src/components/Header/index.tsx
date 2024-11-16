@@ -64,10 +64,7 @@ function Header() {
             )}
             <Search />
             {visible && (
-                <LoginModal
-                    onCancel={toggleVisible}
-                    setUserInfo={setUserInfo}
-                />
+                <LoginModal onCancel={toggleVisible} />
             )}
         </div>
     );
