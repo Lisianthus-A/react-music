@@ -14,11 +14,6 @@ export interface PageState {
 }
 
 function MySongList() {
-    const userid = window.localStorage.getItem("userid");
-
-    if (!userid || !getCookie()) {
-        return <div>需要登录使用</div>;
-    }
 
     const [pageState, setPageState] = useState<PageState | null>(null);
     const [visible, setVisible] = useState(false);
@@ -58,6 +53,10 @@ function MySongList() {
     }, []);
 
     useEffect(() => {
+        const userid = window.localStorage.getItem("userid") || "";
+        if (!userid) {
+            return;
+        }
         const getData = async () => {
             const listData = await userPlaylist(userid);
             const state: any = {
@@ -77,6 +76,10 @@ function MySongList() {
         };
         getData();
     }, []);
+
+    if (!getCookie()) {
+        return <div>需要登录使用</div>;
+    }
 
     return (
         <>

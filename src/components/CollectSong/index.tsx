@@ -11,9 +11,8 @@ interface Props {
 }
 
 function CollectSong({ id, onCollect }: Props) {
-    const [selectedId, setSelectedId] = useState("");
+    const [selectedId, setSelectedId] = useState<any>("");
     const [options, setOptions] = useState<{ value: any; text: string }[]>([]);
-    const userid = window.localStorage.getItem("userid");
 
     //确认
     const handleClick = async () => {
@@ -27,6 +26,7 @@ function CollectSong({ id, onCollect }: Props) {
     };
 
     useEffect(() => {
+        const userid = window.localStorage.getItem("userid") || "";
         if (!userid) {
             return;
         }
@@ -44,13 +44,12 @@ function CollectSong({ id, onCollect }: Props) {
                     text: name,
                 }))
             );
-            // @ts-ignore
-            setSelectedId(createdList[0].id);
+            setSelectedId(createdList[0]?.id);
         };
         getData();
     }, []);
 
-    if (!userid || !getCookie()) {
+    if (!getCookie()) {
         return <div>需要登录</div>;
     }
 

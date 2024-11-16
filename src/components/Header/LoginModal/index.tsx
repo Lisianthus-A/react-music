@@ -15,6 +15,8 @@ interface Props {
     setUserInfo: (...args: any[]) => void;
 }
 
+const ONE_DAY = 86400000;
+
 function ModalView({ onCancel, setUserInfo }: Props) {
     // login by account
     const [username, setUsername] = useState("");
@@ -75,13 +77,11 @@ function ModalView({ onCancel, setUserInfo }: Props) {
             Object.keys(cookieObj).forEach((key) => {
                 cookie += `${key}=${cookieObj[key]}; `;
             });
+            const exp = Date.now() + 6 * ONE_DAY
             window.localStorage.setItem("cookie", cookie);
+            window.localStorage.setItem("expired", String(exp));
+            location.reload();
         }
-
-        setUserInfo({
-            name: res.profile.nickname,
-            avatar: rp(res.profile.avatarUrl),
-        });
 
         onCancel();
     };

@@ -21,9 +21,7 @@ const ajax = async <T = any>(
     url: string,
     params: Omit<AxiosRequestConfig, "url"> = {}
 ): Promise<T> => {
-    if (baseParams.headers!.token === "") {
-        baseParams.headers!.token = getCookie() || "";
-    }
+    baseParams.headers!.token = getCookie() || "";
 
     const response = await axios({
         url: baseUrl + url,

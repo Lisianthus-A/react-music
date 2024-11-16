@@ -7,7 +7,8 @@ const { cookieToJson } = require('./util/index')
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component');
 
-const isDeploy = process.argv[2] === '--deploy';
+// const isDeploy = process.argv[2] === '--deploy';
+const isDeploy = true;
 
 /**
  * The version check result.
