@@ -152,18 +152,6 @@ function ModalView({ onCancel }: Props) {
             noFooter={loginType === "qr"}
         >
             <Tabs onChange={handleTabChange}>
-                <Tabs.Pane text="扫码登录" key="qr">
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                        }}
-                    >
-                        <img src={src} />
-                        <div>使用网易云音乐APP扫码</div>
-                    </div>
-                </Tabs.Pane>
                 <Tabs.Pane text="账号登录" key="account">
                     <div style={{ padding: "0 16px 16px" }}>
                         <div style={{ marginBottom: 8 }}>账号</div>
@@ -180,6 +168,18 @@ function ModalView({ onCancel }: Props) {
                             placeholder="请输入密码"
                             onPressEnter={onOk}
                         />
+                    </div>
+                </Tabs.Pane>
+                <Tabs.Pane text="扫码登录" key="qr">
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                        }}
+                    >
+                        <img src={src} />
+                        <div>使用网易云音乐APP扫码</div>
                     </div>
                 </Tabs.Pane>
             </Tabs>
