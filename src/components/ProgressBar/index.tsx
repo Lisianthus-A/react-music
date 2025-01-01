@@ -62,6 +62,7 @@ function ProgressBar({
             return;
         }
 
+        document.body.style.userSelect = "none";
         window.addEventListener("mousemove", handleMouseMove);
         window.addEventListener("mouseup", handleMouseUp);
 
@@ -109,6 +110,7 @@ function ProgressBar({
             return;
         }
 
+        document.body.style.userSelect = "";
         window.removeEventListener("mousemove", handleMouseMove);
         window.removeEventListener("mouseup", handleMouseUp);
 
