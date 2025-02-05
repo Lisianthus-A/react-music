@@ -7,10 +7,10 @@ const smoothConstantDown = 0.08;
 const smoothConstantUp = 0.8;
 const N = FFT_SIZE / 2 + 1;
 const lastY = new Array(N).fill(0);
+const PI2 = Math.PI * 2;
 
-// 汉明距离
 const hamming = (val: number): number => {
-    return 0.54 - 0.46 * Math.cos(6.283185307179586 * val / (FFT_SIZE - 1));
+    return 0.54 - 0.46 * Math.cos(PI2 * val / (FFT_SIZE - 1));
 }
 
 const rfft = (channelData: Float32Array) => {
