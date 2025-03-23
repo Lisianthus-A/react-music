@@ -42,19 +42,6 @@
   overflow: auto;
 }
 
-.options::-webkit-scrollbar {
-  width: 8px;
-}
-
-.options::-webkit-scrollbar-thumb {
-  background-color: #aaa;
-  border-radius: 4px;
-
-  &:hover {
-    background-color: #666;
-  }
-}
-
 .option {
   padding: 0 12px;
   height: 40px;

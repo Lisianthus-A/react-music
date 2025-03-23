@@ -104,21 +104,6 @@
             text-align: center;
             scroll-behavior: smooth;
             scrollbar-width: thin; //FireFox浏览器有效
-
-            //以下对Chrome有效
-            &::-webkit-scrollbar {
-                //滚动条
-                display: block;
-                width: 4px;
-            }
-            &::-webkit-scrollbar-thumb {
-                //滑块
-                background-color: #aaa;
-                border-radius: 2px;
-            }
-            &::-webkit-scrollbar-thumb:hover {
-                background-color: #666;
-            }
         }
 
         .list-right > .content {
