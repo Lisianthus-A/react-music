@@ -18,8 +18,8 @@ importers:
         specifier: ^4.17.2
         version: 4.20.0
       express-fileupload:
-        specifier: ^1.2.1
-        version: 1.5.1
+        specifier: ^1.5.2
+        version: 1.5.2
       md5:
         specifier: ^2.3.0
         version: 2.3.0
@@ -673,8 +673,8 @@ packages:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
 
-  express-fileupload@1.5.1:
-    resolution: {integrity: sha512-LsYG1ALXEB7vlmjuSw8ABeOctMp8a31aUC5ZF55zuz7O2jLFnmJYrCv10py357ky48aEoBQ/9bVXgFynjvaPmA==}
+  express-fileupload@1.5.2:
+    resolution: {integrity: sha512-wxUJn2vTHvj/kZCVmc5/bJO15C7aSMyHeuXYY3geKpeKibaAoQGcEv5+sM6nHS2T7VF+QHS4hTWPiY2mKofEdg==}
     engines: {node: '>=12.0.0'}
 
   express@4.20.0:
@@ -1996,7 +1996,7 @@ snapshots:
 
   etag@1.8.1: {}
 
-  express-fileupload@1.5.1:
+  express-fileupload@1.5.2:
     dependencies:
       busboy: 1.6.0
 
