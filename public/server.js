@@ -80,11 +80,6 @@ const sendFile = (req, res) => new Promise(resolve => {
 });
 
 const server = http.createServer((req, res) => {
-    if (path.normalize(decodeURIComponent(req.url)) !== decodeURIComponent(req.url)) {
-        res.statusCode = 403;
-        res.end();
-        return;
-    }
     const { url } = req;
     sendFile(req, res).then(result => {
         // result && console.log(`[Server OK]: ${url}`);
