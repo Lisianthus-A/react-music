@@ -103,7 +103,8 @@
             font-size: 14px;
             text-align: center;
             scroll-behavior: smooth;
-            scrollbar-width: thin; //FireFox浏览器有效
+            // scrollbar-width: thin;
+            // scrollbar-color: #888 transparent;
         }
 
         .list-right > .content {

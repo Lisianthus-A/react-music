@@ -29,3 +29,13 @@ a {
 a:hover {
     color: #40a9ff;
 }
+
+::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: #888;
+}
