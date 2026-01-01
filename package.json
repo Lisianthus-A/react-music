@@ -30,7 +30,7 @@
         "axios": "^1.8.2",
         "classnames": "^2.3.2",
         "express": "^4.17.2",
-        "express-fileupload": "^1.2.1",
+        "express-fileupload": "^1.5.2",
         "md5": "^2.3.0",
         "music-metadata": "^7.12.3",
         "pac-proxy-agent": "^5.0.0",
