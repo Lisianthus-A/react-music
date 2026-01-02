@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useSetState } from "@/utils/hooks";
+import { useInterval, useSetState } from "@/utils/hooks";
 import music from "@/utils/music";
 import { Layout, CollectSong, Toast, Modal } from "@/components";
 import Controller from "../routeController";
@@ -60,6 +60,9 @@ export const FuncContext = React.createContext<FuncCtx>(null);
 
 const audio: HTMLAudioElement = document.getElementById("audio") as any;
 
+let seekTime = 0;
+let seekTimer = 0;
+
 function AppContainer() {
     const [state, setState] = useSetState<State>(initialState);
     const [visible, setVisible] = useState(false);
@@ -112,6 +115,11 @@ function AppContainer() {
 
         // 播放歌曲
         const playSong = (item: SongItem | PlayingItem, offset?: number) => {
+            if (offset === undefined) {
+                offset = seekTime !== 0 ? seekTime : undefined;
+                seekTime = 0;
+            }
+
             const { id } = item;
             setState({
                 isPlaying: true,
@@ -132,6 +140,9 @@ function AppContainer() {
                         Toast.show(`加载歌曲失败，id:${id}`);
                     }
                 });
+            if (navigator.mediaSession) {
+                navigator.mediaSession.playbackState = "playing";
+            }
         };
 
         const collectSong = (id: number) => {
@@ -144,6 +155,9 @@ function AppContainer() {
             audio.pause();
             music().pause();
             setState({ isPlaying: false });
+            if (navigator.mediaSession) {
+                navigator.mediaSession.playbackState = "paused";
+            }
         };
 
         // 设置歌单列表
@@ -165,6 +179,16 @@ function AppContainer() {
             setPlayMode,
         };
     }, []);
+
+    useInterval(() => {
+        if (!navigator.mediaSession || !MediaMetadata || seekTime !== 0) {
+            return;
+        }
+        navigator.mediaSession.setPositionState({
+            duration: state.playingItem.duration,
+            position: music().getCurrentTime(),
+        });
+    }, 300);
 
     // mediaSession MediaMetadata
     // 目前 AudioContext 不支持 mediaSession
@@ -234,6 +258,7 @@ function AppContainer() {
         });
         // 暂停
         navigator.mediaSession.setActionHandler("pause", () => {
+            clearTimeout(seekTimer);
             globalFunc.pauseSong();
         });
         navigator.mediaSession.setActionHandler("previoustrack", () => {
@@ -243,6 +268,21 @@ function AppContainer() {
         navigator.mediaSession.setActionHandler("nexttrack", () => {
             const nextSong = globalFunc.getSong("next", state);
             globalFunc.playSong(nextSong);
+        });
+
+        navigator.mediaSession.setActionHandler("seekto", (evt) => {
+            navigator.mediaSession.setPositionState({
+                duration: state.playingItem.duration,
+                position: evt.seekTime,
+            });
+            seekTime = evt.seekTime || 0;
+            if (state.isPlaying) {
+                const { playingItem } = state;
+                clearTimeout(seekTimer);
+                seekTimer = window.setTimeout(() => {
+                    globalFunc.playSong(playingItem);
+                }, 40);
+            }
         });
     }, [state]);
 
