@@ -15,9 +15,6 @@ interface Props {
 function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
     const { duration } = playingItem;
 
-    // 文本框是否可见
-    const [visible, setVisible] = useState(false);
-
     const railRef = useRef<HTMLDivElement>(null);
     const tipRef = useRef<HTMLDivElement>(null);
     const { playSong } = useContext(FuncContext);
@@ -27,7 +24,6 @@ function ProgressBar({ playingItem, currentTime, setCurrentTime }: Props) {
         window.removeEventListener("mousemove", handleMouseMove);
         window.removeEventListener("mouseup", handleMouseUp);
 
-        setVisible(false);
         const width = window.innerWidth < 1000 ? 1000 : window.innerWidth;
         const percent = e.clientX / width;
 
