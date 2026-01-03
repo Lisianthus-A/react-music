@@ -60,7 +60,7 @@ export const FuncContext = React.createContext<FuncCtx>(null);
 
 const audio: HTMLAudioElement = document.getElementById("audio") as any;
 
-let seekTime = 0;
+let seekTime: number | null = null;
 let seekTimer = 0;
 
 function AppContainer() {
@@ -116,8 +116,8 @@ function AppContainer() {
         // 播放歌曲
         const playSong = (item: SongItem | PlayingItem, offset?: number) => {
             if (offset === undefined) {
-                offset = seekTime !== 0 ? seekTime : undefined;
-                seekTime = 0;
+                offset = seekTime !== null ? seekTime : undefined;
+                seekTime = null;
             }
 
             const { id } = item;
@@ -181,7 +181,7 @@ function AppContainer() {
     }, []);
 
     useInterval(() => {
-        if (!navigator.mediaSession || !MediaMetadata || seekTime !== 0) {
+        if (!navigator.mediaSession || !MediaMetadata || seekTime !== null) {
             return;
         }
         navigator.mediaSession.setPositionState({
