@@ -2,6 +2,7 @@ import { Fragment, useContext } from "react";
 import { FuncContext, StateContext } from "@/containers";
 import { Link } from "react-router-dom";
 import { Button, Icon } from "@/components";
+import { convertTime } from "@/utils";
 import music from "@/utils/music";
 
 import type { SongItem } from "@/containers";
@@ -53,6 +54,34 @@ function SongDetail({ detailData, songData, lyric }: Props) {
         music().download(id);
     };
 
+    // 下载歌词
+    const handleDownloadLrc = () => {
+        if (lyric.length === 0) {
+            return;
+        }
+
+        const singerNames = singers.map(({ name }) => name).join("_");
+        let text = "";
+        text += `[ti: ${title}]\n`;
+        text += `[ar: ${singerNames}]\n`;
+        lyric.forEach(([origin, trans, second]) => {
+            const time = convertTime(second);
+            text += `[${time}.00]${origin}\n`;
+            if (trans) {
+                text += `[${time}.00]${trans}\n`;
+            }
+        });
+
+        const blob = new Blob([text], { type: "text/plain" });
+        const blobUrl = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = blobUrl;
+        a.download = `${title} - ${singerNames}.lrc`;
+        a.click();
+        URL.revokeObjectURL(blobUrl);
+    };
+
     return (
         <>
             <div className="list-left">
@@ -97,6 +126,12 @@ function SongDetail({ detailData, songData, lyric }: Props) {
                         disabled={!isFree}
                     >
                         下载
+                    </Button>
+                    <Button
+                        icon={<Icon type="icon-download" />}
+                        onClick={handleDownloadLrc}
+                    >
+                        下载歌词
                     </Button>
                 </div>
                 <input
