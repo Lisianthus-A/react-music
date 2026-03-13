@@ -64,11 +64,14 @@ function SongDetail({ detailData, songData, lyric }: Props) {
         let text = "";
         text += `[ti: ${title}]\n`;
         text += `[ar: ${singerNames}]\n`;
-        lyric.forEach(([origin, trans, second]) => {
+        lyric.forEach(([origin, trans, second], index) => {
             const time = convertTime(second);
             text += `[${time}.00]${origin}\n`;
             if (trans) {
-                text += `[${time}.00]${trans}\n`;
+                const transSecond = lyric[index + 1]
+                    ? lyric[index + 1][2]
+                    : songData.duration;
+                text += `[${convertTime(transSecond)}.00]${trans}\n`;
             }
         });
 
