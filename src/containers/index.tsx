@@ -26,6 +26,7 @@ export interface State {
 const initSong = {
     id: 776039,
     name: "ONE's hope",
+    transName: '唯一的希望',
     singers: [{ id: 18303, name: "やなぎなぎ" }],
     duration: 369.72,
     cover: "https://p1.music.126.net/l22TRH7bs4VG6HMT2Iy56w==/2511284557902801.jpg",

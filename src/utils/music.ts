@@ -11,6 +11,7 @@ export interface MusicItem {
     info: {
         id: number;
         name: string;
+        transName: string;
         singers: Array<{ id: number, name: string; }>
         duration: number;
         cover: string;
@@ -279,7 +280,7 @@ class Music {
         if (!music) {
             return false;
         }
-        const { singers, name } = music.info;
+        const { singers, name, transName } = music.info;
         const singerName = singers.map((singer) => singer.name).join('_');
         const blob = new Blob([music.buffer]);
         const blobUrl = URL.createObjectURL(blob);
@@ -287,7 +288,7 @@ class Music {
         // 使用 a 标签结合 download 属性下载
         const a = document.createElement('a');
         a.href = blobUrl;
-        a.download = `${name} - ${singerName}.mp3`;
+        a.download = `${name}${transName && `(${transName})`}-${singerName}.mp3`;
         a.click();
         URL.revokeObjectURL(blobUrl);
 

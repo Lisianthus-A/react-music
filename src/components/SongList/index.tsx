@@ -127,6 +127,7 @@ function SongList({ songList, songIds, isCreator }: Props) {
                         const {
                             id,
                             name,
+                            transName,
                             singers,
                             duration,
                             isFree,
@@ -153,6 +154,11 @@ function SongList({ songList, songIds, isCreator }: Props) {
                                 <td>
                                     <Link to={`/Song?id=${id}`} title={name}>
                                         {name}
+                                        {transName && (
+                                            <span className="trans-name">
+                                                ({transName})
+                                            </span>
+                                        )}
                                     </Link>
                                     <div className="icons">
                                         {isFree && (

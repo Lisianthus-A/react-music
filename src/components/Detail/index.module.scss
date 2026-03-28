@@ -34,6 +34,15 @@
             }
         }
 
+        .title-trans::before {
+            content: " - ";
+        }
+
+        .title-trans {
+            font-size: 16px;
+            color: #999;
+        }
+
         .title-playlist::before {
             content: "歌单";
         }

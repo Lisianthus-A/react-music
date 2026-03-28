@@ -99,6 +99,7 @@ export const resolveSongs = (songs: any[], type: SongsType): SongItem[] => {
         return {
             id,
             name,
+            transName: (item.tns || []).join(''),
             isFree,
             duration: duration * 0.001,
             // @ts-ignore
@@ -117,7 +118,7 @@ export const resolveSongs = (songs: any[], type: SongsType): SongItem[] => {
  * 
  * 专辑返回 { isPlaylist, isAlbum, isSong, title, cover, singers, publishTime, description }
  * 
- * 歌曲返回 { isPlaylist, isAlbum, isSong, title, cover, singers, albumId, albumName }
+ * 歌曲返回 { isPlaylist, isAlbum, isSong, title, cover, singers, albumId, albumName, transTitle }
  */
 export const resolveDetail = (res: any): Record<string, any> => {
     // 是否为歌单
@@ -154,10 +155,11 @@ export const resolveDetail = (res: any): Record<string, any> => {
         const cover = rp(res.album.picUrl);
         return { isPlaylist, isAlbum, isSong, title, cover, singers, publishTime, description };
     } else {  // 单曲
-        const { name: title, al: { id: albumId, name: albumName } } = res.songs[0];
+        const { name: title, tns = [], al: { id: albumId, name: albumName } } = res.songs[0];
         // @ts-ignore
         const singers = res.songs[0].ar.map(({ id, name }) => ({ id, name }));
         const cover = rp(res.songs[0].al.picUrl);
-        return { isPlaylist, isAlbum, isSong, title, cover, singers, albumId, albumName };
+        const transTitle = tns.join('');
+        return { isPlaylist, isAlbum, isSong, title, cover, singers, albumId, albumName, transTitle };
     }
 }

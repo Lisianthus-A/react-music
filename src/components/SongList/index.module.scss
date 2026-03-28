@@ -83,6 +83,14 @@
       }
     }
 
+    .trans-name::before {
+      content: ' - ';
+    }
+
+    .trans-name {
+      color: #999;
+    }
+
     .singer + span {
       color: #999;
       &:nth-last-of-type(1) {

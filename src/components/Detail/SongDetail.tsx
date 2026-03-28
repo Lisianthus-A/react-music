@@ -14,13 +14,14 @@ interface Props {
         singers: { id: number; name: string }[];
         albumId: number;
         albumName: string;
+        transTitle: string;
     };
     songData: SongItem;
     lyric: [string, string, number][];
 }
 
 function SongDetail({ detailData, songData, lyric }: Props) {
-    const { title, cover, singers, albumId, albumName } = detailData;
+    const { title, cover, singers, albumId, albumName, transTitle } = detailData;
     const { id, isFree } = songData;
 
     const { playSong, collectSong, setPlaylist } = useContext(FuncContext);
@@ -80,7 +81,7 @@ function SongDetail({ detailData, songData, lyric }: Props) {
 
         const a = document.createElement("a");
         a.href = blobUrl;
-        a.download = `${title} - ${singerNames}.lrc`;
+        a.download = `${title}${transTitle && `(${transTitle})`}-${singerNames}.lrc`;
         a.click();
         URL.revokeObjectURL(blobUrl);
     };
@@ -93,7 +94,12 @@ function SongDetail({ detailData, songData, lyric }: Props) {
                 </div>
             </div>
             <div className="list-right">
-                <div className="title-song">{title}</div>
+                <div className="title-song">
+                    {title}
+                    {transTitle && (
+                        <span className="title-trans">({transTitle})</span>
+                    )}
+                </div>
                 <div className="singer">
                     歌手：
                     {singers.map(({ id, name }, idx) => (
