@@ -96,10 +96,12 @@ export const resolveSongs = (songs: any[], type: SongsType): SongItem[] => {
         // 这个其实不准确，以后再修改
         const isFree = item.fee !== 1;
 
+        const tns = item.tns || [];
+
         return {
             id,
             name,
-            transName: (item.tns || []).join(''),
+            transName: tns[0] || '',
             isFree,
             duration: duration * 0.001,
             // @ts-ignore
@@ -159,7 +161,7 @@ export const resolveDetail = (res: any): Record<string, any> => {
         // @ts-ignore
         const singers = res.songs[0].ar.map(({ id, name }) => ({ id, name }));
         const cover = rp(res.songs[0].al.picUrl);
-        const transTitle = tns.join('');
+        const transTitle = tns[0] || '';
         return { isPlaylist, isAlbum, isSong, title, cover, singers, albumId, albumName, transTitle };
     }
 }
