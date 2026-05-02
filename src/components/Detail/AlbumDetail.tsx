@@ -1,5 +1,6 @@
 import { Fragment, useContext } from "react";
 import { FuncContext } from "@/containers";
+import cache from "@/utils/cache";
 import { Link } from "react-router-dom";
 import { Button, Icon } from "@/components";
 
@@ -22,6 +23,7 @@ function AlbumDetail({ detailData, songList }: Props) {
 
     // 播放全部
     const handlePlayAll = () => {
+        cache().delAll();
         const firstSong = songList[0];
         playSong(firstSong);
         setPlaylist(songList);
