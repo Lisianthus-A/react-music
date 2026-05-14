@@ -12,25 +12,25 @@ importers:
         specifier: ^1.13.5
         version: 1.13.5
       classnames:
-        specifier: ^2.3.2
+        specifier: ^2.5.1
         version: 2.5.1
       express:
-        specifier: ^4.17.2
+        specifier: ^4.20.0
         version: 4.20.0
       express-fileupload:
-        specifier: ^1.2.1
+        specifier: ^1.5.1
         version: 1.5.1
       md5:
         specifier: ^2.3.0
         version: 2.3.0
       music-metadata:
-        specifier: ^7.12.3
+        specifier: ^7.14.0
         version: 7.14.0
       pac-proxy-agent:
         specifier: ^5.0.0
         version: 5.0.0
       qrcode:
-        specifier: ^1.5.0
+        specifier: ^1.5.4
         version: 1.5.4
       react:
         specifier: ^17.0.2
@@ -39,7 +39,7 @@ importers:
         specifier: ^17.0.2
         version: 17.0.2(react@17.0.2)
       react-router-dom:
-        specifier: ^6.2.1
+        specifier: ^6.26.2
         version: 6.26.2(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       safe-decode-uri-component:
         specifier: ^1.2.1
@@ -49,28 +49,28 @@ importers:
         version: 0.0.6
     devDependencies:
       '@types/node':
-        specifier: ^17.0.13
+        specifier: ^17.0.45
         version: 17.0.45
       '@types/react':
-        specifier: ^17.0.33
+        specifier: ^17.0.80
         version: 17.0.80
       '@types/react-dom':
-        specifier: ^17.0.10
+        specifier: ^17.0.25
         version: 17.0.25
       '@vitejs/plugin-react':
         specifier: ^1.3.2
         version: 1.3.2
       concurrently:
-        specifier: ^7.0.0
+        specifier: ^7.6.0
         version: 7.6.0
       sass:
-        specifier: ^1.49.1
+        specifier: ^1.78.0
         version: 1.78.0
       typescript:
-        specifier: ^4.7.4
+        specifier: ^4.9.5
         version: 4.9.5
       vite:
-        specifier: ^3.1.0
+        specifier: ^3.2.10
         version: 3.2.10(@types/node@17.0.45)(sass@1.78.0)
 
 packages:
@@ -264,8 +264,8 @@ packages:
     resolution: {integrity: sha512-ueEepnujpqee2o5aIYnvHU6C0A42MNdsIDeqy5BydrkuC5R1ZuUFnm27EeFJGoEHJQgn3uleRvmTXaJgfXbt4g==}
     engines: {node: '>=0.4.0'}
 
-  acorn@8.12.1:
-    resolution: {integrity: sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==}
+  acorn@8.16.0:
+    resolution: {integrity: sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -1351,10 +1351,9 @@ packages:
       terser:
         optional: true
 
-  vm2@3.9.19:
-    resolution: {integrity: sha512-J637XF0DHDMV57R6JyVsTak7nIL8gy5KH4r1HiwWLf/4GBbb5MKL5y7LpmF4A8E2nR6XmzpmMFQ7V7ppPTmUQg==}
+  vm2@3.11.3:
+    resolution: {integrity: sha512-DO1TTKuOc+veL11VNOvJwRab80mghFKE40Av3bl6pdXs11bdiDMuR73owy+dS2EsTZEvRUeBkkBuDVRjV/RgEw==}
     engines: {node: '>=6.0'}
-    deprecated: The library contains critical security issues and should not be used for production! The maintenance of the project has been discontinued. Consider migrating your code to isolated-vm.
     hasBin: true
 
   which-module@2.0.1:
@@ -1633,9 +1632,9 @@ snapshots:
 
   acorn-walk@8.3.4:
     dependencies:
-      acorn: 8.12.1
+      acorn: 8.16.0
 
-  acorn@8.12.1: {}
+  acorn@8.16.0: {}
 
   agent-base@6.0.2:
     dependencies:
@@ -1841,7 +1840,7 @@ snapshots:
       ast-types: 0.13.4
       escodegen: 1.14.3
       esprima: 4.0.1
-      vm2: 3.9.19
+      vm2: 3.11.3
 
   delayed-stream@1.0.0: {}
 
@@ -2689,9 +2688,9 @@ snapshots:
       fsevents: 2.3.3
       sass: 1.78.0
 
-  vm2@3.9.19:
+  vm2@3.11.3:
     dependencies:
-      acorn: 8.12.1
+      acorn: 8.16.0
       acorn-walk: 8.3.4
 
   which-module@2.0.1: {}
